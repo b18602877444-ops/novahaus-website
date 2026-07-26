@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .section-padding {
+    @apply px-6 py-24 sm:px-10 sm:py-28 lg:px-16 lg:py-32;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-[1280px];
+  }
+
+  .section-kicker {
+    @apply text-[11px] font-semibold uppercase tracking-[0.26em] text-champagne;
+  }
+
+  .section-title {
+    @apply mt-5 text-[clamp(2.75rem,5vw,5rem)] font-medium leading-[0.95] tracking-[-0.07em];
+  }
+
+  .section-lead {
+    @apply mt-6 max-w-[520px] text-[17px] leading-7 tracking-[-0.015em] sm:text-[19px] sm:leading-8;
+  }
+
+  .button-base {
+    @apply inline-flex h-12 items-center justify-center gap-2.5 rounded-full px-6 text-sm font-semibold transition duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-champagne focus:ring-offset-2;
+  }
+
+  .button-dark {
+    @apply bg-ink text-white shadow-card hover:scale-[1.02] hover:bg-ink/90 hover:shadow-card focus:ring-offset-canvas;
+  }
+
+  .button-gold {
+    @apply border border-champagne bg-champagne text-ink hover:scale-[1.02] hover:border-champagneLight hover:bg-champagneLight hover:shadow-[0_0_28px_rgba(200,169,107,0.38)] focus:ring-offset-ink;
+  }
+
+  .button-link {
+    @apply inline-flex h-12 items-center gap-2 border-b border-ink/25 pb-1 text-sm font-semibold text-ink transition duration-300 hover:border-ink;
+  }
+
+  .card-hover {
+    @apply transition duration-300 ease-out;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-1 shadow-card;
+  }
+
+  .reveal-motion {
+    @apply transition duration-700 ease-out;
+  }
+}
+
+@layer base {
+  :root {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #111111;
+    background: #fafaf8;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
