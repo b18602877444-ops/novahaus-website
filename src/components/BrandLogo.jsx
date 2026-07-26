@@ -1,8 +1,7 @@
-import primaryLogo from '../../brand/final/Horizontal_Logo.svg'
-import whiteLogo from '../../brand/final/Horizontal_White.svg'
+import logoBlack from '../../brand/final/Logo_Black.png'
 
 function BrandLogo({ reversed = false, className = '' }) {
-  return <img src={reversed ? whiteLogo : primaryLogo} alt="NOVAHAUS" className={className} />
+  return <img src={logoBlack} alt="NOVAHAUS" className={`brand-logo-asset ${className}`} />
 }
 
 export default BrandLogo
