@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import BrandLogo from './BrandLogo.jsx'
 
 function ContactCard({ isVisible }) {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -109,7 +110,7 @@ function ContactSection() {
         <footer className={`reveal-motion mt-16 border-t border-white/15 pt-6 delay-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-[15px] font-semibold tracking-[-0.05em] text-white">NOVAHAUS</p>
+              <BrandLogo reversed className="h-7 w-auto" />
               <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">AI Brand &amp; Digital Studio</p>
             </div>
             <nav className="flex flex-wrap gap-x-6 gap-y-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45" aria-label="Footer navigation">

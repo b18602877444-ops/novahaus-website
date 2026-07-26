@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BrandLogo from './BrandLogo.jsx'
 
 const navItems = [
   { label: 'Work', href: '#portfolio' },
@@ -88,7 +89,7 @@ function Hero() {
     <section id="top" className="min-h-screen overflow-hidden bg-canvas text-ink selection:bg-champagne/30" aria-labelledby="hero-title">
       <nav className="relative mx-auto flex h-[76px] w-full max-w-[1440px] items-center justify-between px-6 sm:h-[88px] sm:px-10 lg:px-16" aria-label="Primary navigation">
         <a href="#top" className="text-[15px] font-semibold tracking-[-0.04em] text-ink sm:text-[17px]" aria-label="NOVAHAUS home">
-          NOVAHAUS
+          <BrandLogo className="h-7 w-auto sm:h-8" />
         </a>
 
         <div className="hidden items-center gap-8 md:flex">

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NOVAHAUS C2 Mark</title>
+  <desc id="desc">NOVAHAUS C2 premium geometric N/H identity. The logo lockup uses NOVAHAUS only.</desc>
+  
+  <g transform="" fill="none" stroke="#C8A24A" stroke-width="112" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M192 792V208L512 500L832 208V792" />
+  <path d="M192 500H832" />
+  <path d="M512 500V792" />
+</g>
+</svg>

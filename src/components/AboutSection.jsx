@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import BrandLogo from './BrandLogo.jsx'
 
 const capabilities = [
   { number: '01', label: 'Brand Strategy' },
@@ -26,7 +27,7 @@ function AboutCapabilityCard() {
 
           <div className="relative flex items-center justify-between border-b border-white/15 pb-5">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white">NOVAHAUS</p>
+              <BrandLogo reversed className="h-5 w-auto sm:h-6" />
               <p className="mt-1 text-[8px] uppercase tracking-[0.2em] text-white/40">Digital brand architecture</p>
             </div>
             <span className="rounded-full border border-champagne/50 px-3 py-1.5 text-[8px] font-semibold uppercase tracking-[0.18em] text-champagne">System / 05</span>
