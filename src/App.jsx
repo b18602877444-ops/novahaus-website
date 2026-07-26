@@ -187,18 +187,19 @@ function Hero() {
 
       <div className="hero-grid page-shell">
         <div className="hero-copy">
-          <Reveal>
-            <SectionLabel>AI Brand & Digital Studio</SectionLabel>
-            <h1>Build a Brand<br />That People<br /><em>Trust.</em></h1>
-            <p className="hero-description">We build clear, premium brands and intelligent digital experiences for the people moving business forward.</p>
-            <div className="hero-actions">
-              <MagneticLink href="#contact">Start your project</MagneticLink>
-              <a href="#work" className="text-link">See selected work <ArrowIcon direction="right" /></a>
+          <div>
+            <div className="animate-fade-in [animation-delay:100ms]"><SectionLabel>AI Brand & Digital Studio</SectionLabel></div>
+            <h1 id="hero-title" className="animate-rise-in [animation-delay:180ms]">Build a Brand<br />That People<br /><em>Trust.</em></h1>
+            <p className="hero-description animate-rise-in [animation-delay:320ms]">We build clear, premium brands and intelligent digital experiences for the people moving business forward.</p>
+            <div className="hero-actions animate-rise-in [animation-delay:440ms]">
+              <MagneticLink href="#contact" className="hero-primary-link">Start Your Project</MagneticLink>
+              <a href="#work" className="text-link hero-secondary-link">View Portfolio <ArrowIcon direction="right" /></a>
             </div>
-          </Reveal>
+            <div className="hero-traits animate-fade-in [animation-delay:720ms]"><span>Brand clarity</span><span className="hero-trait-dot" aria-hidden="true" /><span>AI leverage</span><span className="hero-trait-dot" aria-hidden="true" /><span>Digital experience</span></div>
+          </div>
         </div>
 
-        <div ref={stageRef} className="hero-stage" aria-label="NOVAHAUS brand system visualization">
+        <div ref={stageRef} className="hero-stage hero-stage-float" aria-label="NOVAHAUS brand system visualization">
           <div className="hero-stage-glow" />
           <div className="hero-orbit orbit-one" />
           <div className="hero-orbit orbit-two" />
