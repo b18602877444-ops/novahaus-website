@@ -304,6 +304,8 @@
     line-height: .85;
   }
 
+  .hero-title-line { display: block; }
+
   .hero-copy h1 em,
   .cta-title em {
     color: #c8a24a;
@@ -344,7 +346,7 @@
     border: 1px solid rgba(17, 17, 17, .15);
     border-bottom-color: rgba(17, 17, 17, .15);
     backdrop-filter: blur(12px);
-    transition: gap 300ms ease, transform 300ms cubic-bezier(.22, 1, .36, 1), border-color 300ms ease, background 300ms ease, box-shadow 300ms ease;
+    transition: gap 300ms ease, border-color 300ms ease, background 300ms ease, box-shadow 300ms ease;
   }
 
   .hero-secondary-link:hover {
@@ -353,7 +355,6 @@
     border-bottom-color: rgba(17, 17, 17, .34);
     background: rgba(255, 255, 255, .82);
     box-shadow: 0 14px 30px rgba(17, 17, 17, .08);
-    transform: translateY(-2px);
   }
 
   .hero-primary-link:focus-visible,
@@ -398,7 +399,6 @@
     border: 1px solid #111111;
     border-radius: 999px;
     box-shadow: 0 10px 25px rgba(17, 17, 17, .12);
-    transform: translate3d(var(--magnetic-x, 0px), var(--magnetic-y, 0px), 0);
     transition: transform 250ms ease, background 250ms ease, box-shadow 250ms ease;
   }
 
@@ -444,15 +444,6 @@
     min-height: clamp(500px, 43vw, 620px);
     --mouse-px: 0px;
     --mouse-py: 0px;
-  }
-
-  @keyframes hero-stage-float {
-    0%, 100% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(0, -7px, 0); }
-  }
-
-  .hero-stage-float {
-    animation: hero-stage-float 10s ease-in-out infinite;
   }
 
   .hero-stage-glow {

@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import BrandLogo from './components/BrandLogo.jsx'
+
+const heroEase = [0.22, 1, 0.36, 1]
 
 const navItems = [
   { label: 'Work', href: '#work' },
@@ -89,7 +92,7 @@ function Reveal({ children, className = '', delay = 0 }) {
   )
 }
 
-function MagneticLink({ children, href, variant = 'dark', className = '', onClick }) {
+function MagneticLink({ children, href, variant = 'dark', className = '', onClick, delay = 0, reduceMotion = false }) {
   const ref = useRef(null)
 
   const handleMove = (event) => {
@@ -109,10 +112,22 @@ function MagneticLink({ children, href, variant = 'dark', className = '', onClic
   }
 
   return (
-    <a ref={ref} href={href} onClick={onClick} onPointerMove={handleMove} onPointerLeave={handleLeave} className={`magnetic-link button-${variant} ${className}`}>
+    <motion.a
+      ref={ref}
+      href={href}
+      onClick={onClick}
+      onPointerMove={handleMove}
+      onPointerLeave={handleLeave}
+      className={`magnetic-link button-${variant} ${className}`}
+      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay, ease: heroEase }}
+      whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 18px 36px rgba(17, 17, 17, .18)' }}
+      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+    >
       <span>{children}</span>
       <ArrowIcon direction="right" />
-    </a>
+    </motion.a>
   )
 }
 
@@ -139,6 +154,7 @@ function SectionHeader({ number, label, title, description, dark = false }) {
 function Hero() {
   const [menuOpen, setMenuOpen] = useState(false)
   const stageRef = useRef(null)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const stage = stageRef.current
@@ -167,9 +183,9 @@ function Hero() {
   return (
     <section id="top" className="hero-section">
       <header className="site-header">
-        <a href="#top" className="brand-lockup" aria-label="NOVAHAUS home" onClick={closeMenu}>
+        <motion.a href="#top" className="brand-lockup" aria-label="NOVAHAUS home" onClick={closeMenu} initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: heroEase }}>
           <BrandLogo className="brand-logo-light" />
-        </a>
+        </motion.a>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}
         </nav>
@@ -188,18 +204,26 @@ function Hero() {
       <div className="hero-grid page-shell">
         <div className="hero-copy">
           <div>
-            <div className="animate-fade-in [animation-delay:100ms]"><SectionLabel>AI Brand & Digital Studio</SectionLabel></div>
-            <h1 id="hero-title" className="animate-rise-in [animation-delay:180ms]">Build a Brand<br />That People<br /><em>Trust.</em></h1>
-            <p className="hero-description animate-rise-in [animation-delay:320ms]">We build clear, premium brands and intelligent digital experiences for the people moving business forward.</p>
-            <div className="hero-actions animate-rise-in [animation-delay:440ms]">
-              <MagneticLink href="#contact" className="hero-primary-link">Start Your Project</MagneticLink>
-              <a href="#work" className="text-link hero-secondary-link">View Portfolio <ArrowIcon direction="right" /></a>
+            <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI Brand & Digital Studio</SectionLabel></motion.div>
+            <h1 id="hero-title">
+              <motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Build a Brand</motion.span>
+              <motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}>That People</motion.span>
+              <motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.42, ease: heroEase }}><em>Trust.</em></motion.span>
+            </h1>
+            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>We build clear, premium brands and intelligent digital experiences for the people moving business forward.</motion.p>
+            <div className="hero-actions">
+              <MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Start Your Project</MagneticLink>
+              <motion.a href="#work" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}>
+                <span>View Portfolio</span>
+                <ArrowIcon direction="right" />
+              </motion.a>
             </div>
-            <div className="hero-traits animate-fade-in [animation-delay:720ms]"><span>Brand clarity</span><span className="hero-trait-dot" aria-hidden="true" /><span>AI leverage</span><span className="hero-trait-dot" aria-hidden="true" /><span>Digital experience</span></div>
+            <motion.div className="hero-traits" initial={reduceMotion ? false : { opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.98, ease: heroEase }}><span>Brand clarity</span><span className="hero-trait-dot" aria-hidden="true" /><span>AI leverage</span><span className="hero-trait-dot" aria-hidden="true" /><span>Digital experience</span></motion.div>
           </div>
         </div>
 
-        <div ref={stageRef} className="hero-stage hero-stage-float" aria-label="NOVAHAUS brand system visualization">
+        <motion.div className="hero-stage-reveal" initial={reduceMotion ? false : { opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.18, ease: heroEase }}>
+        <motion.div ref={stageRef} className="hero-stage" aria-label="NOVAHAUS brand system visualization" animate={reduceMotion ? undefined : { y: [0, -7, 0] }} transition={reduceMotion ? { duration: 0 } : { duration: 8, ease: 'easeInOut', repeat: Infinity }}>
           <div className="hero-stage-glow" />
           <div className="hero-orbit orbit-one" />
           <div className="hero-orbit orbit-two" />
@@ -211,7 +235,8 @@ function Hero() {
           <div className="hero-float-card float-card-top" data-parallax="0.14"><span>Signal strength</span><strong>92</strong><small>+ 18.4%</small></div>
           <div className="hero-float-card float-card-bottom" data-parallax="0.2"><span>System / 04</span><strong>AI leverage</strong><small>Connected</small></div>
           <div className="hero-coordinate">03° 08&apos; N<br />101° 41&apos; E</div>
-        </div>
+        </motion.div>
+        </motion.div>
       </div>
       <div className="hero-bottomline page-shell"><span>Strategy</span><span>Identity</span><span>Digital</span><span>AI systems</span><span className="scroll-prompt">Scroll to explore <span className="scroll-line" /></span></div>
     </section>
