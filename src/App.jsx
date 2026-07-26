@@ -13,12 +13,10 @@ const navItems = [
 ]
 
 const serviceItems = [
-  { number: '01', title: 'Brand Strategy', description: 'Positioning, narrative and a point of view people remember.' },
-  { number: '02', title: 'Digital Identity', description: 'A visual system designed to stay coherent as you grow.' },
-  { number: '03', title: 'Web Experiences', description: 'Fast, expressive websites that turn attention into action.' },
-  { number: '04', title: 'AI Systems', description: 'Thoughtful automation that gives your team leverage.' },
-  { number: '05', title: 'Content Engine', description: 'A practical system for creating with consistency and speed.' },
-  { number: '06', title: 'Growth Support', description: 'Ongoing refinement for every signal after launch.' },
+  { number: '01', title: 'AI Automation', description: 'Turn repetitive work into intelligent, reliable systems.', icon: 'automation' },
+  { number: '02', title: 'AI Website', description: 'Build a digital presence that is clear, fast and ready to grow.', icon: 'website' },
+  { number: '03', title: 'Brand Strategy', description: 'Find the sharpest position and story for your next move.', icon: 'strategy' },
+  { number: '04', title: 'AI Consulting', description: 'Identify practical opportunities for AI across your business.', icon: 'consulting' },
 ]
 
 const solutionItems = [
@@ -261,6 +259,42 @@ function AboutSection() {
   )
 }
 
+function ServiceIcon({ type }) {
+  const common = { fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: '1.5' }
+
+  if (type === 'website') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><rect x="4.5" y="6" width="23" height="20" rx="3" /><path d="M5 11h22M9 8.5h.01M12 8.5h.01M15 8.5h.01M10 16h12M10 20h8" /></svg>
+  }
+
+  if (type === 'strategy') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><circle cx="16" cy="16" r="10.5" /><path d="m12 20 2.2-6.2L20 12l-2.2 6.2L12 20ZM16 5.5V3M16 29v-2.5M5.5 16H3M29 16h-2.5" /></svg>
+  }
+
+  if (type === 'consulting') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><path d="M6 8.5A3.5 3.5 0 0 1 9.5 5h13A3.5 3.5 0 0 1 26 8.5v8a3.5 3.5 0 0 1-3.5 3.5H15l-5.5 5v-5.2A3.5 3.5 0 0 1 6 16.5v-8Z" /><path d="M12 12.5h.01M16 12.5h.01M20 12.5h.01" /></svg>
+  }
+
+  return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><circle cx="8" cy="16" r="2.5" /><circle cx="24" cy="9" r="2.5" /><circle cx="24" cy="23" r="2.5" /><path d="m10.2 15 11.5-5M10.2 17l11.5 5M24 11.5v9" /></svg>
+}
+
+const serviceCardVariants = {
+  initial: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: heroEase } },
+  hover: { y: -8, scale: 1.02, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 320, damping: 24, mass: 0.7 } },
+}
+
+const serviceIconVariants = {
+  initial: { opacity: 0, scale: 0.86 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.12, ease: heroEase } },
+  hover: { color: '#C8A24A', scale: 1.04, transition: { type: 'spring', stiffness: 320, damping: 20 } },
+}
+
+const serviceArrowVariants = {
+  initial: { x: 0, color: '#111111' },
+  visible: { x: 0, color: '#111111' },
+  hover: { x: 8, color: '#C8A24A', transition: { type: 'spring', stiffness: 340, damping: 20 } },
+}
+
 function ServicesSection() {
   return (
     <section id="services" className="section light-section services-section">
@@ -268,13 +302,12 @@ function ServicesSection() {
         <SectionHeader number="02" label="Capabilities" title={<>The full stack<br /><span>behind a great brand.</span></>} description="From first principles to final polish, we bring the strategic and digital pieces into one coherent system." />
         <div className="services-grid">
           {serviceItems.map((item, index) => (
-            <Reveal key={item.number} className="service-card" delay={index * 60}>
-              <span className="card-number">{item.number}</span>
-              <span className="service-icon"><i /><i /><i /></span>
+            <motion.article key={item.number} className="service-card" variants={serviceCardVariants} initial="initial" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.22 }}>
+              <motion.div className="service-icon" variants={serviceIconVariants}><ServiceIcon type={item.icon} /></motion.div>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <span className="card-arrow"><ArrowIcon direction="right" /></span>
-            </Reveal>
+              <motion.span className="card-arrow" variants={serviceArrowVariants}><span>Learn More</span><span aria-hidden="true">→</span></motion.span>
+            </motion.article>
           ))}
         </div>
       </div>

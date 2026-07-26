@@ -644,20 +644,13 @@
   .about-metrics strong { color: #c8a24a; font-family: "Space Grotesk", Inter, sans-serif; font-size: 34px; font-weight: 500; letter-spacing: -.08em; }
   .about-metrics span { color: #9a978e; font-size: 11px; line-height: 1.4; }
 
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 110px; border-top: 1px solid rgba(17, 17, 17, .14); border-left: 1px solid rgba(17, 17, 17, .14); }
-  .service-card { position: relative; min-height: 292px; padding: 28px; border-right: 1px solid rgba(17, 17, 17, .14); border-bottom: 1px solid rgba(17, 17, 17, .14); transition: background 300ms ease, transform 300ms ease, box-shadow 300ms ease; }
-  .service-card:hover { z-index: 1; background: #ffffff; box-shadow: 0 20px 50px rgba(17, 17, 17, .1); transform: translateY(-5px); }
-  .card-number, .work-number { color: #c8a24a; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
-  .service-icon { display: flex; align-items: flex-end; gap: 4px; width: 28px; height: 27px; margin-top: 46px; color: #111111; }
-  .service-icon i { display: block; width: 5px; height: 13px; background: currentColor; transition: height 300ms ease, background 300ms ease; }
-  .service-icon i:nth-child(2) { height: 21px; }
-  .service-icon i:nth-child(3) { height: 17px; }
-  .service-card:hover .service-icon { color: #c8a24a; }
-  .service-card:hover .service-icon i:nth-child(1) { height: 22px; }
-  .service-card h3 { margin: 23px 0 0; font-family: "Space Grotesk", Inter, sans-serif; font-size: 23px; font-weight: 550; letter-spacing: -.05em; }
-  .service-card p { max-width: 230px; margin: 10px 0 0; color: #77736a; font-size: 13px; line-height: 1.55; }
-  .card-arrow { position: absolute; right: 27px; bottom: 27px; color: #111111; transition: color 250ms ease, transform 250ms ease; }
-  .service-card:hover .card-arrow { color: #c8a24a; transform: translateX(6px); }
+  .services-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 96px; }
+  .service-card { position: relative; min-height: 330px; padding: 30px; background: #ffffff; border: 1px solid rgba(17, 17, 17, .1); border-radius: 24px; box-shadow: 0 8px 24px rgba(17, 17, 17, .055); }
+  .service-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; color: #c8a24a; }
+  .service-icon svg { width: 30px; height: 30px; }
+  .service-card h3 { margin: 54px 0 0; font-family: "Space Grotesk", Inter, sans-serif; font-size: 24px; font-weight: 550; letter-spacing: -.05em; }
+  .service-card p { max-width: 230px; margin: 12px 0 0; color: #77736a; font-size: 13px; line-height: 1.6; }
+  .card-arrow { position: absolute; left: 30px; bottom: 28px; display: inline-flex; align-items: center; gap: 9px; color: #111111; font-size: 12px; font-weight: 700; letter-spacing: .02em; }
 
   .solutions-section { background: #111111; }
   .solutions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 110px; }
@@ -786,7 +779,7 @@
     .about-lower, .why-layout, .faq-layout, .cta-grid { grid-template-columns: 1fr; gap: 62px; }
     .about-lower { margin-top: 80px; }
     .principles-list { padding-top: 0; }
-    .services-grid { grid-template-columns: repeat(2, 1fr); margin-top: 75px; }
+    .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 75px; }
     .solutions-grid { grid-template-columns: 1fr; margin-top: 75px; }
     .solution-card { min-height: 390px; }
     .work-list { margin-top: 75px; }
@@ -834,8 +827,9 @@
     .about-metrics strong { font-size: 27px; }
     .about-metrics span { font-size: 9px; }
     .services-grid { grid-template-columns: 1fr; margin-top: 62px; }
-    .service-card { min-height: 250px; padding: 23px; }
-    .service-icon { margin-top: 30px; }
+    .service-card { min-height: 270px; padding: 24px; }
+    .service-card h3 { margin-top: 38px; }
+    .card-arrow { left: 24px; bottom: 23px; }
     .solutions-grid, .work-list, .testimonial-grid { margin-top: 62px; }
     .solution-card { min-height: 370px; padding: 18px; }
     .solution-card h3 { font-size: 27px; }
