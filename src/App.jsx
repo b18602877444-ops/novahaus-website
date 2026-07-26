@@ -35,9 +35,10 @@ const workItems = [
 ]
 
 const principles = [
-  { number: '01', title: 'Clarity before decoration', description: 'We find the sharpest truth first, then build the expression around it.' },
-  { number: '02', title: 'Systems over one-offs', description: 'Every decision should make the next decision easier and more consistent.' },
-  { number: '03', title: 'Human taste, machine leverage', description: 'The best AI experiences still need judgment, restraint and a point of view.' },
+  { number: '01', title: 'AI First', description: 'We look for intelligent leverage before adding more manual work.', icon: 'ai' },
+  { number: '02', title: 'Premium Design', description: 'Every detail is shaped to make your business feel clear, credible and considered.', icon: 'design' },
+  { number: '03', title: 'Fast Delivery', description: 'A focused process turns good thinking into momentum without unnecessary layers.', icon: 'speed' },
+  { number: '04', title: 'Long-term Partner', description: 'We build systems that keep getting more useful as your business grows.', icon: 'partner' },
 ]
 
 const faqs = [
@@ -394,16 +395,55 @@ function PortfolioSection() {
   )
 }
 
+function WhyIcon({ type }) {
+  const common = { fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: '1.5' }
+
+  if (type === 'design') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><path d="m16 4 11 12-11 12L5 16 16 4Z" /><path d="m16 9 6.5 7-6.5 7-6.5-7L16 9Z" /></svg>
+  }
+
+  if (type === 'speed') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><circle cx="16" cy="16" r="11" /><path d="M16 9v7l4.5 3M7 5l-2 2M25 5l2 2" /></svg>
+  }
+
+  if (type === 'partner') {
+    return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><path d="M12.5 18.5 10 21a3.5 3.5 0 0 0 5 5l3-3M19.5 13.5 22 11a3.5 3.5 0 1 0-5-5l-3 3M12 20l8-8M9 16H5M27 16h-4" /></svg>
+  }
+
+  return <svg aria-hidden="true" viewBox="0 0 32 32" {...common}><circle cx="16" cy="16" r="6" /><path d="M16 3v4M16 25v4M3 16h4M25 16h4M7 7l3 3M22 22l3 3M25 7l-3 3M10 22l-3 3" /></svg>
+}
+
+const whyCardVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (index) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.1, ease: heroEase } }),
+  hover: { y: -8, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(0, 0, 0, .24)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
+}
+
+const whyIconVariants = {
+  hidden: { opacity: 0, scale: 0.86 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.12, ease: heroEase } },
+  hover: { rotate: 6, color: '#E2C995', transition: { type: 'spring', stiffness: 320, damping: 18 } },
+}
+
 function WhySection() {
   return (
     <section id="why" className="section dark-section why-section">
       <div className="page-shell why-layout">
-        <SectionHeader number="05" label="Why NOVAHAUS" title={<>Clarity<br /><span>compounds.</span></>} description="The work gets better when the thinking gets sharper. That is where we start." dark />
-        <div className="principles-list">
+        <div className="why-intro">
+          <SectionLabel number="05">Why NOVAHAUS</SectionLabel>
+          <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.7, ease: heroEase }}>
+            <h2 className="why-title">Why<br />NOVAHAUS</h2>
+            <p className="why-description">We don&apos;t just build websites.<br />We build digital businesses.</p>
+          </motion.div>
+        </div>
+        <div className="why-card-grid">
           {principles.map((item, index) => (
-            <Reveal key={item.number} className="principle-row" delay={index * 100}>
-              <span>{item.number}</span><div><h3>{item.title}</h3><p>{item.description}</p></div><ArrowIcon direction="right" />
-            </Reveal>
+            <motion.article key={item.number} className="why-card" custom={index} variants={whyCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.2 }}>
+              <motion.div className="why-card-icon" variants={whyIconVariants}><WhyIcon type={item.icon} /></motion.div>
+              <span className="why-card-number">{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </motion.article>
           ))}
         </div>
       </div>
