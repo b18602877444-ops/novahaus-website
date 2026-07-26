@@ -26,9 +26,12 @@ const solutionItems = [
 ]
 
 const workItems = [
-  { number: '01', type: 'Concept system', title: 'Signal / AI Brand Studio', description: 'A sharper identity and web direction for an AI-native company.', className: 'project-signal' },
-  { number: '02', type: 'Concept system', title: 'Northstar / Personal Brand', description: 'A calm, editorial platform for a founder with something to say.', className: 'project-northstar' },
-  { number: '03', type: 'Concept system', title: 'Forma / Digital Commerce', description: 'A premium digital storefront built around confidence and ease.', className: 'project-forma' },
+  { number: '01', industry: 'AI / Technology', title: 'Signal / AI Brand Studio', description: 'A sharper identity and web direction for an AI-native company.', className: 'project-signal' },
+  { number: '02', industry: 'Creator / Education', title: 'Northstar / Personal Brand', description: 'A calm, editorial platform for a founder with something to say.', className: 'project-northstar' },
+  { number: '03', industry: 'Lifestyle / Commerce', title: 'Forma / Digital Commerce', description: 'A premium digital storefront built around confidence and ease.', className: 'project-forma' },
+  { number: '04', industry: 'SaaS / Strategy', title: 'Vertex / Founder System', description: 'A precise operating identity for a company moving from idea to scale.', className: 'project-vertex' },
+  { number: '05', industry: 'Consulting / Advisory', title: 'Morrow / Advisory Brand', description: 'A confident, editorial system designed to make expertise memorable.', className: 'project-morrow' },
+  { number: '06', industry: 'Hospitality / Experience', title: 'Coda / Modern Hospitality', description: 'A warmer digital world for a destination built around considered detail.', className: 'project-coda' },
 ]
 
 const principles = [
@@ -336,15 +339,36 @@ function SolutionsSection() {
   )
 }
 
-function ProjectArt({ type }) {
+function ProjectArt({ type, title }) {
   return (
-    <div className={`project-art ${type}`}>
+    <div className={`project-art ${type}`} role="img" aria-label={`${title} concept cover`}>
       <div className="project-art-window"><span /><span /><span /></div>
       {type === 'project-signal' && <><div className="signal-word">SIGNAL</div><div className="signal-grid-lines" /><div className="signal-orb"><BrandMark color="currentColor" /></div></>}
       {type === 'project-northstar' && <><div className="northstar-word">north<br /><em>star</em></div><div className="northstar-rule" /></>}
       {type === 'project-forma' && <><div className="forma-word">FORMA</div><div className="forma-circle" /><div className="forma-chip">Objects with intention</div></>}
+      {type === 'project-vertex' && <><div className="vertex-word">VERTEX</div><div className="vertex-grid" /><div className="vertex-dot" /></>}
+      {type === 'project-morrow' && <><div className="morrow-word">morrow</div><div className="morrow-line" /><div className="morrow-chip">Advisory / 05</div></>}
+      {type === 'project-coda' && <><div className="coda-word">CODA</div><div className="coda-arc" /><div className="coda-chip">Stay curious</div></>}
     </div>
   )
+}
+
+const portfolioCardVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (index) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.08, ease: heroEase } }),
+  hover: { y: -8, scale: 1.02, background: 'linear-gradient(145deg, #ffffff 0%, #fcf6e9 100%)', boxShadow: '0 26px 58px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
+}
+
+const portfolioCoverVariants = {
+  hidden: { opacity: 0, scale: 0.985 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: heroEase } },
+  hover: { scale: 1.04, transition: { duration: 0.7, ease: heroEase } },
+}
+
+const portfolioLinkVariants = {
+  hidden: { opacity: 0, x: 0 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.45, delay: 0.18, ease: heroEase } },
+  hover: { color: '#C8A24A', x: 7, transition: { type: 'spring', stiffness: 340, damping: 20 } },
 }
 
 function PortfolioSection() {
@@ -352,12 +376,17 @@ function PortfolioSection() {
     <section id="work" className="section light-section work-section">
       <div className="page-shell">
         <SectionHeader number="04" label="Selected work" title={<>Ideas with<br /><span>something to say.</span></>} description="A selection of concept projects created to demonstrate our capabilities." />
-        <div className="work-list">
+        <div className="portfolio-grid">
           {workItems.map((item, index) => (
-            <Reveal key={item.number} className="work-row" delay={index * 100}>
-              <div className="work-meta"><span className="work-number">{item.number}</span><span className="card-eyebrow">{item.type}</span><h3>{item.title}</h3><p>{item.description}</p><a href="#contact" className="text-link">Discuss a similar brief <ArrowIcon direction="right" /></a></div>
-              <ProjectArt type={item.className} />
-            </Reveal>
+            <motion.article key={item.number} className="portfolio-card" custom={index} variants={portfolioCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.18 }}>
+              <motion.div className="portfolio-cover" variants={portfolioCoverVariants}><ProjectArt type={item.className} title={item.title} /></motion.div>
+              <div className="portfolio-meta">
+                <div className="portfolio-meta-top"><span className="portfolio-number">{item.number}</span><span className="portfolio-industry">{item.industry}</span></div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <motion.a href="#contact" className="portfolio-link" variants={portfolioLinkVariants} aria-label={`View ${item.title} concept case`}><span>View Case</span><span aria-hidden="true">→</span></motion.a>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>
