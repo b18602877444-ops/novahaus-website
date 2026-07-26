@@ -3,6 +3,8 @@ import { motion, useReducedMotion } from 'framer-motion'
 import BrandLogo from './components/BrandLogo.jsx'
 
 const heroEase = [0.22, 1, 0.36, 1]
+const cardSpring = { type: 'spring', stiffness: 300, damping: 25, mass: 0.75 }
+const revealMotion = { duration: 0.65, ease: heroEase }
 
 const navItems = [
   { label: 'Work', href: '#work' },
@@ -283,20 +285,20 @@ function ServiceIcon({ type }) {
 
 const serviceCardVariants = {
   initial: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: heroEase } },
-  hover: { y: -8, scale: 1.02, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
+  visible: { opacity: 1, y: 0, transition: revealMotion },
+  hover: { y: -8, scale: 1.02, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(17, 17, 17, .14)', transition: cardSpring },
 }
 
 const serviceIconVariants = {
   initial: { opacity: 0, scale: 0.86 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.12, ease: heroEase } },
-  hover: { color: '#C8A24A', scale: 1.04, transition: { type: 'spring', stiffness: 320, damping: 20 } },
+  visible: { opacity: 1, scale: 1, transition: { ...revealMotion, delay: 0.12 } },
+  hover: { color: '#C8A24A', scale: 1.04, transition: cardSpring },
 }
 
 const serviceArrowVariants = {
   initial: { x: 0, color: '#111111' },
   visible: { x: 0, color: '#111111' },
-  hover: { x: 8, color: '#C8A24A', transition: { type: 'spring', stiffness: 340, damping: 20 } },
+  hover: { x: 8, color: '#C8A24A', transition: cardSpring },
 }
 
 function ServicesSection() {
@@ -356,20 +358,53 @@ function ProjectArt({ type, title }) {
 
 const portfolioCardVariants = {
   hidden: { opacity: 0, y: 28 },
-  visible: (index) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.08, ease: heroEase } }),
-  hover: { y: -8, scale: 1.02, background: 'linear-gradient(145deg, #ffffff 0%, #fcf6e9 100%)', boxShadow: '0 26px 58px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
+  visible: (index) => ({ opacity: 1, y: 0, transition: { ...revealMotion, delay: index * 0.08 } }),
+  hover: { y: -8, scale: 1.02, background: 'linear-gradient(145deg, #ffffff 0%, #fcf6e9 100%)', boxShadow: '0 26px 58px rgba(17, 17, 17, .14)', transition: cardSpring },
 }
 
 const portfolioCoverVariants = {
   hidden: { opacity: 0, scale: 0.985 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: heroEase } },
-  hover: { scale: 1.04, transition: { duration: 0.6, ease: heroEase } },
+  visible: { opacity: 1, scale: 1, transition: revealMotion },
+  hover: { scale: 1.04, transition: revealMotion },
 }
 
 const portfolioLinkVariants = {
   hidden: { opacity: 0, x: 0 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.18, ease: heroEase } },
-  hover: { color: '#C8A24A', x: 7, transition: { type: 'spring', stiffness: 340, damping: 20 } },
+  visible: { opacity: 1, x: 0, transition: { ...revealMotion, delay: 0.18 } },
+  hover: { color: '#C8A24A', x: 7, transition: cardSpring },
+}
+
+function PortfolioCard({ item, index }) {
+  const cardRef = useRef(null)
+
+  const handlePointerMove = (event) => {
+    const node = cardRef.current
+    if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const rect = node.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width - 0.5
+    const y = (event.clientY - rect.top) / rect.height - 0.5
+    node.style.setProperty('--portfolio-x', `${(x * 5).toFixed(2)}px`)
+    node.style.setProperty('--portfolio-y', `${(y * 5).toFixed(2)}px`)
+  }
+
+  const handlePointerLeave = () => {
+    const node = cardRef.current
+    if (!node) return
+    node.style.setProperty('--portfolio-x', '0px')
+    node.style.setProperty('--portfolio-y', '0px')
+  }
+
+  return (
+    <motion.article ref={cardRef} className="portfolio-card" custom={index} variants={portfolioCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.18 }} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+      <motion.div className="portfolio-cover" variants={portfolioCoverVariants}><ProjectArt type={item.className} title={item.title} /></motion.div>
+      <div className="portfolio-meta">
+        <div className="portfolio-meta-top"><span className="portfolio-number">{item.number}</span><span className="portfolio-industry">{item.industry}</span></div>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        <motion.a href="#contact" className="portfolio-link" variants={portfolioLinkVariants} aria-label={`View ${item.title} concept case`}><span>View Case</span><span aria-hidden="true">→</span></motion.a>
+      </div>
+    </motion.article>
+  )
 }
 
 function PortfolioSection() {
@@ -378,17 +413,7 @@ function PortfolioSection() {
       <div className="page-shell">
         <SectionHeader number="04" label="Selected work" title={<>Ideas with<br /><span>something to say.</span></>} description="A selection of concept projects created to demonstrate our capabilities." />
         <div className="portfolio-grid">
-          {workItems.map((item, index) => (
-            <motion.article key={item.number} className="portfolio-card" custom={index} variants={portfolioCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.18 }}>
-              <motion.div className="portfolio-cover" variants={portfolioCoverVariants}><ProjectArt type={item.className} title={item.title} /></motion.div>
-              <div className="portfolio-meta">
-                <div className="portfolio-meta-top"><span className="portfolio-number">{item.number}</span><span className="portfolio-industry">{item.industry}</span></div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <motion.a href="#contact" className="portfolio-link" variants={portfolioLinkVariants} aria-label={`View ${item.title} concept case`}><span>View Case</span><span aria-hidden="true">→</span></motion.a>
-              </div>
-            </motion.article>
-          ))}
+          {workItems.map((item, index) => <PortfolioCard key={item.number} item={item} index={index} />)}
         </div>
       </div>
     </section>
@@ -415,14 +440,20 @@ function WhyIcon({ type }) {
 
 const whyCardVariants = {
   hidden: { opacity: 0, y: 28 },
-  visible: (index) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.1, ease: heroEase } }),
-  hover: { y: -8, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(0, 0, 0, .24)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
+  visible: (index) => ({ opacity: 1, y: 0, transition: { ...revealMotion, delay: index * 0.1 } }),
+  hover: { y: -8, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(0, 0, 0, .24)', transition: cardSpring },
 }
 
 const whyIconVariants = {
   hidden: { opacity: 0, scale: 0.86 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.12, ease: heroEase } },
-  hover: { rotate: 6, color: '#E2C995', transition: { type: 'spring', stiffness: 320, damping: 18 } },
+  visible: { opacity: 1, scale: 1, transition: { ...revealMotion, delay: 0.12 } },
+  hover: { rotate: 6, color: '#E2C995', transition: cardSpring },
+}
+
+const whyNumberVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { ...revealMotion, delay: 0.18 } },
+  hover: { scale: 1.08, color: '#C8A24A', transition: cardSpring },
 }
 
 function WhySection() {
@@ -440,7 +471,7 @@ function WhySection() {
           {principles.map((item, index) => (
             <motion.article key={item.number} className="why-card" custom={index} variants={whyCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.2 }}>
               <motion.div className="why-card-icon" variants={whyIconVariants}><WhyIcon type={item.icon} /></motion.div>
-              <span className="why-card-number">{item.number}</span>
+              <motion.span className="why-card-number" variants={whyNumberVariants}>{item.number}</motion.span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
             </motion.article>
