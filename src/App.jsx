@@ -284,12 +284,12 @@ function ServiceIcon({ type }) {
 const serviceCardVariants = {
   initial: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: heroEase } },
-  hover: { y: -8, scale: 1.02, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 320, damping: 24, mass: 0.7 } },
+  hover: { y: -8, scale: 1.02, borderColor: 'rgba(200, 162, 74, .72)', boxShadow: '0 24px 55px rgba(17, 17, 17, .14)', transition: { type: 'spring', stiffness: 300, damping: 24, mass: 0.75 } },
 }
 
 const serviceIconVariants = {
   initial: { opacity: 0, scale: 0.86 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.12, ease: heroEase } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.12, ease: heroEase } },
   hover: { color: '#C8A24A', scale: 1.04, transition: { type: 'spring', stiffness: 320, damping: 20 } },
 }
 
@@ -362,13 +362,13 @@ const portfolioCardVariants = {
 
 const portfolioCoverVariants = {
   hidden: { opacity: 0, scale: 0.985 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: heroEase } },
-  hover: { scale: 1.04, transition: { duration: 0.7, ease: heroEase } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: heroEase } },
+  hover: { scale: 1.04, transition: { duration: 0.6, ease: heroEase } },
 }
 
 const portfolioLinkVariants = {
   hidden: { opacity: 0, x: 0 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.45, delay: 0.18, ease: heroEase } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.18, ease: heroEase } },
   hover: { color: '#C8A24A', x: 7, transition: { type: 'spring', stiffness: 340, damping: 20 } },
 }
 
@@ -421,7 +421,7 @@ const whyCardVariants = {
 
 const whyIconVariants = {
   hidden: { opacity: 0, scale: 0.86 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.12, ease: heroEase } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.12, ease: heroEase } },
   hover: { rotate: 6, color: '#E2C995', transition: { type: 'spring', stiffness: 320, damping: 18 } },
 }
 
