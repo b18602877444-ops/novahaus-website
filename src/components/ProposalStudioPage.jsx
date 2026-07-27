@@ -15,6 +15,11 @@ function DataBadge({ children }) {
   return <span className="proposal-studio-data-badge"><span aria-hidden="true" />{children}</span>
 }
 
+function DeliveryScopeBlock({ label, items }) {
+  if (!items?.length) return null
+  return <div className="proposal-studio-scope-block"><span>{label}</span><ul>{items.slice(0, 5).map((item) => <li key={item}>{item}</li>)}</ul></div>
+}
+
 export default function ProposalStudioPage() {
   const [refreshKey, setRefreshKey] = useState(0)
   const context = useMemo(() => readProposalStudioContext(), [refreshKey])
@@ -75,6 +80,13 @@ export default function ProposalStudioPage() {
             <p>{proposal.recommendedPackage.label}</p>
             <ul>{proposal.recommendedPackage.deliverables.map((item) => <li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul>
           </section>
+
+          {proposal.deliveryScope && <section className="proposal-studio-section proposal-studio-delivery-scope">
+            <SectionLabel number="03A">Delivery Scope</SectionLabel>
+            <p className="proposal-studio-scope-intro">This service-specific view reuses the approved NOVAHAUS delivery boundary. It is a working proposal reference, not a binding final quote.</p>
+            <div className="proposal-studio-scope-grid"><DeliveryScopeBlock label="Included" items={proposal.deliveryScope.includedDeliverables} /><DeliveryScopeBlock label="Client responsibility" items={proposal.deliveryScope.clientResponsibilities} /><DeliveryScopeBlock label="Optional / custom" items={proposal.deliveryScope.customScope} /><DeliveryScopeBlock label="Excluded" items={proposal.deliveryScope.outOfScope} /><DeliveryScopeBlock label="Third-party costs" items={proposal.deliveryScope.thirdPartyCosts} /></div>
+            <p className="proposal-studio-scope-notice">{proposal.deliveryScope.finalQuoteNotice}</p>
+          </section>}
 
           <section className="proposal-studio-section">
             <SectionLabel number="04">90-Day Growth Plan</SectionLabel>

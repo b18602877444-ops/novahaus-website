@@ -1,11 +1,20 @@
+import { getDeliveryScopeById } from './deliveryScope.js'
+
+const strategyCta = { ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' }
+
+function fromDeliveryScope(serviceId, scopeId, title, extraKeywords = [], cta = strategyCta) {
+  const scope = getDeliveryScopeById(scopeId)
+  return { serviceId, title, description: scope?.shortDescription || '', keywords: [...(scope?.keywords || []), ...extraKeywords], ...cta }
+}
+
 export const aiSalesServices = [
   { serviceId: 'growth-assessment', title: 'Growth Assessment', description: 'A structured view of the business across strategy, digital presence, automation and growth operations.', keywords: ['assessment', 'diagnostic', 'score', 'where to start'], ctaType: 'assessment', ctaLabel: 'Take the Growth Assessment', ctaTarget: '/growth-assessment/' },
   { serviceId: 'proposal-generator', title: 'Proposal Generator', description: 'A considered scope and next-step document prepared around the context you have shared.', keywords: ['proposal', 'scope', 'quote', 'document'], ctaType: 'proposal', ctaLabel: 'Prepare a Proposal', ctaTarget: '/proposal-builder/' },
-  { serviceId: 'website-development', title: 'Website Development', description: 'A clear, conversion-focused digital experience built around how your market decides.', keywords: ['website', 'web site', 'landing page', 'conversion', 'digital presence'], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' },
-  { serviceId: 'ai-customer-service', title: 'AI Customer Service', description: 'A practical customer-facing system that helps visitors find the right answer and next step.', keywords: ['customer service', 'support', 'chatbot', 'customer experience'], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' },
-  { serviceId: 'ai-sales-agent', title: 'AI Sales Agent', description: 'A guided sales conversation that understands context, qualifies intent and creates useful momentum.', keywords: ['sales agent', 'sales', 'lead qualification', 'sales process'], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' },
-  { serviceId: 'business-automation', title: 'Business Automation', description: 'Connected CRM, follow-up and internal workflows that reduce manual friction.', keywords: ['automation', 'crm', 'workflow', 'follow-up', 'operations', 'manual'], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' },
-  { serviceId: 'knowledge-hub', title: 'Knowledge Hub', description: 'A structured source of truth for content, answers and the operating knowledge behind the business.', keywords: ['knowledge hub', 'knowledge base', 'content system', 'documentation'], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' },
+  fromDeliveryScope('website-development', 'ai-growth-website', 'Website Development', ['web site', 'digital presence']),
+  fromDeliveryScope('ai-customer-service', 'ai-sales-agent', 'AI Customer Service', ['customer service', 'support', 'customer experience']),
+  fromDeliveryScope('ai-sales-agent', 'ai-sales-agent', 'AI Sales Agent', ['sales', 'sales process']),
+  fromDeliveryScope('business-automation', 'ai-workflow-automation', 'Business Automation', ['crm', 'operations', 'manual']),
+  fromDeliveryScope('knowledge-hub', 'ai-knowledge-hub', 'Knowledge Hub', ['knowledge base', 'content system', 'documentation']),
 ]
 
 export function findService(serviceId) {

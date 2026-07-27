@@ -1,9 +1,11 @@
 import { aiSalesAgentFaqs } from '../../data/aiSalesAgentScript.js'
 import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
+import { getDeliveryScopeForText } from '../../data/deliveryScope.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
 const leadIntentTerms = ['proposal', 'website', 'quotation', 'quote', 'package', 'book', 'strategy', 'ai', 'automation', 'crm', 'lead', 'business']
+const highRiskTerms = ['medical data', 'medical diagnosis', 'patient', 'legal advice', 'law firm', 'investment advice', 'securities', 'banking core', 'sensitive personal data', 'regulated']
 export const initialSalesAgentWelcome = "Welcome to NOVAHAUS.\nI'd love to understand your business and recommend the most suitable AI growth solution."
 
 export function detectIntent(input) {
@@ -27,13 +29,6 @@ function inferIndustry(text) {
   return ''
 }
 
-function getRecommendations(conversation) {
-  const text = conversation.messages.filter((message) => message.role === 'user').map((message) => message.content).join(' ').toLowerCase()
-  const ranked = aiSalesServices.map((service) => ({ service, matches: service.keywords.filter((keyword) => text.includes(keyword)).length })).filter(({ matches }) => matches > 0).sort((a, b) => b.matches - a.matches)
-  const selected = ranked.length ? ranked.slice(0, 3) : [{ service: aiSalesServices.find((service) => service.serviceId === 'growth-assessment'), matches: 1 }]
-  return selected.map(({ service }, index) => ({ serviceId: service.serviceId, title: service.title, reason: reasonForService(service.serviceId), priority: index + 1, ctaType: service.ctaType, ctaLabel: service.ctaLabel, ctaTarget: service.ctaTarget }))
-}
-
 function reasonForService(serviceId) {
   const reasons = {
     'growth-assessment': 'A structured assessment will make the strongest opportunity easier to prioritise.',
@@ -41,15 +36,44 @@ function reasonForService(serviceId) {
     'website-development': 'Your digital presence is one of the clearest places to improve understanding and conversion.',
     'ai-customer-service': 'A guided customer experience can make useful answers and next steps easier to find.',
     'ai-sales-agent': 'A structured sales conversation can help your team qualify demand without adding friction.',
-    'business-automation': 'Connected CRM and workflow automation can reduce repetitive follow-up and operational drag.',
+    'business-automation': 'Connected workflows can reduce repetitive follow-up and operational drag.',
     'knowledge-hub': 'A clear source of truth can make answers, content and internal decisions easier to reuse.',
   }
   return reasons[serviceId] || reasons['growth-assessment']
 }
 
+function getRecommendations(conversation) {
+  const text = conversation.messages.filter((message) => message.role === 'user').map((message) => message.content).join(' ').toLowerCase()
+  const ranked = aiSalesServices.map((service) => ({ service, matches: service.keywords.filter((keyword) => text.includes(keyword)).length })).filter(({ matches }) => matches > 0).sort((a, b) => b.matches - a.matches)
+  const selected = ranked.length ? ranked.slice(0, 3) : [{ service: aiSalesServices.find((service) => service.serviceId === 'growth-assessment'), matches: 1 }]
+  return selected.map(({ service }, index) => ({ serviceId: service.serviceId, title: service.title, reason: reasonForService(service.serviceId), priority: index + 1, ctaType: service.ctaType, ctaLabel: service.ctaLabel, ctaTarget: service.ctaTarget }))
+}
+
 function faqReply(input) {
   const match = aiSalesAgentFaqs.find((faq) => faq.keywords.some((keyword) => normalise(input).includes(keyword)))
   return match?.answer || ''
+}
+
+function shortList(items = [], limit = 4) {
+  return items.slice(0, limit).map((item) => `- ${item}`).join('\n')
+}
+
+function deliveryScopeReply(input) {
+  const scope = getDeliveryScopeForText(input)
+  if (!scope) return ''
+  const text = normalise(input)
+  if (includesAny(text, ['medical', 'legal advice', 'investment advice', 'banking core', 'regulated', 'sensitive personal'])) return `This request may involve a higher-risk or regulated workflow. ${scope.name} can be discussed at a high level, but a human strategy call and specialist review are required before any delivery recommendation.`
+  if (includesAny(text, ['price', 'pricing', 'cost', 'fee', 'budget', 'how much'])) return `${scope.name} is ${scope.implementationFeeReference} for implementation and ${scope.monthlyFeeReference} for the managed-service reference. ${scope.finalQuoteNotice}`
+  if (includesAny(text, ['timeline', 'how long', 'when', 'launch'])) return `${scope.name} has an estimated timeline of ${scope.estimatedTimeline}\n\n${scope.finalQuoteNotice}`
+  if (includesAny(text, ['client provide', 'responsibility', 'need from', 'content', 'access'])) return `${scope.name} needs the client to provide:\n${shortList(scope.clientResponsibilities)}\n\n${scope.finalQuoteNotice}`
+  if (includesAny(text, ['custom', 'integration', 'api', 'login', 'payment', 'database'])) return `${scope.name} can include custom work such as:\n${shortList(scope.customScope)}\n\nThose requirements need a technical assessment before they are quoted.`
+  if (includesAny(text, ['exclude', 'not included', 'out of scope', 'guarantee'])) return `The standard boundary for ${scope.name} does not include:\n${shortList(scope.outOfScope)}\n\nNOVAHAUS does not promise guaranteed business outcomes.`
+  if (includesAny(text, ['revision', 'support', 'monthly', 'managed'])) return `${scope.name}: ${scope.revisionPolicy}\n\nMonthly support covers ${scope.monthlyManagedService.toLowerCase()}`
+  return `${scope.name} is ${scope.shortDescription}\n\nStandard scope includes:\n${shortList(scope.standardScope)}\n\n${scope.finalQuoteNotice}`
+}
+
+function highRiskRequest(input) {
+  return includesAny(normalise(input), highRiskTerms)
 }
 
 function hasCommercialIntent(conversation, input = '') {
@@ -69,49 +93,86 @@ export function advanceConversation(conversation, input, createId) {
   const userMessage = { id: createId(), role: 'user', content: input.trim(), timestamp: now, type: 'text', metadata: { intent, stage: conversation.currentStage } }
   const messages = [...conversation.messages, userMessage]
   const faq = faqReply(input)
+  const knowledgeReply = deliveryScopeReply(input)
+  const responseKnowledge = knowledgeReply || faq || (highRiskRequest(input) ? 'This may involve sensitive or regulated information. A human strategy call is the right next step before any recommendation is made.' : '')
   let stage = conversation.currentStage
-  let content = faq
+  let content = responseKnowledge
   let quickReplies = []
   const leadPatch = {}
+  const prompt = (question) => `${responseKnowledge ? `${responseKnowledge}\n\n` : ''}${question}`
 
   if (conversation.currentStage === 'business-type') {
     leadPatch.industry = inferIndustry(text)
+    stage = 'existing-system'
+    content = prompt('Do you already have a website or system in place?')
+    quickReplies = ['Yes, we have a website', 'We have several tools', 'Not yet', 'We need to replace the current system']
+  } else if (conversation.currentStage === 'existing-system') {
+    leadPatch.existingSystem = input.trim()
     stage = 'pain-points'
-    content = faq || 'Where is the business feeling the most friction right now—positioning, digital experience, lead flow, internal operations or something else?'
+    content = prompt('What is the main business problem you want to solve?')
     quickReplies = ['Unclear positioning', 'Low-quality leads', 'Manual operations', 'Weak digital presence']
   } else if (conversation.currentStage === 'pain-points') {
     leadPatch.painPoints = [input.trim()]
     stage = 'goals'
-    content = faq || 'That is useful context. If this improved, what would be meaningfully different for the business over the next three months?'
+    content = prompt('What would be meaningfully different for the business if this improved?')
     quickReplies = ['More qualified enquiries', 'A clearer market position', 'Less manual work', 'A stronger digital presence']
   } else if (conversation.currentStage === 'goals') {
     leadPatch.goals = [input.trim()]
-    stage = 'budget-timeline'
-    content = faq || 'What level of investment and timing are you considering? A rough range is enough to shape the right next step.'
-    quickReplies = ['Not decided yet', 'Within 30 days', 'Within 3 months', 'Prefer to discuss']
-  } else if (conversation.currentStage === 'budget-timeline') {
-    leadPatch.budget = input.trim()
+    stage = 'functions'
+    content = prompt('Which functions do you need most: website, booking, lead capture, CRM, proposal, knowledge or automation?')
+    quickReplies = ['Website and booking', 'Lead capture and CRM', 'Proposal and knowledge', 'Automation']
+  } else if (conversation.currentStage === 'functions') {
+    leadPatch.neededFunctions = input.trim()
+    stage = 'team-size'
+    content = prompt('How many team members will use the system?')
+    quickReplies = ['Just me', '2-5 people', '6-20 people', 'More than 20']
+  } else if (conversation.currentStage === 'team-size') {
+    leadPatch.teamSize = input.trim()
+    stage = 'monthly-volume'
+    content = prompt('Roughly how many monthly enquiries or customers do you handle?')
+    quickReplies = ['Under 20', '20-100', '100-500', 'More than 500']
+  } else if (conversation.currentStage === 'monthly-volume') {
+    leadPatch.monthlyVolume = input.trim()
+    stage = 'integrations'
+    content = prompt('Do you need login, payment, database or third-party integrations?')
+    quickReplies = ['No integrations yet', 'CRM or calendar', 'Payment or login', 'Several custom integrations']
+  } else if (conversation.currentStage === 'integrations') {
+    leadPatch.integrationNeeds = input.trim()
+    stage = 'sensitive-data'
+    content = prompt('Does the project involve medical, legal, financial or sensitive personal data?')
+    quickReplies = ['No', 'Possibly', 'Yes, sensitive data is involved']
+  } else if (conversation.currentStage === 'sensitive-data') {
+    leadPatch.sensitiveData = input.trim()
+    stage = 'timeline'
+    content = prompt('What is your target launch date or timing?')
+    quickReplies = ['Immediately', 'Within 30 days', 'Within 3 months', 'Still exploring']
+  } else if (conversation.currentStage === 'timeline') {
     leadPatch.timeline = input.trim()
-    if (hasCommercialIntent(conversation, input)) {
+    stage = 'budget'
+    content = prompt('What is your estimated budget range? A rough range is enough.')
+    quickReplies = ['Not decided yet', 'Under RM 10,000', 'RM 10,000-30,000', 'RM 30,000+', 'Prefer to discuss']
+  } else if (conversation.currentStage === 'budget') {
+    leadPatch.budget = input.trim()
+    if (hasCommercialIntent(conversation, input) || conversation.leadDraft?.sensitiveData) {
       stage = 'lead-capture'
-      content = faq || 'The context is useful. Before I prepare the next recommendation, may I ask for a few details so I can keep the next step relevant?'
+      content = prompt('The context is useful. Before I prepare the next recommendation, may I ask for a few details so I can keep the next step relevant?')
     } else {
       stage = 'cta'
-      content = faq || 'That gives me a useful direction. If a tailored recommendation would help, share a little more context and I’ll keep the next step grounded in the business.'
+      content = prompt('That gives me a useful direction. Choose the next step that feels useful.')
     }
   } else if (conversation.currentStage === 'lead-capture') {
-    content = faq || 'Once your details are saved, I can recommend the most relevant NOVAHAUS path and show the right next action.'
+    content = responseKnowledge || 'Once your details are saved, I can recommend the most relevant NOVAHAUS path and show the right next action.'
   } else if (conversation.currentStage === 'recommendation' || conversation.currentStage === 'cta') {
     if (!conversation.leadId && hasCommercialIntent(conversation, input)) {
       stage = 'lead-capture'
       content = 'That sounds like a useful next step. Before I prepare a recommendation, may I ask for a few details so it is grounded in your business?'
     } else {
-      content = faq || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape a considered proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain a working document until the scope is reviewed together.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
+      content = responseKnowledge || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape a considered proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain a working document until the scope is reviewed together.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
       stage = 'cta'
     }
   } else {
     stage = 'pain-points'
-    content = faq || 'Tell me a little more about the business and the decision you are trying to make.'
+    content = responseKnowledge || 'Tell me a little more about the business and the decision you are trying to make.'
   }
 
   const next = { ...conversation, messages: [...messages, { id: createId(), role: 'agent', content, timestamp: now, type: 'text', metadata: { intent, stage } }], updatedAt: now, currentStage: stage, quickReplies, leadDraft: { ...(conversation.leadDraft || {}), ...leadPatch } }

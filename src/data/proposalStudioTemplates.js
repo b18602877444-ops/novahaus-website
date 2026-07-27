@@ -1,17 +1,8 @@
-const packageTemplates = {
-  Starter: {
-    label: 'A focused foundation for a clearer market position.',
-    deliverables: ['Positioning and message direction', 'Conversion-ready website structure', 'Lead capture foundations', 'A practical first automation roadmap'],
-  },
-  Growth: {
-    label: 'A connected system for teams ready to improve how growth works.',
-    deliverables: ['Growth strategy and conversion priorities', 'Website and lead journey improvements', 'CRM and AI workflow opportunities', 'Measurement plan for the next stage'],
-  },
-  Enterprise: {
-    label: 'A tailored operating system for complex growth and transformation work.',
-    deliverables: ['Leadership-level growth diagnosis', 'Multi-channel digital experience plan', 'Automation and integration architecture', 'Ongoing optimisation direction'],
-  },
-}
+import { corePackages } from './pricing.js'
+import { getDeliveryScopeById } from './deliveryScope.js'
+
+const packageAliases = { Starter: 'Launch', Growth: 'Growth', Enterprise: 'Enterprise' }
+const packageTemplates = Object.fromEntries(corePackages.map((item) => [item.name, { label: item.label, deliverables: item.deliverables.slice(0, 6) }]))
 
 export const proposalStudioTemplates = {
   diagnosis: {
@@ -40,8 +31,9 @@ export function generateProposalStudio(context) {
   const company = withContext(context.company, 'your business')
   const challenge = withContext(context.challenge, 'the next stage of growth needs a clearer system')
   const goal = withContext(context.goals, 'create a stronger foundation for qualified opportunities and efficient operations')
-  const packageName = context.recommendedPackage || 'Starter'
-  const packageTemplate = packageTemplates[packageName] || packageTemplates.Starter
+  const packageName = packageAliases[context.recommendedPackage] || context.recommendedPackage || 'Launch'
+  const packageTemplate = packageTemplates[packageName] || packageTemplates.Launch
+  const deliveryScope = context.recommendedServiceIds?.map((serviceId) => getDeliveryScopeById(serviceId)).find(Boolean) || null
 
   return {
     clientName: withContext(context.name, 'Business leadership team'),
@@ -49,6 +41,7 @@ export function generateProposalStudio(context) {
     diagnosis: `${company} is currently focused on ${challenge}. The immediate opportunity is to connect that need with a clearer route toward ${goal}. ${context.hasData ? proposalStudioTemplates.diagnosis.withContext : proposalStudioTemplates.diagnosis.withoutContext}`,
     opportunities: proposalStudioTemplates.opportunities,
     recommendedPackage: { name: packageName, ...packageTemplate },
+    deliveryScope,
     plan90Days: proposalStudioTemplates.plan90Days,
     nextStep: 'Book a Strategy Call to review this starting point, confirm the highest-value priorities and decide what should happen first.',
     contextNote: context.hasData ? 'Built from the business context saved in this browser. Confirm priorities together before sharing externally.' : 'This is a directional starting point. Complete the Growth Assessment or share more context to make it specific to the business.',
