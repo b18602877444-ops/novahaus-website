@@ -43,6 +43,15 @@ const processItems = [
 
 const clientProfiles = ['Founder-led services', 'AI-native products', 'Personal brands', 'Modern teams']
 
+const positioningItems = [
+  { number: '01', title: 'Strategy', description: 'Clarify the positioning, offer and message your market needs to understand.' },
+  { number: '02', title: 'Experience', description: 'Create websites and landing pages designed to turn attention into qualified enquiries.' },
+  { number: '03', title: 'Automation', description: 'Connect forms, CRM, follow-up, reporting and internal workflows into one efficient system.' },
+  { number: '04', title: 'Growth', description: 'Measure performance, improve conversion and support long-term market expansion.' },
+]
+
+const whoWeHelpItems = ['Fintech', 'Web3 & RWA', 'Membership Businesses', 'Education & Personal Brands', 'Professional Services', 'International Expansion']
+
 const faqs = [
   { question: 'What does a typical engagement include?', answer: 'Most engagements combine positioning, a focused identity and a conversion-led website. The scope follows the next meaningful business milestone, not a preset package.' },
   { question: 'Is this a fit for an early-stage company?', answer: 'Yes. The work is designed for founders and small teams that need a clear story, a credible presence and a practical route to market.' },
@@ -167,18 +176,18 @@ function Hero() {
       <header className="site-header">
         <motion.a href="#top" className="brand-lockup" aria-label="NOVAHAUS home" onClick={closeMenu} initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: heroEase }}><BrandLogo className="brand-logo-light" /></motion.a>
         <nav className="desktop-nav" aria-label="Primary navigation">{navItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}</nav>
-        <div className="header-actions"><a className="header-cta" href="#contact">Book a strategy call <ArrowIcon direction="right" /></a><button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div>
-        <div className={`mobile-nav ${menuOpen ? 'is-open' : ''}`}>{navItems.map((item) => <a key={item.label} href={item.href} onClick={closeMenu}>{item.label}<ArrowIcon direction="right" /></a>)}<a className="mobile-nav-cta" href="#contact" onClick={closeMenu}>Book a strategy call <ArrowIcon direction="right" /></a></div>
+        <div className="header-actions"><a className="header-cta" href="#contact">Start a Growth Conversation <ArrowIcon direction="right" /></a><button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div>
+        <div className={`mobile-nav ${menuOpen ? 'is-open' : ''}`}>{navItems.map((item) => <a key={item.label} href={item.href} onClick={closeMenu}>{item.label}<ArrowIcon direction="right" /></a>)}<a className="mobile-nav-cta" href="#contact" onClick={closeMenu}>Start a Growth Conversation <ArrowIcon direction="right" /></a></div>
       </header>
 
       <div className="hero-grid page-shell">
         <div className="hero-copy">
           <div>
-            <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI Brand & Digital Studio</SectionLabel></motion.div>
-            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Make your business</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}>the obvious</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.42, ease: heroEase }}><em>choice.</em></motion.span></h1>
-            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>NOVAHAUS helps founders and small teams clarify their offer, launch a premium website and automate the work that slows growth.</motion.p>
-            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Start a business conversation</MagneticLink><motion.a href="#work" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>See how we help</span><ArrowIcon direction="right" /></motion.a></div>
-            <motion.div className="hero-traits" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.98, ease: heroEase }}><span>Sharper positioning</span><span className="hero-trait-dot" aria-hidden="true" /><span>Less friction</span><span className="hero-trait-dot" aria-hidden="true" /><span>Digital momentum</span></motion.div>
+            <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI GROWTH & DIGITAL SYSTEMS</SectionLabel></motion.div>
+            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Build the system</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}><em>behind your growth.</em></motion.span></h1>
+            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>NOVAHAUS combines brand strategy, conversion-focused digital experiences and AI automation to help ambitious businesses attract qualified opportunities, operate efficiently and expand with confidence.</motion.p>
+            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Build Your Growth System</MagneticLink><motion.a href="#capabilities" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>Explore Our Capabilities</span><ArrowIcon direction="right" /></motion.a></div>
+            <motion.p className="hero-trust-note" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.98, ease: heroEase }}>Strategy-led. AI-enabled. Built for measurable business outcomes.</motion.p>
           </div>
         </div>
 
@@ -187,6 +196,14 @@ function Hero() {
       <div className="hero-bottomline page-shell"><span>Strategy</span><span>Identity</span><span>Digital</span><span>AI systems</span><span className="scroll-prompt">Scroll to explore <span className="scroll-line" /></span></div>
     </section>
   )
+}
+
+function PositioningStrip() {
+  return <section id="capabilities" className="positioning-strip-section section light-section"><div className="page-shell"><Reveal className="positioning-strip-header"><SectionLabel>Growth system</SectionLabel><h2>One system for the work<br /><span>behind the growth.</span></h2></Reveal><div className="positioning-grid">{positioningItems.map((item, index) => <Reveal key={item.number} className="positioning-item" delay={index * 80}><span className="positioning-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
+}
+
+function WhoWeHelpSection() {
+  return <section id="who-we-help" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we help</SectionLabel><h2>Built for businesses<br /><span>ready to grow differently.</span></h2><p>We work with ambitious founders, project teams and established businesses that need more than isolated marketing services.</p></Reveal><Reveal className="industry-tags" delay={120}>{whoWeHelpItems.map((item) => <span key={item}>{item}</span>)}</Reveal></div></section>
 }
 
 function AnimatedNumber({ value, suffix = '', label }) {
@@ -365,7 +382,7 @@ const routeMeta = {
 }
 
 Object.assign(routeMeta, {
-  '/': { title: 'NOVAHAUS - Brand, digital and AI systems with intent', description: routeMeta['/'].description, indexable: true },
+  '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
   '/privacy': { title: 'Privacy Policy - NOVAHAUS', description: routeMeta['/privacy'].description, indexable: true },
@@ -426,7 +443,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
