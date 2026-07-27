@@ -62,6 +62,12 @@ const faqs = [
   { question: 'Do you provide long-term support?', answer: 'Yes. Growth Partner is a monthly retainer for businesses that want continued strategic support, optimisation and system refinement after launch.' },
 ]
 
+const strategyCallFaqs = [
+  { question: 'What happens on the call?', answer: 'We use the conversation to understand your business, current priorities and the friction between where you are and where you want to go.' },
+  { question: 'Do I need to prepare anything?', answer: 'Bring the context you already have. A clear view of your goals, audience and current challenge is enough to begin.' },
+  { question: 'Is this a sales call?', answer: 'It is a practical first conversation. If there is a useful fit, we will explain the next step; there is no obligation to continue.' },
+]
+
 function ArrowIcon({ direction = 'up' }) {
   const path = direction === 'right' ? 'M3 12.5 12 3.5m0 0H5.5M12 3.5V10' : 'M3.5 12.5 12 4m0 0H5.5M12 4v6.5'
   return (
@@ -75,7 +81,7 @@ function BrandMark({ className = '', loading = 'lazy' }) {
   return <img aria-hidden="true" className={`brand-mark-asset ${className}`} src="/novahaus-mark.png?v=c2" alt="" width="383" height="601" loading={loading} decoding="async" />
 }
 
-function Reveal({ children, className = '', delay = 0 }) {
+function Reveal({ children, className = '', delay = 0, id }) {
   const [visible, setVisible] = useState(false)
   const ref = useRef(null)
 
@@ -92,7 +98,7 @@ function Reveal({ children, className = '', delay = 0 }) {
     return () => observer.disconnect()
   }, [])
 
-  return <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} ${className}`} style={{ '--reveal-delay': `${delay}ms` }}>{children}</div>
+  return <div id={id} ref={ref} className={`reveal ${visible ? 'is-visible' : ''} ${className}`} style={{ '--reveal-delay': `${delay}ms` }}>{children}</div>
 }
 
 function MagneticLink({ children, href, variant = 'dark', className = '', onClick, delay = 0, reduceMotion = false }) {
@@ -375,6 +381,19 @@ function ProductFlowItem({ label, children }) {
   return <article className="product-flow-item"><span>{label}</span><div>{children}</div></article>
 }
 
+const strategyBenefits = [
+  { number: '01', title: 'Business Growth Assessment', description: 'A focused look at the business, market and next decision that matters.' },
+  { number: '02', title: 'AI Opportunity Review', description: 'Identify practical places where automation could remove friction and create leverage.' },
+  { number: '03', title: 'Website & Brand Review', description: 'See where your digital presence can make the value easier to understand and choose.' },
+  { number: '04', title: 'Growth Roadmap', description: 'Leave with a clearer sequence of priorities for the next stage of growth.' },
+]
+
+const strategyAudience = ['Web3 Projects', 'High-Net-Worth Entrepreneurs', 'AI Companies', 'FinTech Businesses']
+
+function StrategyCallPage() {
+  return <InternalPage eyebrow="NOVAHAUS / Strategy Call" title={<>Book Your<br /><em>Strategy Call.</em></>} description="Discover how AI, automation and growth systems can help your business scale."><section className="strategy-page-content"><Reveal className="strategy-booking-placeholder" id="strategy-booking"><div><SectionLabel number="01">What to expect</SectionLabel><h2>A sharper starting point<br /><span>for the next move.</span></h2></div><div className="strategy-placeholder-copy"><p>This page is ready for a future Calendly connection. For now, use the contact details below to reserve the conversation directly.</p><a href="mailto:hello@novahaus.studio?subject=Strategy%20Call%20Request" className="button-dark">Book Your Strategy Call <ArrowIcon direction="right" /></a></div></Reveal><section className="strategy-subsection"><SectionLabel number="02">What You'll Get</SectionLabel><div className="strategy-benefit-grid">{strategyBenefits.map((item, index) => <Reveal className="strategy-benefit" delay={index * 70} key={item.number}><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></section><section className="strategy-subsection strategy-audience-section"><Reveal><SectionLabel number="03">Who This Is For</SectionLabel><h2>Built for businesses<br /><em>with something at stake.</em></h2><p className="strategy-subsection-intro">The conversation is for ambitious operators who need a clearer route through complexity, not another disconnected service.</p></Reveal><Reveal className="strategy-audience-grid" delay={100}>{strategyAudience.map((item) => <span key={item}>{item}</span>)}</Reveal></section><section className="strategy-subsection"><SectionLabel number="04">Simple 3-Step Process</SectionLabel><div className="strategy-process-grid">{['Book', 'Meet', 'Receive Your Roadmap'].map((title, index) => <Reveal className="strategy-process-step" delay={index * 80} key={title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{['Choose a time for a focused first conversation.', 'Talk through your business, goals and current constraints.', 'Leave with a clear direction for the next useful step.'][index]}</p></Reveal>)}</div></section><section className="strategy-subsection strategy-faq-section"><Reveal><SectionLabel number="05">FAQ</SectionLabel><h2>Before we<br /><em>get started.</em></h2></Reveal><div className="strategy-faq-list">{strategyCallFaqs.map((item, index) => <Reveal className="strategy-faq-item" delay={index * 60} key={item.question}><details><summary>{item.question}<span className="faq-plus" /></summary><p>{item.answer}</p></details></Reveal>)}</div></section><Reveal className="strategy-final-cta"><SectionLabel number="06">Next step</SectionLabel><h2>Book Your<br /><em>Strategy Call.</em></h2><p>Bring the ambition, the friction or the open question. We will find the useful starting point together.</p><a href="mailto:hello@novahaus.studio?subject=Strategy%20Call%20Request" className="button-dark">Book Your Strategy Call <ArrowIcon direction="right" /></a></Reveal></section></InternalPage>
+}
+
 function ProductsPage() {
   return <InternalPage eyebrow="Products" title={<>Growth systems<br /><em>with a job to do.</em></>} description="Four ways to turn a stronger position, better digital experience and practical AI operations into a more useful commercial system."><section className="products-list" aria-label="NOVAHAUS products">{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/#contact" className="magnetic-link product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}</section></InternalPage>
 }
@@ -423,6 +442,7 @@ const routeMeta = {
 Object.assign(routeMeta, {
   '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
   '/products': { title: 'Products - NOVAHAUS AI Growth & Digital Systems', description: 'Explore NOVAHAUS growth products for brand foundations, AI automation, growth operations and long-term partnership.', indexable: true },
+  '/strategy': { title: 'Strategy Call - NOVAHAUS AI Growth & Digital Systems', description: 'Book a NOVAHAUS Strategy Call to explore AI, automation and growth systems for your business.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
   '/privacy': { title: 'Privacy Policy - NOVAHAUS', description: routeMeta['/privacy'].description, indexable: true },
@@ -483,7 +503,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
