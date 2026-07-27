@@ -12,7 +12,7 @@ const navItems = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
   { label: 'Products', href: '/products/' },
-  { label: 'Process', href: '#process' },
+  { label: 'Process', href: '#approach' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -52,14 +52,14 @@ const positioningItems = [
   { number: '04', title: 'Growth', description: 'Measure performance, improve conversion and support long-term market expansion.' },
 ]
 
-const whoWeHelpItems = ['Fintech', 'Web3 & RWA', 'Membership Businesses', 'Education & Personal Brands', 'Professional Services', 'International Expansion']
+const whoWeHelpItems = ['Web3 Projects', 'FinTech', 'AI Startups', 'High-Net-Worth Entrepreneurs', 'Professional Services', 'Global Businesses']
 
 const faqs = [
-  { question: 'What does a typical engagement include?', answer: 'Most engagements combine positioning, a focused identity and a conversion-led website. The scope follows the next meaningful business milestone, not a preset package.' },
-  { question: 'Is this a fit for an early-stage company?', answer: 'Yes. The work is designed for founders and small teams that need a clear story, a credible presence and a practical route to market.' },
-  { question: 'Can AI workflows sit inside the engagement?', answer: 'Yes. Repetitive, high-friction work is mapped first, then shaped into practical AI-assisted systems around the tools and team already in place.' },
-  { question: 'How long does an engagement take?', answer: 'A focused brand and website engagement usually takes several weeks. Timing depends on the decision pace, inputs and number of moving parts.' },
-  { question: 'What happens after launch?', answer: 'A refinement retainer keeps the system useful: improving the experience, content rhythm and workflows as real-world signals arrive.' },
+  { question: 'Why NOVAHAUS?', answer: 'NOVAHAUS brings strategy, digital experience and practical AI systems into one commercial conversation, so the work supports the business rather than sitting beside it.' },
+  { question: 'How is NOVAHAUS different?', answer: 'We start with the business problem and the decision your market needs to make. The brand, website and systems follow that clarity.' },
+  { question: 'Do you only build websites?', answer: 'No. Websites are one part of the system. We also work across positioning, automation, CRM, content operations and ongoing optimisation.' },
+  { question: 'How do Strategy Calls work?', answer: 'A Strategy Call is a focused first conversation about your goals, constraints and next commercial priority. If there is a fit, we outline a useful route forward.' },
+  { question: 'Do you provide long-term support?', answer: 'Yes. Growth Partner is a monthly retainer for businesses that want continued strategic support, optimisation and system refinement after launch.' },
 ]
 
 function ArrowIcon({ direction = 'up' }) {
@@ -205,7 +205,7 @@ function PositioningStrip() {
 }
 
 function WhoWeHelpSection() {
-  return <section id="who-we-help" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we help</SectionLabel><h2>Built for businesses<br /><span>ready to grow differently.</span></h2><p>We work with ambitious founders, project teams and established businesses that need more than isolated marketing services.</p></Reveal><Reveal className="industry-tags" delay={120}>{whoWeHelpItems.map((item) => <span key={item}>{item}</span>)}</Reveal></div></section>
+  return <section id="who-we-work-with" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we work with</SectionLabel><h2>Who We<br /><span>Work With</span></h2><p>Ambitious teams in complex markets that need clarity, operating leverage and a partner who can stay close to the next decision.</p></Reveal><Reveal className="industry-tags" delay={120}>{whoWeHelpItems.map((item) => <span key={item}>{item}</span>)}</Reveal></div></section>
 }
 
 const howWeHelpItems = [
@@ -217,12 +217,24 @@ const howWeHelpItems = [
 
 const trustReasons = ['Strategy Before Execution', 'AI-Powered Systems', 'Long-Term Partnership', 'Global Perspective']
 
+const approachSteps = [
+  { number: '01', title: 'Discovery', description: 'Understand business goals and challenges.' },
+  { number: '02', title: 'Strategy', description: 'Design the growth roadmap.' },
+  { number: '03', title: 'Build', description: 'Develop websites, AI systems and automation.' },
+  { number: '04', title: 'Launch', description: 'Deploy and optimise.' },
+  { number: '05', title: 'Scale', description: 'Continuous growth through long-term partnership.' },
+]
+
 function HowWeHelpSection() {
   return <section id="how-we-help" className="section light-section conversion-help-section"><div className="page-shell"><SectionHeader label="How we help" title={<>How We Help<br /><span>Businesses Grow</span></>} description="We build complete growth systems instead of isolated digital services." /><div className="services-grid conversion-help-grid">{howWeHelpItems.map((item, index) => <Reveal key={item.number} className="service-card conversion-help-card" delay={index * 80}><span className="service-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
 }
 
 function TrustSection() {
   return <section id="why-choose" className="section dark-section conversion-trust-section"><div className="page-shell"><SectionHeader label="Why NOVAHAUS" title={<>Why Businesses<br /><span>Choose NOVAHAUS</span></>} dark /><div className="conversion-trust-grid">{trustReasons.map((reason, index) => <Reveal key={reason} className="conversion-trust-card" delay={index * 80}><span>{String(index + 1).padStart(2, '0')}</span><h3>{reason}</h3></Reveal>)}</div></div></section>
+}
+
+function ApproachSection() {
+  return <section id="approach" className="section dark-section approach-section"><div className="page-shell"><SectionHeader label="Our Approach" title={<>A clear path from<br /><span>ambition to traction.</span></>} description="Five focused steps keep the work useful, visible and moving." dark /><div className="approach-grid">{approachSteps.map((step, index) => <Reveal key={step.number} className="approach-card" delay={index * 70}><span>{step.number}</span><h3>{step.title}</h3><p>{step.description}</p></Reveal>)}</div></div></section>
 }
 
 function AnimatedNumber({ value, suffix = '', label }) {
@@ -471,7 +483,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
