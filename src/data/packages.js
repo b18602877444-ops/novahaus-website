@@ -32,7 +32,7 @@ export const growthPackages = [
       'Analytics Ready',
     ],
     cta: 'Explore Growth Package',
-    href: '/products/',
+    href: '/booking/?source=packages&package=Growth',
     featured: true,
   },
   {
@@ -51,7 +51,7 @@ export const growthPackages = [
       'Future AI Expansion',
     ],
     cta: 'Book Strategy Call',
-    href: '/strategy/',
+    href: '/booking/?source=packages&package=Enterprise',
   },
 ]
 
