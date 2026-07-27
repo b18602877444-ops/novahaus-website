@@ -3,6 +3,7 @@ import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
+const leadIntentTerms = ['proposal', 'website', 'quotation', 'quote', 'package', 'book', 'strategy', 'ai', 'automation', 'crm', 'lead', 'business']
 export const initialSalesAgentWelcome = "Welcome to NOVAHAUS.\nI'd love to understand your business and recommend the most suitable AI growth solution."
 
 export function detectIntent(input) {
@@ -51,6 +52,11 @@ function faqReply(input) {
   return match?.answer || ''
 }
 
+function hasCommercialIntent(conversation, input = '') {
+  const text = [...conversation.messages.filter((message) => message.role === 'user').map((message) => message.content), input].join(' ').toLowerCase()
+  return includesAny(text, leadIntentTerms)
+}
+
 export function createInitialConversation(createId) {
   const now = new Date().toISOString()
   return { id: createId(), createdAt: now, updatedAt: now, status: 'active', messages: [{ id: createId(), role: 'agent', content: initialSalesAgentWelcome, timestamp: now, type: 'text', metadata: { stage: 'business-type' } }], leadId: null, currentStage: 'business-type', quickReplies: ['Launching a new business', 'Improving an existing website', 'Automating operations', 'Expanding internationally', 'I am not sure yet'], qualification: { score: 0, temperature: 'Cold Lead', signals: [], breakdown: [] }, recommendations: [], context: { source: 'ai-sales-agent', assessmentId: null } }
@@ -86,13 +92,23 @@ export function advanceConversation(conversation, input, createId) {
   } else if (conversation.currentStage === 'budget-timeline') {
     leadPatch.budget = input.trim()
     leadPatch.timeline = input.trim()
-    stage = 'lead-capture'
-    content = faq || 'I have enough context to suggest a useful direction. Share your contact details and I will prepare the next step around your situation.'
+    if (hasCommercialIntent(conversation, input)) {
+      stage = 'lead-capture'
+      content = faq || 'The context is useful. Before I prepare the next recommendation, may I ask for a few details so I can keep the next step relevant?'
+    } else {
+      stage = 'cta'
+      content = faq || 'That gives me a useful direction. If you would like a tailored recommendation, you can share a little more context whenever it feels useful.'
+    }
   } else if (conversation.currentStage === 'lead-capture') {
     content = faq || 'Once your details are saved, I can recommend the most relevant NOVAHAUS path and show the right next action.'
   } else if (conversation.currentStage === 'recommendation' || conversation.currentStage === 'cta') {
-    content = faq || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape an accurate proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain subject to your review before anything is sent.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
-    stage = 'cta'
+    if (!conversation.leadId && hasCommercialIntent(conversation, input)) {
+      stage = 'lead-capture'
+      content = 'That sounds like a useful next step. Before I prepare a recommendation, may I ask for a few details so it is grounded in your business?'
+    } else {
+      content = faq || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape an accurate proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain subject to your review before anything is sent.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
+      stage = 'cta'
+    }
   } else {
     stage = 'pain-points'
     content = faq || 'Tell me a little more about the business and the decision you are trying to make.'

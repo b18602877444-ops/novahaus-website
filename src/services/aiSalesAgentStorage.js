@@ -1,7 +1,9 @@
 import { initialSalesAgentWelcome } from '../utils/aiSalesAgent/conversationEngine.js'
+import { buildLeadSummary } from '../data/leadSchema.js'
+import { LEADS_STORAGE_KEY, saveLeadRecord, clearLeads } from './leadStorage.js'
 
 export const AI_SALES_CONVERSATIONS_KEY = 'novahaus_ai_sales_conversations_v1'
-export const AI_SALES_LEADS_KEY = 'novahaus_ai_sales_leads_v1'
+export const AI_SALES_LEADS_KEY = LEADS_STORAGE_KEY
 export const AI_SALES_ACTIVE_CONVERSATION_KEY = 'novahaus_ai_sales_active_conversation_v1'
 
 function createId(prefix) {
@@ -46,19 +48,15 @@ export function loadActiveConversation() {
 }
 
 export function saveLead(lead) {
-  const store = readCollection(AI_SALES_LEADS_KEY, 'leads')
-  const now = new Date().toISOString()
-  const next = { ...lead, updatedAt: now, createdAt: lead.createdAt || now }
-  const index = store.leads.findIndex((item) => item.id === next.id)
-  if (index === -1) store.leads.push(next); else store.leads[index] = next
-  writeCollection(AI_SALES_LEADS_KEY, 'leads', store.leads)
-  return next
+  const next = { ...lead, businessType: lead.businessType || lead.industry, challenge: lead.challenge || lead.painPoints?.[0] || lead.goals?.[0], interestedPackage: lead.interestedPackage || lead.package || '', aiSummary: lead.aiSummary || buildLeadSummary(lead) }
+  return saveLeadRecord(next)
 }
 
 export function resetSalesAgentStorage() {
   try {
     window.localStorage.removeItem(AI_SALES_ACTIVE_CONVERSATION_KEY)
     window.localStorage.removeItem(AI_SALES_CONVERSATIONS_KEY)
-    window.localStorage.removeItem(AI_SALES_LEADS_KEY)
+    window.localStorage.removeItem('novahaus_ai_sales_leads_v1')
+    clearLeads()
   } catch { /* storage unavailable */ }
 }

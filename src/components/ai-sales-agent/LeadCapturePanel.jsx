@@ -1,39 +1,56 @@
 import { useState } from 'react'
 
-const initialLead = { name: '', company: '', email: '', whatsapp: '', industry: '', country: '', budget: '', timeline: '', goals: '', painPoints: '' }
+const captureSteps = [
+  { key: 'name', prompt: 'Great. Before I prepare the next recommendation, may I know your name?', label: 'Your name', type: 'text', required: true },
+  { key: 'company', prompt: 'Thanks. Which company are you representing?', label: 'Company', type: 'text', required: true },
+  { key: 'email', prompt: "What's the best email for us to send the proposal?", label: 'Email address', type: 'email', required: true },
+  { key: 'whatsapp', prompt: 'If WhatsApp is useful for the next step, you can share it here. This one is optional.', label: 'WhatsApp (optional)', type: 'tel' },
+  { key: 'country', prompt: 'Which country is the business based in?', label: 'Country (optional)', type: 'text' },
+  { key: 'businessType', prompt: 'What kind of business are you building?', label: 'Business type (optional)', type: 'select' },
+  { key: 'interestedPackage', prompt: 'Which NOVAHAUS package feels closest to what you need right now?', label: 'Interested package (optional)', type: 'package' },
+  { key: 'challenge', prompt: 'Finally, what would you most like to improve?', label: 'Current challenge (optional)', type: 'textarea' },
+]
 
-function LeadCapturePanel({ onSubmit, industryOptions, budgetOptions, timelineOptions, disabled = false }) {
-  const [fields, setFields] = useState(initialLead)
-  const [errors, setErrors] = useState({})
+const initialFields = captureSteps.reduce((result, step) => ({ ...result, [step.key]: '' }), {})
+
+function LeadCapturePanel({ onSubmit, industryOptions = [], disabled = false }) {
+  const [fields, setFields] = useState(initialFields)
+  const [stepIndex, setStepIndex] = useState(0)
+  const [error, setError] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const update = (key, value) => { setFields((current) => ({ ...current, [key]: value })); setErrors((current) => ({ ...current, [key]: '' })) }
+  const step = captureSteps[stepIndex]
+  const value = fields[step.key]
 
-  const handleSubmit = (event) => {
+  const update = (nextValue) => {
+    setFields((current) => ({ ...current, [step.key]: nextValue }))
+    setError('')
+  }
+
+  const handleContinue = (event) => {
     event.preventDefault()
-    const nextErrors = {}
-    if (!fields.name.trim()) nextErrors.name = 'Name is required.'
-    if (!fields.company.trim()) nextErrors.company = 'Company is required.'
-    if (!fields.email.trim()) nextErrors.email = 'Email is required.'
-    else if (!/^\S+@\S+\.\S+$/.test(fields.email)) nextErrors.email = 'Enter a valid email.'
-    setErrors(nextErrors)
-    if (Object.keys(nextErrors).length) return
+    const trimmed = String(value || '').trim()
+    if (step.required && !trimmed) {
+      setError(`${step.label} is required.`)
+      return
+    }
+    if (step.key === 'email' && trimmed && !/^\S+@\S+\.\S+$/.test(trimmed)) {
+      setError('Enter a valid email address.')
+      return
+    }
+    if (stepIndex < captureSteps.length - 1) {
+      setStepIndex((current) => current + 1)
+      return
+    }
     onSubmit(fields)
     setSubmitted(true)
   }
 
   if (submitted) return <div className="sales-agent-lead-success" role="status" aria-live="polite"><span>Context saved.</span><p>Lead data is stored locally in this browser.</p></div>
 
-  return <form className="sales-agent-lead-form" onSubmit={handleSubmit} noValidate>
-    <div className="sales-agent-form-heading"><span>Next step</span><h3>Give the context a name.</h3><p>These details stay in this browser and help us shape a more useful recommendation.</p></div>
-    <div className="sales-agent-form-grid">
-      {['name', 'company', 'email', 'whatsapp', 'country'].map((key) => <label key={key} className="sales-agent-field"><span>{key === 'name' ? 'Name' : key === 'company' ? 'Company' : key === 'email' ? 'Email' : key === 'whatsapp' ? 'WhatsApp' : 'Country'}{['name', 'company', 'email'].includes(key) && <b aria-hidden="true"> *</b>}</span><input type={key === 'email' ? 'email' : key === 'whatsapp' ? 'tel' : 'text'} value={fields[key]} onChange={(event) => update(key, event.target.value)} required={['name', 'company', 'email'].includes(key)} aria-invalid={errors[key] ? 'true' : undefined} />{errors[key] && <small role="alert">{errors[key]}</small>}</label>)}
-      <label className="sales-agent-field"><span>Industry</span><select value={fields.industry} onChange={(event) => update('industry', event.target.value)}><option value="">Select one</option>{industryOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-      <label className="sales-agent-field"><span>Budget</span><select value={fields.budget} onChange={(event) => update('budget', event.target.value)}><option value="">Select one</option>{budgetOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-      <label className="sales-agent-field"><span>Timeline</span><select value={fields.timeline} onChange={(event) => update('timeline', event.target.value)}><option value="">Select one</option>{timelineOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-      <label className="sales-agent-field sales-agent-field-wide"><span>Goals</span><textarea rows="2" value={fields.goals} onChange={(event) => update('goals', event.target.value)} placeholder="What would you like to improve?" /></label>
-      <label className="sales-agent-field sales-agent-field-wide"><span>Pain Points</span><textarea rows="2" value={fields.painPoints} onChange={(event) => update('painPoints', event.target.value)} placeholder="What is creating friction?" /></label>
-    </div>
-    <button className="sales-agent-button sales-agent-button-gold" type="submit" disabled={disabled}>Save My Context <span aria-hidden="true">↗</span></button>
+  return <form className="sales-agent-lead-form sales-agent-capture-conversation" onSubmit={handleContinue} noValidate>
+    <div className="sales-agent-form-heading"><span>Context / {String(stepIndex + 1).padStart(2, '0')} of {String(captureSteps.length).padStart(2, '0')}</span><h3>A few useful details.</h3><p>{step.prompt}</p></div>
+    <label className="sales-agent-field sales-agent-capture-field" htmlFor={`sales-agent-capture-${step.key}`}><span>{step.label}{step.required && <b aria-hidden="true"> *</b>}</span>{step.type === 'select' ? <select id={`sales-agent-capture-${step.key}`} value={value} onChange={(event) => update(event.target.value)} disabled={disabled}><option value="">Select one</option>{industryOptions.map((item) => <option key={item}>{item}</option>)}</select> : step.type === 'package' ? <select id={`sales-agent-capture-${step.key}`} value={value} onChange={(event) => update(event.target.value)} disabled={disabled}><option value="">Select one</option><option>Starter</option><option>Growth</option><option>Enterprise</option><option>Not sure yet</option></select> : step.type === 'textarea' ? <textarea id={`sales-agent-capture-${step.key}`} rows="3" value={value} onChange={(event) => update(event.target.value)} placeholder="Share it in your own words." disabled={disabled} /> : <input id={`sales-agent-capture-${step.key}`} type={step.type} value={value} onChange={(event) => update(event.target.value)} autoComplete={step.key} disabled={disabled} />}{error && <small role="alert">{error}</small>}</label>
+    <div className="sales-agent-capture-actions"><button className="sales-agent-button sales-agent-button-gold" type="submit" disabled={disabled}>{stepIndex === captureSteps.length - 1 ? 'Prepare My Summary' : 'Continue'} <span aria-hidden="true">↗</span></button>{!step.required && <button className="sales-agent-capture-skip" type="button" onClick={() => { update(''); if (stepIndex < captureSteps.length - 1) setStepIndex((current) => current + 1) }} disabled={disabled}>Skip for now</button>}</div>
     <p className="sales-agent-storage-note">Lead data is stored locally in this browser.</p>
   </form>
 }
