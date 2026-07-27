@@ -2,6 +2,7 @@ import { listBookings } from './bookingStorage.js'
 import { listLeads } from './leadStorage.js'
 import { ASSESSMENT_STORAGE_KEY } from './assessmentSubmission.js'
 import { getDeliveryScopeById, getDeliveryScopeForText } from '../data/deliveryScope.js'
+import { getPortfolioServiceById, getPortfolioServiceForText } from '../data/servicePortfolio.js'
 import { readProposalPrefill } from './aiSalesAgentProposal.js'
 
 function readLatestAssessment() {
@@ -44,7 +45,7 @@ export function readProposalStudioContext() {
   const assessmentProduct = typeof assessment?.recommendedProduct === 'string' ? assessment.recommendedProduct : assessment?.recommendedProduct?.name
   const leadServiceIds = [...(Array.isArray(lead?.recommendedServices) ? lead.recommendedServices : []), ...(Array.isArray(proposalPrefill?.recommendedServices) ? proposalPrefill.recommendedServices.map((item) => item.serviceId).filter(Boolean) : [])]
   const serviceText = [booking?.serviceInterest, assessmentProduct, lead?.interestedPackage, proposalPrefill?.recommendedProduct].filter(Boolean).join(' ')
-  const scopedServices = [...leadServiceIds.map((serviceId) => getDeliveryScopeById(serviceId)).filter(Boolean), getDeliveryScopeForText(serviceText)].filter(Boolean)
+  const scopedServices = [...leadServiceIds.map((serviceId) => getDeliveryScopeById(serviceId) || getPortfolioServiceById(serviceId)).filter(Boolean), getDeliveryScopeForText(serviceText), getPortfolioServiceForText(serviceText)].filter(Boolean)
   const recommendedServiceIds = [...new Map(scopedServices.map((service) => [service.id, service])).values()].map((service) => service.id)
 
   const context = {

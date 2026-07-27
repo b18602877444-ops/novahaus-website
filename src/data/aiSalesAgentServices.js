@@ -1,4 +1,5 @@
 import { getDeliveryScopeById } from './deliveryScope.js'
+import { getServicePortfolio } from './servicePortfolio.js'
 
 const strategyCta = { ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: '/booking/?source=ai-sales-agent' }
 
@@ -15,6 +16,7 @@ export const aiSalesServices = [
   fromDeliveryScope('ai-sales-agent', 'ai-sales-agent', 'AI Sales Agent', ['sales', 'sales process']),
   fromDeliveryScope('business-automation', 'ai-workflow-automation', 'Business Automation', ['crm', 'operations', 'manual']),
   fromDeliveryScope('knowledge-hub', 'ai-knowledge-hub', 'Knowledge Hub', ['knowledge base', 'content system', 'documentation']),
+  ...getServicePortfolio().filter((service) => service.categoryId !== 'ai-systems').map((service) => ({ serviceId: service.id, title: service.name, description: service.businessValue, keywords: [...service.keywords, ...service.deliverables.map((item) => item.toLowerCase())], ctaType: 'strategy-call', ctaLabel: 'Book Strategy Call', ctaTarget: `/booking/?source=ai-sales-agent&service=${service.id}` })),
 ]
 
 export function findService(serviceId) {

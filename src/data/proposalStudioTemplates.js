@@ -1,5 +1,6 @@
 import { corePackages } from './pricing.js'
 import { getDeliveryScopeById } from './deliveryScope.js'
+import { getPortfolioServiceById } from './servicePortfolio.js'
 
 const packageAliases = { Starter: 'Launch', Growth: 'Growth', Enterprise: 'Enterprise' }
 const packageTemplates = Object.fromEntries(corePackages.map((item) => [item.name, { label: item.label, deliverables: item.deliverables.slice(0, 6) }]))
@@ -33,7 +34,7 @@ export function generateProposalStudio(context) {
   const goal = withContext(context.goals, 'create a stronger foundation for qualified opportunities and efficient operations')
   const packageName = packageAliases[context.recommendedPackage] || context.recommendedPackage || 'Launch'
   const packageTemplate = packageTemplates[packageName] || packageTemplates.Launch
-  const deliveryScope = context.recommendedServiceIds?.map((serviceId) => getDeliveryScopeById(serviceId)).find(Boolean) || null
+  const deliveryScope = context.recommendedServiceIds?.map((serviceId) => getDeliveryScopeById(serviceId) || getPortfolioServiceById(serviceId)).find(Boolean) || null
 
   return {
     clientName: withContext(context.name, 'Business leadership team'),
