@@ -65,6 +65,46 @@ export function createProposalFromAssessment(proposal, assessment) {
   }
 }
 
+export function createProposalFromSalesAgent(proposal, prefill) {
+  const lead = prefill?.lead || {}
+  const recommendedServices = Array.isArray(prefill?.recommendedServices) ? prefill.recommendedServices.map((item) => typeof item === 'string' ? item : item.title).filter(Boolean) : []
+  const productMap = {
+    'AI Growth Launch': 'AI Growth Launch',
+    'Website Development': 'AI Growth Launch',
+    'AI Growth Automation': 'AI Growth Automation',
+    'Business Automation': 'AI Growth Automation',
+    'Growth Partnership': 'Growth Partnership',
+    'Executive Strategy Advisory': 'Executive Strategy Advisory',
+  }
+  const recommendedProduct = productMap[prefill?.recommendedProduct] || productMap[recommendedServices[0]] || proposal.selectedProduct
+  const contextSummary = prefill?.conversationSummary || ''
+  return {
+    ...applyProductTemplate(proposal, recommendedProduct),
+    client: {
+      ...proposal.client,
+      name: lead.name || proposal.client.name,
+      company: lead.company || proposal.client.company,
+      email: lead.email || proposal.client.email,
+      whatsapp: lead.whatsapp || proposal.client.whatsapp,
+      website: lead.website || proposal.client.website,
+      country: lead.country || proposal.client.country,
+      industry: lead.industry || proposal.client.industry,
+      businessStage: lead.businessStage || proposal.client.businessStage,
+      primaryGoal: Array.isArray(lead.goals) ? lead.goals.join(', ') : lead.goals || proposal.client.primaryGoal,
+      mainChallenges: Array.isArray(lead.painPoints) ? lead.painPoints.join(', ') : lead.painPoints || proposal.client.mainChallenges,
+      indicativeBudget: lead.budget || proposal.client.indicativeBudget,
+      preferredTimeline: lead.timeline || proposal.client.preferredTimeline,
+    },
+    notes: {
+      ...proposal.notes,
+      currentSituation: contextSummary || proposal.notes.currentSituation,
+      businessObjectives: Array.isArray(lead.goals) ? lead.goals.join(', ') : lead.goals || proposal.notes.businessObjectives,
+      keyProblems: Array.isArray(lead.painPoints) ? lead.painPoints.join(', ') : lead.painPoints || proposal.notes.keyProblems,
+      additionalNotes: `Imported from AI Sales Agent. Recommended services: ${recommendedServices.join(', ') || 'To be confirmed.'}`,
+    },
+  }
+}
+
 function display(value) { return value?.trim() || 'To be confirmed with the client.' }
 
 export function formatInvestment(investment) {

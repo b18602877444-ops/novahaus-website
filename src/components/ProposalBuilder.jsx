@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ProposalPreview from './ProposalPreview.jsx'
 import { defaultPhases, proposalProducts } from '../data/proposalTemplates.js'
-import { createProposalFromAssessment, createProposalSummary, createEmptyProposal, applyProductTemplate } from '../lib/proposalGenerator.js'
+import { createProposalFromAssessment, createProposalFromSalesAgent, createProposalSummary, createEmptyProposal, applyProductTemplate } from '../lib/proposalGenerator.js'
 import { ASSESSMENT_STORAGE_KEY } from '../services/assessmentSubmission.js'
+import { clearProposalPrefill, readProposalPrefill } from '../services/aiSalesAgentProposal.js'
 import { createProposalVersion, deleteProposal, duplicateProposal, listSavedProposals, loadProposal, saveProposal } from '../services/proposalStorage.js'
 import { trackAssessmentEvent } from '../lib/analytics.js'
 
@@ -34,6 +35,15 @@ function ProposalBuilder() {
   const [dirty, setDirty] = useState(false)
 
   const summary = useMemo(() => createProposalSummary(proposal), [proposal])
+
+  useEffect(() => {
+    const prefill = readProposalPrefill()
+    if (!prefill) return
+    setProposal((current) => createProposalFromSalesAgent(current, prefill))
+    setDirty(true)
+    setNotice('AI Sales Agent context imported. Review the draft before saving.')
+    clearProposalPrefill()
+  }, [])
   const update = (next) => { setProposal(next); setDirty(true); setNotice('') }
   const updateClient = (key, value) => update({ ...proposal, client: { ...proposal.client, [key]: value } })
   const updateNotes = (key, value) => update({ ...proposal, notes: { ...proposal.notes, [key]: value } })

@@ -4,6 +4,7 @@ import BrandLogo from './components/BrandLogo.jsx'
 import LeadCapture from './components/LeadCapture.jsx'
 import GrowthAssessment from './components/GrowthAssessment.jsx'
 import ProposalBuilder from './components/ProposalBuilder.jsx'
+import AiSalesAgentPage from './components/ai-sales-agent/AiSalesAgentPage.jsx'
 import { blogPosts, caseStudies } from './data/caseStudies.js'
 import { products } from './data/products.js'
 import { trackAssessmentEvent } from './lib/analytics.js'
@@ -491,6 +492,7 @@ Object.assign(routeMeta, {
   '/case-studies': { title: 'Case Studies | NOVAHAUS', description: 'Explore how NOVAHAUS helps ambitious businesses build strategy, AI systems and digital growth.', indexable: true },
   '/growth-assessment': { title: 'AI Growth Assessment | NOVAHAUS', description: 'Assess your business across strategy, digital presence, automation and growth operations, then receive a personalised NOVAHAUS product recommendation.', indexable: true },
   '/proposal-builder': { title: 'NOVAHAUS Internal Proposal Tool', description: 'Private internal proposal builder for NOVAHAUS.', indexable: false },
+  '/ai-sales-agent': { title: 'NOVAHAUS AI Sales Agent', description: 'Private NOVAHAUS AI Sales Agent preview for understanding business needs and preparing the next useful step.', indexable: false },
   '/strategy': { title: 'Strategy Call - NOVAHAUS AI Growth & Digital Systems', description: 'Book a NOVAHAUS Strategy Call to explore AI, automation and growth systems for your business.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
@@ -552,7 +554,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/ai-sales-agent' ? <AiSalesAgentPage /> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
