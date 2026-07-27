@@ -1,6 +1,6 @@
 import { aiSalesAgentFaqs } from '../../data/aiSalesAgentScript.js'
 import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
-import { getDeliveryScopeForText } from '../../data/deliveryScope.js'
+import { getPortfolioServiceForText } from '../../data/servicePortfolio.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
@@ -39,7 +39,9 @@ function reasonForService(serviceId) {
     'business-automation': 'Connected workflows can reduce repetitive follow-up and operational drag.',
     'knowledge-hub': 'A clear source of truth can make answers, content and internal decisions easier to reuse.',
   }
-  return reasons[serviceId] || reasons['growth-assessment']
+  if (reasons[serviceId]) return reasons[serviceId]
+  const service = aiSalesServices.find((item) => item.serviceId === serviceId)
+  return service ? `${service.title} is relevant because it matches the priority you described.` : reasons['growth-assessment']
 }
 
 function getRecommendations(conversation) {
@@ -59,7 +61,7 @@ function shortList(items = [], limit = 4) {
 }
 
 function deliveryScopeReply(input) {
-  const scope = getDeliveryScopeForText(input)
+  const scope = getPortfolioServiceForText(input)
   if (!scope) return ''
   const text = normalise(input)
   if (includesAny(text, ['medical', 'legal advice', 'investment advice', 'banking core', 'regulated', 'sensitive personal'])) return `This request may involve a higher-risk or regulated workflow. ${scope.name} can be discussed at a high level, but a human strategy call and specialist review are required before any delivery recommendation.`
