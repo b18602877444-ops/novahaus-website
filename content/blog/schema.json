@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novahaus.studio/schemas/blog-article.json",
+  "title": "NOVAHAUS Blog Article",
+  "type": "object",
+  "required": ["title", "category", "author", "publishedDate", "readTime", "seoTitle", "seoDescription", "content"],
+  "properties": {
+    "title": { "type": "string" },
+    "category": { "type": "string" },
+    "author": { "type": "string" },
+    "publishedDate": { "type": "string", "format": "date" },
+    "readTime": { "type": "string" },
+    "seoTitle": { "type": "string" },
+    "seoDescription": { "type": "string" },
+    "content": { "type": "string" }
+  },
+  "additionalProperties": false
+}

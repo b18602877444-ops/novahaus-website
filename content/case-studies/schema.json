@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novahaus.studio/schemas/case-study.json",
+  "title": "NOVAHAUS Case Study",
+  "type": "object",
+  "required": ["client", "industry", "challenge", "solution", "result", "technologies", "gallery"],
+  "properties": {
+    "client": { "type": "string" },
+    "industry": { "type": "string" },
+    "challenge": { "type": "string" },
+    "solution": { "type": "string" },
+    "result": { "type": "string" },
+    "technologies": { "type": "array", "items": { "type": "string" } },
+    "gallery": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

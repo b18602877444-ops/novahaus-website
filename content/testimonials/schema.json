@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novahaus.studio/schemas/testimonial.json",
+  "title": "NOVAHAUS Testimonial",
+  "type": "object",
+  "required": ["quote", "name", "role", "company", "approved"],
+  "properties": {
+    "quote": { "type": "string" },
+    "name": { "type": "string" },
+    "role": { "type": "string" },
+    "company": { "type": "string" },
+    "approved": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

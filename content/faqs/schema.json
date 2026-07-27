@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novahaus.studio/schemas/faq.json",
+  "title": "NOVAHAUS FAQ",
+  "type": "object",
+  "required": ["question", "answer", "category", "published"],
+  "properties": {
+    "question": { "type": "string" },
+    "answer": { "type": "string" },
+    "category": { "type": "string" },
+    "published": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

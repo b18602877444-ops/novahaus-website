@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novahaus.studio/schemas/resource.json",
+  "title": "NOVAHAUS Resource",
+  "type": "object",
+  "required": ["title", "description", "downloadUrl", "category"],
+  "properties": {
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "downloadUrl": { "type": "string", "format": "uri-reference" },
+    "category": { "type": "string" }
+  },
+  "additionalProperties": false
+}
