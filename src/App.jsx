@@ -382,6 +382,20 @@ function ProductFlowItem({ label, children }) {
   return <article className="product-flow-item"><span>{label}</span><div>{children}</div></article>
 }
 
+const productComparison = [
+  { title: 'Launch', features: ['Brand positioning', 'Website', 'Landing pages', 'Messaging', 'AI content foundation'] },
+  { title: 'Automation', features: ['AI automation', 'CRM integration', 'Lead workflow', 'Internal process', 'AI assistants'] },
+  { title: 'Partnership', features: ['Monthly optimisation', 'Analytics', 'SEO', 'Conversion improvement', 'Growth consulting'] },
+  { title: 'Advisory', features: ['Business strategy', 'Market positioning', 'AI transformation', 'Growth roadmap', 'International expansion'] },
+]
+
+const productsFaqs = [
+  { question: 'Which product should I start with?', answer: 'Start with the product that matches the decision in front of the business. A Strategy Call can help clarify the right starting point when the need crosses more than one product.' },
+  { question: 'Can products be combined?', answer: 'Yes. The products are designed as clear starting points and can be combined into a broader growth system as the work develops.' },
+  { question: 'Do you work internationally?', answer: 'Yes. NOVAHAUS works with businesses building for digital and global markets, with scope shaped around the market, team and operating context.' },
+  { question: 'Do you support Web3 and AI businesses?', answer: 'Yes. We support Web3, AI, FinTech, professional services and other ambitious businesses that need a clearer brand, digital experience or operating system.' },
+]
+
 const strategyBenefits = [
   { number: '01', title: 'Business Growth Assessment', description: 'A focused look at the business, market and next decision that matters.' },
   { number: '02', title: 'AI Opportunity Review', description: 'Identify practical places where automation could remove friction and create leverage.' },
@@ -396,7 +410,7 @@ function StrategyCallPage() {
 }
 
 function ProductsPage() {
-  return <InternalPage eyebrow="Products" title={<>Growth systems<br /><em>with a job to do.</em></>} description="Four ways to turn a stronger position, better digital experience and practical AI operations into a more useful commercial system."><section className="products-list" aria-label="NOVAHAUS products">{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/#contact" className="magnetic-link product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}</section></InternalPage>
+  return <InternalPage eyebrow="Products" title={<>Products Designed<br /><em>For Growth.</em></>} description="Choose the level of partnership that matches where your business is today."><section className="products-list" aria-label="NOVAHAUS products"><Reveal className="products-page-actions"><a href="/strategy/" className="magnetic-link">Book a Strategy Call <ArrowIcon direction="right" /></a><a href="/#contact" className="text-link">Contact Us <ArrowIcon direction="right" /></a></Reveal>{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/strategy/" className="magnetic-link product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}<section className="products-comparison"><SectionLabel number="05">Compare the products</SectionLabel><h2>Choose the right<br /><em>starting point.</em></h2><div className="products-comparison-grid">{productComparison.map((column, index) => <Reveal className="products-comparison-column" delay={index * 70} key={column.title}><span>{column.title}</span><ul>{column.features.map((feature) => <li key={feature}><i aria-hidden="true">✓</i>{feature}</li>)}</ul><strong>Custom Proposal</strong></Reveal>)}</div></section><section className="products-faq"><Reveal><SectionLabel number="06">FAQ</SectionLabel><h2>Good questions<br /><em>before choosing.</em></h2></Reveal><div className="products-faq-list">{productsFaqs.map((item, index) => <Reveal className="products-faq-item" delay={index * 60} key={item.question}><details><summary>{item.question}<span className="faq-plus" /></summary><p>{item.answer}</p></details></Reveal>)}</div></section><Reveal className="products-final-cta"><SectionLabel number="07">Next step</SectionLabel><h2>Not sure which<br /><em>product fits?</em></h2><a href="/strategy/" className="button-dark">Book a Strategy Call <ArrowIcon direction="right" /></a></Reveal></section></InternalPage>
 }
 
 function AboutPage() {
@@ -442,7 +456,7 @@ const routeMeta = {
 
 Object.assign(routeMeta, {
   '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
-  '/products': { title: 'Products - NOVAHAUS AI Growth & Digital Systems', description: 'Explore NOVAHAUS growth products for brand foundations, AI automation, growth operations and long-term partnership.', indexable: true },
+  '/products': { title: 'AI Growth Products | NOVAHAUS', description: 'AI Growth Systems including Strategy, Websites, Automation, CRM, AI Agents and Growth Partnerships.', indexable: true },
   '/strategy': { title: 'Strategy Call - NOVAHAUS AI Growth & Digital Systems', description: 'Book a NOVAHAUS Strategy Call to explore AI, automation and growth systems for your business.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
