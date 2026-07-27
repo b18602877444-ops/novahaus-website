@@ -1,0 +1,107 @@
+import { useMemo, useState } from 'react'
+import BrandLogo from './BrandLogo.jsx'
+import { generateProposalStudio } from '../data/proposalStudioTemplates.js'
+import { readProposalStudioContext } from '../services/proposalStudioData.js'
+
+function ArrowIcon() {
+  return <span aria-hidden="true" className="proposal-studio-arrow">↗</span>
+}
+
+function SectionLabel({ number, children }) {
+  return <div className="proposal-studio-section-label"><span>{number}</span><span>{children}</span></div>
+}
+
+function DataBadge({ children }) {
+  return <span className="proposal-studio-data-badge"><span aria-hidden="true" />{children}</span>
+}
+
+export default function ProposalStudioPage() {
+  const [refreshKey, setRefreshKey] = useState(0)
+  const context = useMemo(() => readProposalStudioContext(), [refreshKey])
+  const proposal = useMemo(() => generateProposalStudio(context), [context])
+
+  return <div className="proposal-studio-page">
+    <a className="skip-link" href="#proposal-studio-main">Skip to proposal</a>
+    <header className="proposal-studio-header">
+      <a href="/" aria-label="NOVAHAUS home"><BrandLogo className="proposal-studio-logo" /></a>
+      <div className="proposal-studio-header-actions">
+        <span className="proposal-studio-private-label">Private workspace</span>
+        <a className="proposal-studio-header-cta" href="/booking/?source=proposal-studio">Book a Strategy Call <ArrowIcon /></a>
+      </div>
+    </header>
+
+    <main id="proposal-studio-main" className="proposal-studio-main">
+      <section className="proposal-studio-hero" aria-labelledby="proposal-studio-title">
+        <div>
+          <span className="proposal-studio-eyebrow">NOVAHAUS / Proposal Studio</span>
+          <h1 id="proposal-studio-title">A clearer route<br /><em>from context to action.</em></h1>
+        </div>
+        <div className="proposal-studio-hero-copy">
+          <p>Review a structured growth starting point built from the information already available in this browser.</p>
+          <button className="proposal-studio-refresh" type="button" onClick={() => setRefreshKey((value) => value + 1)}>Refresh local context</button>
+        </div>
+      </section>
+
+      <section className="proposal-studio-context-bar" aria-label="Proposal context status">
+        <div>
+          <span className="proposal-studio-context-label">Generated for</span>
+          <strong>{proposal.clientName}{proposal.company !== 'your business' ? ` / ${proposal.company}` : ''}</strong>
+        </div>
+        <div className="proposal-studio-context-sources">
+          {proposal.sourceLabels.length ? proposal.sourceLabels.map((source) => <DataBadge key={source}>{source}</DataBadge>) : <DataBadge>General starting point</DataBadge>}
+        </div>
+      </section>
+
+      <div className="proposal-studio-layout">
+        <article className="proposal-studio-document" aria-label="Generated proposal">
+          <div className="proposal-studio-document-head">
+            <div><span className="proposal-studio-eyebrow">Growth direction / 01</span><h2>{proposal.company}</h2></div>
+            <span className="proposal-studio-document-status">Draft proposal</span>
+          </div>
+
+          <section className="proposal-studio-section">
+            <SectionLabel number="01">Business Diagnosis</SectionLabel>
+            <p className="proposal-studio-lead-copy">{proposal.diagnosis}</p>
+          </section>
+
+          <section className="proposal-studio-section">
+            <SectionLabel number="02">Growth Opportunities</SectionLabel>
+            <div className="proposal-studio-opportunities">{proposal.opportunities.map((item, index) => <div className="proposal-studio-opportunity" key={item.title}><span>0{index + 1}</span><div><h3>{item.title}</h3><p>{item.body}</p></div></div>)}</div>
+          </section>
+
+          <section className="proposal-studio-section proposal-studio-recommendation">
+            <SectionLabel number="03">Recommended Package</SectionLabel>
+            <div className="proposal-studio-package-head"><div><span className="proposal-studio-package-index">NOVAHAUS / package</span><h3>{proposal.recommendedPackage.name}</h3></div><span className="proposal-studio-package-dot" aria-hidden="true" /></div>
+            <p>{proposal.recommendedPackage.label}</p>
+            <ul>{proposal.recommendedPackage.deliverables.map((item) => <li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul>
+          </section>
+
+          <section className="proposal-studio-section">
+            <SectionLabel number="04">90-Day Growth Plan</SectionLabel>
+            <div className="proposal-studio-plan">{proposal.plan90Days.map((item) => <div className="proposal-studio-plan-step" key={item.phase}><span>{item.phase}</span><h3>{item.title}</h3><p>{item.body}</p></div>)}</div>
+          </section>
+
+          <section className="proposal-studio-section proposal-studio-next-step">
+            <SectionLabel number="05">Next Step</SectionLabel>
+            <p className="proposal-studio-lead-copy">{proposal.nextStep}</p>
+            <a className="proposal-studio-primary-cta" href="/booking/?source=proposal-studio">Book Strategy Call <ArrowIcon /></a>
+          </section>
+        </article>
+
+        <aside className="proposal-studio-aside">
+          <div className="proposal-studio-aside-card">
+            <span className="proposal-studio-eyebrow">Context on file</span>
+            <dl>
+              <div><dt>Country</dt><dd>{proposal.contact.country || 'Not provided'}</dd></div>
+              <div><dt>Business type</dt><dd>{proposal.contact.businessType || 'Not provided'}</dd></div>
+              <div><dt>Timeline</dt><dd>{proposal.contact.timeline || 'To be discussed'}</dd></div>
+            </dl>
+            <p>{proposal.contextNote}</p>
+          </div>
+          <a className="proposal-studio-aside-link" href="/growth-assessment/">Add more context through the Growth Assessment <ArrowIcon /></a>
+          <a className="proposal-studio-aside-link" href="/">Return to NOVAHAUS <ArrowIcon /></a>
+        </aside>
+      </div>
+    </main>
+  </div>
+}
