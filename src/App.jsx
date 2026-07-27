@@ -208,6 +208,23 @@ function WhoWeHelpSection() {
   return <section id="who-we-help" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we help</SectionLabel><h2>Built for businesses<br /><span>ready to grow differently.</span></h2><p>We work with ambitious founders, project teams and established businesses that need more than isolated marketing services.</p></Reveal><Reveal className="industry-tags" delay={120}>{whoWeHelpItems.map((item) => <span key={item}>{item}</span>)}</Reveal></div></section>
 }
 
+const howWeHelpItems = [
+  { number: '01', title: 'Strategy', description: 'Business positioning, messaging and growth planning.' },
+  { number: '02', title: 'AI Automation', description: 'CRM, AI workflows, lead automation and operational efficiency.' },
+  { number: '03', title: 'Digital Presence', description: 'Website, landing pages and conversion-focused user experience.' },
+  { number: '04', title: 'Growth Partnership', description: 'Long-term optimisation, analytics and strategic support.' },
+]
+
+const trustReasons = ['Strategy Before Execution', 'AI-Powered Systems', 'Long-Term Partnership', 'Global Perspective']
+
+function HowWeHelpSection() {
+  return <section id="how-we-help" className="section light-section conversion-help-section"><div className="page-shell"><SectionHeader label="How we help" title={<>How We Help<br /><span>Businesses Grow</span></>} description="We build complete growth systems instead of isolated digital services." /><div className="services-grid conversion-help-grid">{howWeHelpItems.map((item, index) => <Reveal key={item.number} className="service-card conversion-help-card" delay={index * 80}><span className="service-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
+}
+
+function TrustSection() {
+  return <section id="why-choose" className="section dark-section conversion-trust-section"><div className="page-shell"><SectionHeader label="Why NOVAHAUS" title={<>Why Businesses<br /><span>Choose NOVAHAUS</span></>} dark /><div className="conversion-trust-grid">{trustReasons.map((reason, index) => <Reveal key={reason} className="conversion-trust-card" delay={index * 80}><span>{String(index + 1).padStart(2, '0')}</span><h3>{reason}</h3></Reveal>)}</div></div></section>
+}
+
 function AnimatedNumber({ value, suffix = '', label }) {
   const [display, setDisplay] = useState(0)
   const reduceMotion = useReducedMotion()
@@ -324,12 +341,12 @@ function ContactForm() {
 }
 
 function CTASection() {
-  return <section id="contact" className="section dark-section cta-section"><div className="page-shell"><Reveal className="cta-grid"><div><SectionLabel number="09">Contact</SectionLabel><h2 className="cta-title">Put the right<br /><em>signal in the room.</em></h2><p>For a new venture, a sharper position or a digital system that finally pulls its weight, start with the context.</p><div className="cta-contact-detail"><a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a><span>Kuala Lumpur / Global</span></div><div className="contact-channels"><div><span>Calendly</span><strong>Booking link coming soon</strong></div><div><span>WhatsApp</span><strong>Direct line coming soon</strong></div></div></div><ContactForm /></Reveal></div></section>
+  return <section id="contact" className="section dark-section cta-section"><div className="page-shell"><Reveal className="cta-grid"><div><SectionLabel number="09">Contact</SectionLabel><h2 className="cta-title">Ready to Build<br /><em>Your Growth System?</em></h2><p>Book a Strategy Call and discover how NOVAHAUS can help your business grow with AI, automation and strategy.</p><div className="conversion-cta-actions"><a href="#contact" className="magnetic-link conversion-primary-cta">Book a Strategy Call <ArrowIcon direction="right" /></a><a href="/products/" className="text-link text-link-light conversion-secondary-cta">View Products <ArrowIcon direction="right" /></a></div><div className="cta-contact-detail"><a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a><span>Kuala Lumpur / Global</span></div><div className="contact-channels"><div><span>Calendly</span><strong>Booking link coming soon</strong></div><div><span>WhatsApp</span><strong>Direct line coming soon</strong></div></div></div><ContactForm /></Reveal></div></section>
 }
 
 function Footer() {
   const prefix = window.location.pathname === '/' ? '' : '/'
-  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>AI Brand & Digital Studio</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href.startsWith('/') ? item.href : `${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>Build Better Businesses.<br />Powered by AI.<br />Driven by Strategy.</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href.startsWith('/') ? item.href : `${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
 }
 
 function InternalHeader() {
@@ -347,7 +364,7 @@ function ProductFlowItem({ label, children }) {
 }
 
 function ProductsPage() {
-  return <InternalPage eyebrow="Products" title={<>Growth systems<br /><em>with a job to do.</em></>} description="Four ways to turn a stronger position, better digital experience and practical AI operations into a more useful commercial system."><section className="products-list" aria-label="NOVAHAUS products">{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/#contact" className="button-dark product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}</section></InternalPage>
+  return <InternalPage eyebrow="Products" title={<>Growth systems<br /><em>with a job to do.</em></>} description="Four ways to turn a stronger position, better digital experience and practical AI operations into a more useful commercial system."><section className="products-list" aria-label="NOVAHAUS products">{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/#contact" className="magnetic-link product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}</section></InternalPage>
 }
 
 function AboutPage() {
@@ -454,7 +471,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
