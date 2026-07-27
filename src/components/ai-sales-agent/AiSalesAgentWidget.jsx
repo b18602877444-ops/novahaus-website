@@ -22,6 +22,12 @@ function AiSalesAgentWidget() {
     if (isOpen && !isMinimized) messageEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [conversation.messages.length, isLoading, isOpen, isMinimized])
 
+  useEffect(() => {
+    const handleOpenRequest = () => openWidget()
+    window.addEventListener('novahaus:open-ai-sales', handleOpenRequest)
+    return () => window.removeEventListener('novahaus:open-ai-sales', handleOpenRequest)
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault()
     if (!input.trim()) return

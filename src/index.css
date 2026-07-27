@@ -1718,6 +1718,61 @@
 @media (prefers-reduced-motion: reduce) {
   .ai-sales-widget-trigger { transition: none; }
 }
+
+.experience-center-section { padding-bottom: clamp(130px, 14vw, 190px); background: #f2f1ec; }
+.experience-center-heading { max-width: 760px; }
+.experience-center-heading h2 { margin-top: 24px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(3rem, 6vw, 6.4rem); font-weight: 500; letter-spacing: -.09em; line-height: .9; }
+.experience-center-heading h2 span { color: var(--color-gold); }
+.experience-center-heading > p { max-width: 620px; margin-top: 24px; color: #77736a; font-size: 16px; line-height: 1.65; }
+.experience-center-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 58px; }
+.experience-card { display: flex; min-width: 0; flex-direction: column; min-height: 478px; padding: 26px 24px 24px; background: #ffffff; border: 1px solid rgba(17, 17, 17, .12); border-radius: var(--radius-card); box-shadow: var(--shadow-card); opacity: 0; transform: translateY(22px); transition: opacity .65s var(--motion-ease) var(--experience-delay), transform .65s var(--motion-ease) var(--experience-delay), border-color var(--motion-duration) var(--motion-ease), box-shadow var(--motion-duration) var(--motion-ease), background var(--motion-duration) var(--motion-ease); }
+.experience-center-section.is-visible .experience-card { opacity: 1; transform: translateY(0); }
+.experience-card:hover { background: #fffdf7; border-color: rgba(200, 162, 74, .62); box-shadow: 0 24px 54px rgba(17, 17, 17, .12); transform: translateY(-6px); }
+.experience-card-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.experience-card-number, .experience-card-label { color: #9a978e; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.experience-card-number { color: var(--color-gold); }
+.experience-card-icon { display: grid; width: 50px; height: 50px; margin-top: 54px; place-items: center; color: var(--color-gold); background: #f8f4e9; border: 1px solid rgba(200, 162, 74, .32); border-radius: 50%; transition: transform var(--motion-duration) var(--motion-ease), color var(--motion-duration) var(--motion-ease), background var(--motion-duration) var(--motion-ease); }
+.experience-card-icon svg { width: 25px; height: 25px; }
+.experience-card:hover .experience-card-icon { color: #111111; background: #e2c995; transform: translateY(-2px) rotate(4deg); }
+.experience-card h3 { margin-top: 22px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(1.65rem, 2.4vw, 2.45rem); font-weight: 500; letter-spacing: -.07em; line-height: .98; }
+.experience-card > p { margin-top: 14px; color: #77736a; font-size: 13px; line-height: 1.6; }
+.experience-card ul { display: grid; gap: 8px; padding: 0; margin: 24px 0 0; list-style: none; }
+.experience-card li { position: relative; padding-left: 16px; color: #66645e; font-size: 11px; line-height: 1.4; }
+.experience-card li::before { position: absolute; top: .55em; left: 0; width: 5px; height: 5px; content: ''; background: var(--color-gold); border-radius: 50%; }
+.experience-card-action { display: inline-flex; align-items: center; gap: 9px; width: fit-content; max-width: 100%; padding: 0; margin-top: auto; color: #111111; font-size: 10px; font-weight: 700; letter-spacing: .1em; line-height: 1.3; text-align: left; text-transform: uppercase; cursor: pointer; background: transparent; border: 0; }
+.experience-card-action span { color: var(--color-gold); transition: transform var(--motion-duration) var(--motion-ease); }
+.experience-card-action:hover span { transform: translate(4px, -3px); }
+.experience-card-action:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 5px; }
+.experience-center-flow { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 52px); padding-top: 62px; }
+.experience-center-flow > div { display: flex; align-items: baseline; gap: 10px; }
+.experience-center-flow span { color: var(--color-gold); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.experience-center-flow strong { color: #111111; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.experience-center-flow i { color: var(--color-gold); font-size: 20px; font-style: normal; }
+.experience-center-note { margin-top: 18px; color: #9a978e; font-size: 11px; text-align: center; }
+
+@media (max-width: 980px) {
+  .experience-center-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .experience-card:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 620px) {
+  .experience-center-heading h2 { font-size: clamp(2.8rem, 13vw, 4.2rem); }
+  .experience-center-heading > p { font-size: 14px; }
+  .experience-center-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 40px; }
+  .experience-card { min-height: 0; padding: 22px 20px 21px; }
+  .experience-card:last-child { grid-column: auto; }
+  .experience-card-icon { margin-top: 34px; }
+  .experience-card h3 { font-size: 2rem; }
+  .experience-center-flow { align-items: flex-start; flex-direction: column; gap: 14px; padding-top: 42px; }
+  .experience-center-flow > div { gap: 12px; }
+  .experience-center-flow i { margin-left: 5px; transform: rotate(90deg); }
+  .experience-center-note { max-width: 300px; margin-right: auto; margin-left: auto; line-height: 1.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-card { transition: border-color var(--motion-duration) var(--motion-ease), box-shadow var(--motion-duration) var(--motion-ease), background var(--motion-duration) var(--motion-ease); opacity: 1; transform: none; }
+  .experience-card:hover { transform: none; }
+}
 .sales-agent-page { min-height: 100vh; color: #ffffff; background: #111111; }
 .sales-agent-header { display: flex; align-items: center; gap: 16px; width: min(100% - 48px, 1280px); min-height: 84px; margin: 0 auto; border-bottom: 1px solid rgba(255, 255, 255, .14); }
 .sales-agent-header > a { display: inline-flex; align-items: center; }
