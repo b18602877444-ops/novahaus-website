@@ -1,5 +1,5 @@
 export const aiSalesAgentWelcome = {
-  content: 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.',
+  content: 'Welcome to NOVAHAUS. Share what the business is trying to change, and I’ll help clarify the most useful next step.',
   quickReplies: ['Launching a new business', 'Improving an existing website', 'Automating operations', 'Expanding internationally', 'I am not sure yet'],
 }
 
@@ -11,6 +11,6 @@ export const aiSalesAgentTimelines = ['Immediately', 'Within 30 days', 'Within 3
 
 export const aiSalesAgentFaqs = [
   { keywords: ['price', 'pricing', 'cost', 'fee', 'budget'], answer: 'Our engagements are shaped around the business problem, systems involved and level of support required. I can capture your indicative range so the next conversation is grounded.' },
-  { keywords: ['openai', 'model', 'api'], answer: 'This private preview uses a guided mock conversation. The structure is ready for a future AI provider, but no external model is connected in V1.0.' },
+  { keywords: ['openai', 'model', 'api'], answer: 'This conversation is a guided NOVAHAUS experience. It is designed to clarify your needs first; external AI and CRM connections are not part of this version.' },
   { keywords: ['invest', 'investment', 'token', 'return'], answer: 'NOVAHAUS does not provide investment advice, token sales or return promises. We can help with brand, website, automation and digital operating systems.' },
 ]

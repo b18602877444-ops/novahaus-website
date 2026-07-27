@@ -3,7 +3,7 @@ export const growthPackages = [
     number: '01',
     name: 'Starter',
     label: 'Best for Small Businesses',
-    description: 'A clear digital foundation for a business ready to look credible, capture interest and start conversations.',
+    description: 'A focused digital foundation for businesses ready to sharpen their position, earn trust and start better conversations.',
     features: [
       'AI Growth Website',
       'Responsive Design',
@@ -20,7 +20,7 @@ export const growthPackages = [
     number: '02',
     name: 'Growth',
     label: 'Most Popular',
-    description: 'A connected growth system for teams that need stronger lead capture, clearer journeys and room to scale.',
+    description: 'A connected growth system for teams ready to improve lead quality, customer journeys and operational leverage.',
     features: [
       'Everything in Starter',
       'Booking System',
@@ -39,7 +39,7 @@ export const growthPackages = [
     number: '03',
     name: 'Enterprise',
     label: 'Custom Solution',
-    description: 'A flexible operating layer for complex organisations planning deeper automation and long-term expansion.',
+    description: 'A tailored operating layer for complex organisations navigating deeper automation, multiple markets and long-term change.',
     features: [
       'Everything in Growth',
       'Knowledge Hub',

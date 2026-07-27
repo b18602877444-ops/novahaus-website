@@ -37,8 +37,8 @@ export default function ProposalStudioPage() {
           <h1 id="proposal-studio-title">A clearer route<br /><em>from context to action.</em></h1>
         </div>
         <div className="proposal-studio-hero-copy">
-          <p>Review a structured growth starting point built from the information already available in this browser.</p>
-          <button className="proposal-studio-refresh" type="button" onClick={() => setRefreshKey((value) => value + 1)}>Refresh local context</button>
+          <p>Review a structured growth direction built from the business context already available in this browser.</p>
+          <button className="proposal-studio-refresh" type="button" onClick={() => setRefreshKey((value) => value + 1)}>Update saved context</button>
         </div>
       </section>
 
@@ -48,7 +48,7 @@ export default function ProposalStudioPage() {
           <strong>{proposal.clientName}{proposal.company !== 'your business' ? ` / ${proposal.company}` : ''}</strong>
         </div>
         <div className="proposal-studio-context-sources">
-          {proposal.sourceLabels.length ? proposal.sourceLabels.map((source) => <DataBadge key={source}>{source}</DataBadge>) : <DataBadge>General starting point</DataBadge>}
+          {proposal.sourceLabels.length ? proposal.sourceLabels.map((source) => <DataBadge key={source}>{source}</DataBadge>) : <DataBadge>Context to be completed</DataBadge>}
         </div>
       </section>
 
@@ -56,7 +56,7 @@ export default function ProposalStudioPage() {
         <article className="proposal-studio-document" aria-label="Generated proposal">
           <div className="proposal-studio-document-head">
             <div><span className="proposal-studio-eyebrow">Growth direction / 01</span><h2>{proposal.company}</h2></div>
-            <span className="proposal-studio-document-status">Draft proposal</span>
+            <span className="proposal-studio-document-status">Working proposal</span>
           </div>
 
           <section className="proposal-studio-section">

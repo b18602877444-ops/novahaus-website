@@ -77,17 +77,17 @@ export function advanceConversation(conversation, input, createId) {
   if (conversation.currentStage === 'business-type') {
     leadPatch.industry = inferIndustry(text)
     stage = 'pain-points'
-    content = faq || 'What is creating the most friction right now? It could be your positioning, website, lead flow, internal operations or something else.'
+    content = faq || 'Where is the business feeling the most friction right now—positioning, digital experience, lead flow, internal operations or something else?'
     quickReplies = ['Unclear positioning', 'Low-quality leads', 'Manual operations', 'Weak digital presence']
   } else if (conversation.currentStage === 'pain-points') {
     leadPatch.painPoints = [input.trim()]
     stage = 'goals'
-    content = faq || 'That is useful context. If this worked well, what would be different three months from now?'
+    content = faq || 'That is useful context. If this improved, what would be meaningfully different for the business over the next three months?'
     quickReplies = ['More qualified enquiries', 'A clearer market position', 'Less manual work', 'A stronger digital presence']
   } else if (conversation.currentStage === 'goals') {
     leadPatch.goals = [input.trim()]
     stage = 'budget-timeline'
-    content = faq || 'What level of investment and timing are you considering? A rough range is enough at this stage.'
+    content = faq || 'What level of investment and timing are you considering? A rough range is enough to shape the right next step.'
     quickReplies = ['Not decided yet', 'Within 30 days', 'Within 3 months', 'Prefer to discuss']
   } else if (conversation.currentStage === 'budget-timeline') {
     leadPatch.budget = input.trim()
@@ -97,7 +97,7 @@ export function advanceConversation(conversation, input, createId) {
       content = faq || 'The context is useful. Before I prepare the next recommendation, may I ask for a few details so I can keep the next step relevant?'
     } else {
       stage = 'cta'
-      content = faq || 'That gives me a useful direction. If you would like a tailored recommendation, you can share a little more context whenever it feels useful.'
+      content = faq || 'That gives me a useful direction. If a tailored recommendation would help, share a little more context and I’ll keep the next step grounded in the business.'
     }
   } else if (conversation.currentStage === 'lead-capture') {
     content = faq || 'Once your details are saved, I can recommend the most relevant NOVAHAUS path and show the right next action.'
@@ -106,7 +106,7 @@ export function advanceConversation(conversation, input, createId) {
       stage = 'lead-capture'
       content = 'That sounds like a useful next step. Before I prepare a recommendation, may I ask for a few details so it is grounded in your business?'
     } else {
-      content = faq || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape an accurate proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain subject to your review before anything is sent.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
+      content = faq || (intent === 'pricing' ? 'The right scope depends on the problem and systems involved. A Strategy Call is the clearest way to shape a considered proposal.' : intent === 'proposal' ? 'I can prepare a proposal draft from this conversation. It will remain a working document until the scope is reviewed together.' : 'The context is clear enough to move forward. Choose the next action that feels useful.')
       stage = 'cta'
     }
   } else {

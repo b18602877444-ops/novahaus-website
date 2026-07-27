@@ -46,7 +46,7 @@ function BookingSection({ number, title, children }) {
 
 function BookingSummary({ form }) {
   const rows = [['Name', form.fullName], ['Company', form.company], ['Email', form.email], ['Country', form.country], ['Service interest', form.serviceInterest], ['Preferred date', form.preferredDate], ['Preferred time', form.preferredTime], ['Time zone', form.timeZone]]
-  return <aside className="booking-summary" aria-label="Booking summary"><span className="booking-summary-label">Request summary</span><h2>{form.company || 'Your business'}</h2>{form.interestedPackage && <p className="booking-summary-package">{form.interestedPackage} package</p>}<dl>{rows.map(([label, value]) => value && <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p className="booking-summary-note">Your request will be reviewed by the NOVAHAUS team. A meeting is only confirmed after you receive confirmation from NOVAHAUS.</p></aside>
+  return <aside className="booking-summary" aria-label="Booking summary"><span className="booking-summary-label">Your starting point</span><h2>{form.company || 'Your business'}</h2>{form.interestedPackage && <p className="booking-summary-package">{form.interestedPackage} package</p>}<dl>{rows.map(([label, value]) => value && <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p className="booking-summary-note">Your request is reviewed by NOVAHAUS before any meeting is confirmed. You will receive the next step by email.</p></aside>
 }
 
 function BookingConfirmation({ booking }) {

@@ -51,7 +51,7 @@ export function generateProposalStudio(context) {
     recommendedPackage: { name: packageName, ...packageTemplate },
     plan90Days: proposalStudioTemplates.plan90Days,
     nextStep: 'Book a Strategy Call to review this starting point, confirm the highest-value priorities and decide what should happen first.',
-    contextNote: context.hasData ? 'Template-generated from information available in this browser. Review the context together before sharing externally.' : 'Template-generated as a general starting point. Complete an assessment or share your context to make it more specific.',
+    contextNote: context.hasData ? 'Built from the business context saved in this browser. Confirm priorities together before sharing externally.' : 'This is a directional starting point. Complete the Growth Assessment or share more context to make it specific to the business.',
     contact: {
       email: context.email,
       country: context.country,

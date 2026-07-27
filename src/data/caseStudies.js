@@ -4,8 +4,8 @@ export const caseStudies = [
   {
     number: '01',
     slug: 'novahaus-ai-growth-website',
-    status: 'NOVAHAUS Internal Product Case',
-    caseType: 'NOVAHAUS Internal Product Case',
+    status: 'NOVAHAUS Product Case',
+    caseType: 'NOVAHAUS Product Case',
     client: 'NOVAHAUS internal product',
     industry: 'AI & Professional Services',
     year: '2026',
@@ -27,8 +27,8 @@ export const caseStudies = [
   {
     number: '02',
     slug: 'education-training',
-    status: 'Concept Demo',
-    caseType: 'Concept Demo',
+    status: 'Illustrative Direction',
+    caseType: 'Illustrative Direction',
     client: 'Concept demonstration',
     industry: 'Education & Training',
     year: '2026',
@@ -50,8 +50,8 @@ export const caseStudies = [
   {
     number: '03',
     slug: 'web3-fintech',
-    status: 'Concept Demo',
-    caseType: 'Concept Demo',
+    status: 'Illustrative Direction',
+    caseType: 'Illustrative Direction',
     client: 'Concept demonstration',
     industry: 'Web3 & FinTech',
     year: '2026',
@@ -73,8 +73,8 @@ export const caseStudies = [
   {
     number: '04',
     slug: 'cross-border-services',
-    status: 'Concept Demo',
-    caseType: 'Concept Demo',
+    status: 'Illustrative Direction',
+    caseType: 'Illustrative Direction',
     client: 'Concept demonstration',
     industry: 'International & Cross-Border Business',
     year: '2026',
@@ -99,7 +99,7 @@ export const blogPosts = [
   {
     slug: 'what-a-website-needs-to-do-before-it-looks-good',
     category: 'Positioning',
-    date: 'Coming soon',
+    date: 'Editorial note',
     readingTime: '5 min read',
     title: 'What a website needs to do before it looks good.',
     excerpt: 'The decisions that make a digital presence easier to understand, trust and choose.',
@@ -107,7 +107,7 @@ export const blogPosts = [
   {
     slug: 'the-smallest-useful-ai-system',
     category: 'AI systems',
-    date: 'Coming soon',
+    date: 'Editorial note',
     readingTime: '4 min read',
     title: 'Start with the smallest useful AI system.',
     excerpt: 'A practical way to find leverage without turning the business into a science project.',
@@ -115,7 +115,7 @@ export const blogPosts = [
   {
     slug: 'premium-is-a-discipline',
     category: 'Brand',
-    date: 'Coming soon',
+    date: 'Editorial note',
     readingTime: '3 min read',
     title: 'Premium is a discipline, not a finish.',
     excerpt: 'Why the strongest brands remove more than they add.',
