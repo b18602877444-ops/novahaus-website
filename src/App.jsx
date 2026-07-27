@@ -11,6 +11,7 @@ const revealMotion = { duration: 0.65, ease: heroEase }
 
 const navItems = [
   { label: 'Work', href: '#work' },
+  { label: 'Case Studies', href: '/case-studies/' },
   { label: 'Services', href: '#services' },
   { label: 'Products', href: '/products/' },
   { label: 'Process', href: '#approach' },
@@ -326,7 +327,7 @@ function PortfolioCard({ item, index }) {
 }
 
 function PortfolioSection() {
-  return <section id="work" className="section light-section work-section"><div className="page-shell"><SectionHeader number="05" label="Selected work" title={<>Directions with<br /><span>something to say.</span></>} description="A replaceable case study library: concept work today, real client stories as they launch." /><div className="portfolio-grid">{caseStudies.map((item, index) => <PortfolioCard key={item.slug} item={item} index={index} />)}</div><Reveal className="portfolio-note" delay={220}><p>These are concept projects created to show how NOVAHAUS thinks. Client work will be added here with permission.</p><a href="/#contact" className="text-link">Have a project in mind <ArrowIcon direction="right" /></a></Reveal></div></section>
+  return <section id="work" className="section light-section work-section"><div className="page-shell"><SectionHeader number="05" label="Latest case studies" title={<>Directions with<br /><span>something to say.</span></>} description="A replaceable case study library: concept work today, real client stories as they launch." /><div className="portfolio-grid">{caseStudies.slice(0, 3).map((item, index) => <PortfolioCard key={item.slug} item={item} index={index} />)}</div><Reveal className="portfolio-note" delay={220}><p>These are concept projects created to show how NOVAHAUS thinks. Client work will be added here with permission.</p><div className="portfolio-note-actions"><a href="/case-studies/" className="text-link">View All Case Studies <ArrowIcon direction="right" /></a><a href="/#contact" className="text-link">Have a project in mind <ArrowIcon direction="right" /></a></div></Reveal></div></section>
 }
 
 function WhyIcon({ type }) {
@@ -371,7 +372,7 @@ function Footer() {
 function InternalHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = () => setMenuOpen(false)
-  return <header className="internal-header page-shell"><a href="/" className="internal-brand" aria-label="NOVAHAUS home" onClick={closeMenu}><BrandLogo className="brand-logo-light" /></a><nav className="internal-nav" aria-label="Page navigation"><a href="/about/">About</a><a href="/blog/">Journal</a><a href="/products/">Products</a><a href="/#work">Work</a><a href="/#contact">Contact</a></nav><div className="internal-actions"><a href="/#contact" className="internal-cta">Book a Strategy Call <ArrowIcon direction="right" /></a><button className="internal-menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div><nav className={`internal-mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile page navigation">{['About', 'Journal', 'Products', 'Work', 'Contact'].map((label) => { const href = label === 'About' ? '/about/' : label === 'Journal' ? '/blog/' : label === 'Products' ? '/products/' : label === 'Work' ? '/#work' : '/#contact'; return <a key={label} href={href} onClick={closeMenu}>{label}<ArrowIcon direction="right" /></a> })}<a href="/#contact" className="internal-mobile-cta" onClick={closeMenu}>Book a Strategy Call <ArrowIcon direction="right" /></a></nav></header>
+  return <header className="internal-header page-shell"><a href="/" className="internal-brand" aria-label="NOVAHAUS home" onClick={closeMenu}><BrandLogo className="brand-logo-light" /></a><nav className="internal-nav" aria-label="Page navigation"><a href="/about/">About</a><a href="/blog/">Journal</a><a href="/products/">Products</a><a href="/case-studies/">Case Studies</a><a href="/#work">Work</a><a href="/#contact">Contact</a></nav><div className="internal-actions"><a href="/#contact" className="internal-cta">Book a Strategy Call <ArrowIcon direction="right" /></a><button className="internal-menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div><nav className={`internal-mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile page navigation">{['About', 'Journal', 'Products', 'Case Studies', 'Work', 'Contact'].map((label) => { const href = label === 'About' ? '/about/' : label === 'Journal' ? '/blog/' : label === 'Products' ? '/products/' : label === 'Case Studies' ? '/case-studies/' : label === 'Work' ? '/#work' : '/#contact'; return <a key={label} href={href} onClick={closeMenu}>{label}<ArrowIcon direction="right" /></a> })}<a href="/#contact" className="internal-mobile-cta" onClick={closeMenu}>Book a Strategy Call <ArrowIcon direction="right" /></a></nav></header>
 }
 
 function InternalPage({ eyebrow, title, description, children, dark = false }) {
@@ -426,9 +427,27 @@ function BlogPostPage({ post }) {
   return <InternalPage eyebrow={`${post.category} / ${post.date}`} title={<>{post.title}</>} description={post.excerpt}><article className="internal-article"><p className="article-status">This editorial is being prepared for publication.</p><p>Good decisions get easier when the underlying signal is clear. NOVAHAUS publishes practical notes on the work between business strategy, brand identity, digital experience and useful AI systems.</p><p>This page is ready for the full article content when the journal goes live.</p><a href="/#contact" className="button-dark internal-article-cta">Talk about the idea <ArrowIcon direction="right" /></a></article></InternalPage>
 }
 
+const caseStudyFilters = ['All', 'AI', 'Web3', 'Fintech', 'Professional Services', 'Global Business']
+
+function CaseStudiesPage() {
+  const [activeFilter, setActiveFilter] = useState('All')
+  const visibleStudies = activeFilter === 'All' ? caseStudies : caseStudies.filter((study) => study.industry === activeFilter)
+  return <InternalPage eyebrow="Case Studies" title={<>Real Projects.<br /><em>Real Growth.</em></>} description="Explore how strategy, digital systems and AI automation help businesses build stronger growth foundations."><section className="case-studies-index"><div className="case-study-filters" role="group" aria-label="Filter case studies">{caseStudyFilters.map((filter) => <button key={filter} type="button" className={activeFilter === filter ? 'is-active' : ''} aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter}</button>)}</div><div className="portfolio-grid case-studies-index-grid">{visibleStudies.map((study, index) => <PortfolioCard key={study.slug} item={study} index={index} />)}</div>{visibleStudies.length === 0 && <p className="case-studies-empty">More case studies for this category will be added as approved projects launch.</p>}</section></InternalPage>
+}
+
+function CaseStudyTimeline({ study }) {
+  const timeline = [
+    { label: 'Problem', text: study.challenge },
+    { label: 'Strategy', text: study.strategy },
+    { label: 'Execution', text: `${study.solution} ${study.deliverables.join(' / ')}.` },
+    { label: 'Result', text: study.outcome },
+  ]
+  return <section className="case-study-timeline"><SectionLabel>Project path</SectionLabel><div className="case-study-timeline-grid">{timeline.map((item, index) => <Reveal className="case-study-timeline-item" delay={index * 70} key={item.label}><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.label}</h3><p>{item.text}</p></Reveal>)}</div></section>
+}
+
 function CaseStudyPage({ study }) {
   if (!study) return <NotFoundPage />
-  return <InternalPage eyebrow={`${study.number} / ${study.status}`} title={<>{study.title}</>} description={study.overview}><section className="case-study-cover"><ProjectArt type={study.className} title={study.title} /></section><section className="case-study-details"><div className="case-study-meta"><div><span>Status</span><strong>{study.status}</strong></div><div><span>Industry</span><strong>{study.industry}</strong></div><div><span>Year</span><strong>{study.year}</strong></div><div><span>Client</span><strong>{study.client}</strong></div></div><div className="case-study-body"><div><SectionLabel>Scope</SectionLabel><div className="case-study-services">{study.services.map((service) => <span key={service}>{service}</span>)}</div></div><div className="internal-prose"><p>{study.overview}</p><p>This is a concept project, created to demonstrate a direction and make the thinking visible. Replace the project fields in <code>src/data/caseStudies.js</code> when a real case is ready to publish.</p><a href="/#contact" className="text-link">Discuss a similar direction <ArrowIcon direction="right" /></a></div></div></section></InternalPage>
+  return <InternalPage eyebrow={`${study.number} / ${study.status}`} title={<>{study.title}</>} description={study.overview}><section className="case-study-cover"><ProjectArt type={study.className} title={study.title} /></section><section className="case-study-details"><div className="case-study-meta"><div><span>Status</span><strong>{study.status}</strong></div><div><span>Industry</span><strong>{study.industry}</strong></div><div><span>Year</span><strong>{study.year}</strong></div><div><span>Client</span><strong>{study.client}</strong></div></div><div className="case-study-body"><div><SectionLabel>Scope</SectionLabel><div className="case-study-services">{study.services.map((service) => <span key={service}>{service}</span>)}</div></div><div className="internal-prose"><p>{study.overview}</p><p>This is a concept project, created to demonstrate a direction and make the thinking visible. Replace the project fields in <code>src/data/caseStudies.js</code> when a real case is ready to publish.</p><a href="/#contact" className="text-link">Discuss a similar direction <ArrowIcon direction="right" /></a></div></div></section><CaseStudyTimeline study={study} /><section className="case-study-proof"><div><SectionLabel>Outcome</SectionLabel><p>{study.outcome}</p></div><div><SectionLabel>Key metrics</SectionLabel><ul>{study.keyMetrics.map((metric) => <li key={metric}>{metric}</li>)}</ul></div><blockquote>{study.quote}</blockquote></section></InternalPage>
 }
 
 function LegalPage({ type }) {
@@ -457,6 +476,7 @@ const routeMeta = {
 Object.assign(routeMeta, {
   '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
   '/products': { title: 'AI Growth Products | NOVAHAUS', description: 'AI Growth Systems including Strategy, Websites, Automation, CRM, AI Agents and Growth Partnerships.', indexable: true },
+  '/case-studies': { title: 'Case Studies | NOVAHAUS', description: 'Explore how NOVAHAUS helps ambitious businesses build strategy, AI systems and digital growth.', indexable: true },
   '/strategy': { title: 'Strategy Call - NOVAHAUS AI Growth & Digital Systems', description: 'Book a NOVAHAUS Strategy Call to explore AI, automation and growth systems for your business.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
@@ -518,7 +538,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
