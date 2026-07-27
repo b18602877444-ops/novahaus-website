@@ -1,0 +1,63 @@
+export const growthPackages = [
+  {
+    number: '01',
+    name: 'Starter',
+    label: 'Best for Small Businesses',
+    description: 'A clear digital foundation for a business ready to look credible, capture interest and start conversations.',
+    features: [
+      'AI Growth Website',
+      'Responsive Design',
+      'AI Sales Agent',
+      'Growth Assessment',
+      'Contact Form',
+      'Basic SEO',
+      'Proposal Generator',
+    ],
+    cta: 'Talk to NOVAHAUS AI',
+    href: '/ai-sales-agent/',
+  },
+  {
+    number: '02',
+    name: 'Growth',
+    label: 'Most Popular',
+    description: 'A connected growth system for teams that need stronger lead capture, clearer journeys and room to scale.',
+    features: [
+      'Everything in Starter',
+      'Booking System',
+      'Lead Capture',
+      'CRM Ready',
+      'Case Studies',
+      'AI Customer Journey',
+      'Multi-page Website',
+      'Analytics Ready',
+    ],
+    cta: 'Explore Growth Package',
+    href: '/products/',
+    featured: true,
+  },
+  {
+    number: '03',
+    name: 'Enterprise',
+    label: 'Custom Solution',
+    description: 'A flexible operating layer for complex organisations planning deeper automation and long-term expansion.',
+    features: [
+      'Everything in Growth',
+      'Knowledge Hub',
+      'AI Customer Service',
+      'Business Automation',
+      'API Integration',
+      'Custom Workflows',
+      'Enterprise Support',
+      'Future AI Expansion',
+    ],
+    cta: 'Book Strategy Call',
+    href: '/strategy/',
+  },
+]
+
+export const packagePrinciples = [
+  { title: 'AI-first', description: 'Use AI where it removes friction and creates leverage.' },
+  { title: 'Business-focused', description: 'Every capability starts with a useful business decision.' },
+  { title: 'Scalable', description: 'Begin with the right foundation and expand with intent.' },
+  { title: 'Future-ready', description: 'Keep the system open for the next stage of growth.' },
+]
