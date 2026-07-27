@@ -1,0 +1,43 @@
+// Product catalogue for the commercial offer. Replace descriptions here without changing page structure.
+export const products = [
+  {
+    number: '01',
+    slug: 'growth-foundation',
+    name: 'Growth Foundation',
+    summary: 'Make the business easier to understand, trust and choose.',
+    problem: 'The offer is strong, but the market sees fragments: a vague position, an inconsistent story or a website that asks people to work too hard.',
+    solution: 'We clarify the strategic story and shape it into a coherent brand and digital foundation built for the next commercial decision.',
+    deliverables: ['Brand positioning', 'Corporate website', 'Landing page system', 'Brand information architecture'],
+    idealClient: 'Founders and established teams preparing to launch, reposition or enter a new market.',
+  },
+  {
+    number: '02',
+    slug: 'growth-engine',
+    name: 'Growth Engine',
+    summary: 'Turn attention into an operating system for qualified opportunities.',
+    problem: 'Leads arrive through disconnected channels, follow-up depends on memory and the team cannot see where commercial momentum is being lost.',
+    solution: 'We connect acquisition touchpoints, CRM, lead management and AI-assisted workflows so the next action is visible and repeatable.',
+    deliverables: ['AI automation', 'CRM foundation', 'Lead management', 'AI workflow design'],
+    idealClient: 'Growth-minded businesses with an active offer, a sales process and enough demand to justify a connected system.',
+  },
+  {
+    number: '03',
+    slug: 'growth-operations',
+    name: 'Growth Operations',
+    summary: 'Give the team a clearer rhythm for content, insight and improvement.',
+    problem: 'Content is inconsistent, reporting is hard to act on and operational work keeps pulling attention away from higher-value decisions.',
+    solution: 'We build the practical layer behind ongoing growth: content systems, analytics and AI operations that keep the business learning.',
+    deliverables: ['Content system', 'Analytics setup', 'AI operations', 'Continuous optimisation'],
+    idealClient: 'Teams with a live digital presence that need better visibility, consistency and operating leverage.',
+  },
+  {
+    number: '04',
+    slug: 'growth-partner',
+    name: 'Growth Partner',
+    summary: 'A long-term senior partner for the decisions that keep growth moving.',
+    problem: 'The business has momentum, but strategic, brand, digital and automation decisions are competing for attention without a consistent owner.',
+    solution: 'We stay close to the business as a monthly retainer partner, prioritising the next useful improvement and carrying it through.',
+    deliverables: ['Monthly strategy support', 'Ongoing digital optimisation', 'Automation refinement', 'Growth planning'],
+    idealClient: 'Ambitious businesses that want continuity, senior thinking and a reliable partner beyond a single launch.',
+  },
+]

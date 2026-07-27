@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import BrandLogo from './components/BrandLogo.jsx'
 import { blogPosts, caseStudies } from './data/caseStudies.js'
+import { products } from './data/products.js'
 
 const heroEase = [0.22, 1, 0.36, 1]
 const cardSpring = { type: 'spring', stiffness: 300, damping: 25, mass: 0.75 }
@@ -10,6 +11,7 @@ const revealMotion = { duration: 0.65, ease: heroEase }
 const navItems = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
+  { label: 'Products', href: '/products/' },
   { label: 'Process', href: '#process' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -176,8 +178,8 @@ function Hero() {
       <header className="site-header">
         <motion.a href="#top" className="brand-lockup" aria-label="NOVAHAUS home" onClick={closeMenu} initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: heroEase }}><BrandLogo className="brand-logo-light" /></motion.a>
         <nav className="desktop-nav" aria-label="Primary navigation">{navItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}</nav>
-        <div className="header-actions"><a className="header-cta" href="#contact">Start a Growth Conversation <ArrowIcon direction="right" /></a><button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div>
-        <div className={`mobile-nav ${menuOpen ? 'is-open' : ''}`}>{navItems.map((item) => <a key={item.label} href={item.href} onClick={closeMenu}>{item.label}<ArrowIcon direction="right" /></a>)}<a className="mobile-nav-cta" href="#contact" onClick={closeMenu}>Start a Growth Conversation <ArrowIcon direction="right" /></a></div>
+        <div className="header-actions"><a className="header-cta" href="#contact">Book a Strategy Call <ArrowIcon direction="right" /></a><button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div>
+        <div className={`mobile-nav ${menuOpen ? 'is-open' : ''}`}>{navItems.map((item) => <a key={item.label} href={item.href} onClick={closeMenu}>{item.label}<ArrowIcon direction="right" /></a>)}<a className="mobile-nav-cta" href="#contact" onClick={closeMenu}>Book a Strategy Call <ArrowIcon direction="right" /></a></div>
       </header>
 
       <div className="hero-grid page-shell">
@@ -186,7 +188,7 @@ function Hero() {
             <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI GROWTH & DIGITAL SYSTEMS</SectionLabel></motion.div>
             <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Build the system</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}><em>behind your growth.</em></motion.span></h1>
             <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>NOVAHAUS combines brand strategy, conversion-focused digital experiences and AI automation to help ambitious businesses attract qualified opportunities, operate efficiently and expand with confidence.</motion.p>
-            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Build Your Growth System</MagneticLink><motion.a href="#capabilities" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>Explore Our Capabilities</span><ArrowIcon direction="right" /></motion.a></div>
+            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Book a Strategy Call</MagneticLink><motion.a href="#capabilities" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>Explore Our Capabilities</span><ArrowIcon direction="right" /></motion.a></div>
             <motion.p className="hero-trust-note" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.98, ease: heroEase }}>Strategy-led. AI-enabled. Built for measurable business outcomes.</motion.p>
           </div>
         </div>
@@ -327,17 +329,25 @@ function CTASection() {
 
 function Footer() {
   const prefix = window.location.pathname === '/' ? '' : '/'
-  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>AI Brand & Digital Studio</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={`${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>AI Brand & Digital Studio</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href.startsWith('/') ? item.href : `${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
 }
 
 function InternalHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = () => setMenuOpen(false)
-  return <header className="internal-header page-shell"><a href="/" className="internal-brand" aria-label="NOVAHAUS home" onClick={closeMenu}><BrandLogo className="brand-logo-light" /></a><nav className="internal-nav" aria-label="Page navigation"><a href="/about/">About</a><a href="/blog/">Journal</a><a href="/#work">Work</a><a href="/#contact">Contact</a></nav><div className="internal-actions"><a href="/#contact" className="internal-cta">Start a conversation <ArrowIcon direction="right" /></a><button className="internal-menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div><nav className={`internal-mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile page navigation">{['About', 'Journal', 'Work', 'Contact'].map((label) => { const href = label === 'About' ? '/about/' : label === 'Journal' ? '/blog/' : label === 'Work' ? '/#work' : '/#contact'; return <a key={label} href={href} onClick={closeMenu}>{label}<ArrowIcon direction="right" /></a> })}<a href="/#contact" className="internal-mobile-cta" onClick={closeMenu}>Start a conversation <ArrowIcon direction="right" /></a></nav></header>
+  return <header className="internal-header page-shell"><a href="/" className="internal-brand" aria-label="NOVAHAUS home" onClick={closeMenu}><BrandLogo className="brand-logo-light" /></a><nav className="internal-nav" aria-label="Page navigation"><a href="/about/">About</a><a href="/blog/">Journal</a><a href="/products/">Products</a><a href="/#work">Work</a><a href="/#contact">Contact</a></nav><div className="internal-actions"><a href="/#contact" className="internal-cta">Book a Strategy Call <ArrowIcon direction="right" /></a><button className="internal-menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div><nav className={`internal-mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile page navigation">{['About', 'Journal', 'Products', 'Work', 'Contact'].map((label) => { const href = label === 'About' ? '/about/' : label === 'Journal' ? '/blog/' : label === 'Products' ? '/products/' : label === 'Work' ? '/#work' : '/#contact'; return <a key={label} href={href} onClick={closeMenu}>{label}<ArrowIcon direction="right" /></a> })}<a href="/#contact" className="internal-mobile-cta" onClick={closeMenu}>Book a Strategy Call <ArrowIcon direction="right" /></a></nav></header>
 }
 
 function InternalPage({ eyebrow, title, description, children, dark = false }) {
   return <div className={`internal-page ${dark ? 'internal-page-dark' : ''}`}><InternalHeader /><main id="main-content" className="internal-main"><Reveal className="internal-hero"><SectionLabel>{eyebrow}</SectionLabel><h1>{title}</h1><p>{description}</p></Reveal>{children}</main><Footer /></div>
+}
+
+function ProductFlowItem({ label, children }) {
+  return <article className="product-flow-item"><span>{label}</span><div>{children}</div></article>
+}
+
+function ProductsPage() {
+  return <InternalPage eyebrow="Products" title={<>Growth systems<br /><em>with a job to do.</em></>} description="Four ways to turn a stronger position, better digital experience and practical AI operations into a more useful commercial system."><section className="products-list" aria-label="NOVAHAUS products">{products.map((product, index) => <Reveal className="product-block" delay={index * 70} key={product.slug}><div className="product-heading"><SectionLabel number={product.number}>Product</SectionLabel><h2>{product.name}</h2><p>{product.summary}</p><a href="/#contact" className="button-dark product-cta">Book a Strategy Call <ArrowIcon direction="right" /></a></div><div className="product-flow"><ProductFlowItem label="Problem"><p>{product.problem}</p></ProductFlowItem><ProductFlowItem label="Solution"><p>{product.solution}</p></ProductFlowItem><ProductFlowItem label="Deliverables"><ul>{product.deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul></ProductFlowItem><ProductFlowItem label="Ideal Client"><p>{product.idealClient}</p></ProductFlowItem></div></Reveal>)}</section></InternalPage>
 }
 
 function AboutPage() {
@@ -383,6 +393,7 @@ const routeMeta = {
 
 Object.assign(routeMeta, {
   '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
+  '/products': { title: 'Products - NOVAHAUS AI Growth & Digital Systems', description: 'Explore NOVAHAUS growth products for brand foundations, AI automation, growth operations and long-term partnership.', indexable: true },
   '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
   '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
   '/privacy': { title: 'Privacy Policy - NOVAHAUS', description: routeMeta['/privacy'].description, indexable: true },
@@ -443,7 +454,7 @@ function App() {
 
   const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
   const postMatch = path.match(/^\/blog\/([^/]+)$/)
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/products' ? <ProductsPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
