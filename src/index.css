@@ -1230,6 +1230,71 @@
   .proposal-studio-header-cta, .proposal-studio-primary-cta, .proposal-studio-arrow, .proposal-studio-refresh { transition: none; }
 }
 
+/* Sprint 8 / Trust Center */
+.trust-center-content { width: min(100% - 48px, 1120px); margin: clamp(90px, 12vw, 170px) auto 0; }
+.trust-section + .trust-section { margin-top: clamp(120px, 16vw, 210px); }
+.trust-section h2, .trust-final-cta h2 { margin-top: 28px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(2.8rem, 5vw, 5.5rem); font-weight: 500; letter-spacing: -.085em; line-height: .92; }
+.trust-section h2 em, .trust-final-cta h2 em { color: var(--color-gold); font-style: normal; }
+.trust-principle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 58px; }
+.trust-principle-card { min-height: 245px; padding: 25px; background: #ffffff; border: 1px solid rgba(17, 17, 17, .12); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.trust-principle-card > span, .trust-process-step > span, .trust-capability > span { color: var(--color-gold); font-size: 10px; font-weight: 700; letter-spacing: .15em; }
+.trust-principle-card h3 { margin-top: 72px; color: var(--color-ink); font-family: "Space Grotesk", Inter, sans-serif; font-size: 20px; font-weight: 550; letter-spacing: -.05em; line-height: 1; }
+.trust-principle-card p, .trust-process-step p { margin-top: 15px; color: #77736a; font-size: 13px; line-height: 1.65; }
+.trust-process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 58px; }
+.trust-process-step { min-height: 260px; padding: 24px 0; border-top: 1px solid rgba(17, 17, 17, .2); }
+.trust-process-step h3 { margin-top: 55px; font-family: "Space Grotesk", Inter, sans-serif; font-size: 30px; font-weight: 500; letter-spacing: -.07em; }
+.trust-responsibility-section { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(30px, 9vw, 130px); align-items: start; }
+.trust-responsibility-card { padding: clamp(28px, 5vw, 54px); color: #ffffff; background: #111111; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.trust-responsibility-card > p { max-width: 440px; font-family: "Space Grotesk", Inter, sans-serif; font-size: clamp(1.7rem, 3vw, 2.8rem); letter-spacing: -.06em; line-height: 1.02; }
+.trust-responsibility-card ul { padding: 0; margin: 40px 0 0; list-style: none; }
+.trust-responsibility-card li { display: flex; gap: 12px; padding: 17px 0; color: #d8d4ca; font-size: 13px; line-height: 1.55; border-top: 1px solid rgba(255, 255, 255, .14); }
+.trust-responsibility-card li span { color: var(--color-gold); }
+.trust-section-intro { max-width: 640px; margin-top: 28px; color: #77736a; font-size: 16px; line-height: 1.7; }
+.trust-capability-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 30px; margin-top: 58px; border-top: 1px solid rgba(17, 17, 17, .18); }
+.trust-capability { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 25px 0; border-bottom: 1px solid rgba(17, 17, 17, .14); }
+.trust-capability h3 { color: var(--color-ink); font-family: "Space Grotesk", Inter, sans-serif; font-size: 20px; font-weight: 500; letter-spacing: -.05em; }
+.trust-faq-list { margin-top: 58px; border-top: 1px solid rgba(17, 17, 17, .16); }
+.trust-faq-item { border-bottom: 1px solid rgba(17, 17, 17, .16); }
+.trust-faq-item details summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 25px 0; color: var(--color-ink); font-size: 16px; font-weight: 650; cursor: pointer; list-style: none; }
+.trust-faq-item details summary::-webkit-details-marker { display: none; }
+.trust-faq-item details summary:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; }
+.trust-faq-item details p { max-width: 680px; padding: 0 50px 25px 0; color: #77736a; font-size: 14px; line-height: 1.65; }
+.trust-faq-item details[open] .faq-plus::after { transform: translate(-50%, -50%) rotate(0); }
+.trust-final-cta { padding: clamp(32px, 5vw, 64px); margin-top: clamp(120px, 16vw, 210px); color: #ffffff; background: #111111; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.trust-final-cta .section-label { color: var(--color-gold); }
+.trust-final-cta h2 { color: #ffffff; }
+.trust-final-cta p { max-width: 560px; margin-top: 26px; color: #aaa69d; font-size: 15px; line-height: 1.65; }
+.trust-cta-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 25px; margin-top: 32px; }
+.trust-cta-actions .button-dark { color: var(--color-ink); background: var(--color-gold); }
+.trust-cta-actions .button-dark:hover { background: var(--color-gold-soft); }
+.trust-cta-actions .text-link { color: #ffffff; }
+
+@media (max-width: 900px) {
+  .trust-principle-grid, .trust-process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust-responsibility-section { grid-template-columns: 1fr; gap: 45px; }
+  .trust-capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .trust-center-content { width: min(100% - 32px, 480px); margin-top: 80px; }
+  .trust-section + .trust-section { margin-top: 110px; }
+  .trust-section h2, .trust-final-cta h2 { font-size: clamp(2.6rem, 12vw, 4rem); }
+  .trust-principle-grid, .trust-process-grid, .trust-capability-grid { grid-template-columns: 1fr; }
+  .trust-principle-grid, .trust-process-grid, .trust-faq-list { margin-top: 40px; }
+  .trust-principle-card { min-height: 0; padding: 22px; }
+  .trust-principle-card h3 { margin-top: 38px; }
+  .trust-process-step { min-height: 0; padding: 22px 0 28px; }
+  .trust-process-step h3 { margin-top: 30px; }
+  .trust-responsibility-card { padding: 26px 22px; }
+  .trust-responsibility-card ul { margin-top: 28px; }
+  .trust-capability { padding: 20px 0; }
+  .trust-faq-item details summary { padding: 21px 0; font-size: 14px; }
+  .trust-faq-item details p { padding-right: 30px; font-size: 13px; }
+  .trust-final-cta { margin-top: 110px; padding: 28px 22px; }
+  .trust-cta-actions { align-items: flex-start; flex-direction: column; gap: 20px; }
+  .trust-cta-actions .button-dark { width: 100%; }
+}
+
 /* Sprint 6 / Smart Booking */
 .booking-page, .booking-review-page { min-height: 100vh; color: var(--color-ink); background: #f3f1ec; }
 .booking-header, .booking-review-header { display: flex; align-items: center; gap: 20px; width: min(100% - 48px, 1280px); height: 88px; margin: 0 auto; border-bottom: 1px solid rgba(17, 17, 17, .12); }

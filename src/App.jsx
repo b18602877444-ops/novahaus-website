@@ -395,7 +395,7 @@ function CTASection() {
 
 function Footer() {
   const prefix = window.location.pathname === '/' ? '' : '/'
-  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>Build Better Businesses.<br />Powered by AI.<br />Driven by Strategy.</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href.startsWith('/') ? item.href : `${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>Build Better Businesses.<br />Powered by AI.<br />Driven by Strategy.</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href.startsWith('/') ? item.href : `${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a><a href="/trust/">Trust Center</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
 }
 
 function InternalHeader() {
@@ -425,6 +425,49 @@ const productsFaqs = [
   { question: 'Do you work internationally?', answer: 'Yes. NOVAHAUS works with businesses building for digital and global markets, with scope shaped around the market, team and operating context.' },
   { question: 'Do you support Web3 and AI businesses?', answer: 'Yes. We support Web3, AI, FinTech, professional services and other ambitious businesses that need a clearer brand, digital experience or operating system.' },
 ]
+
+const trustPrinciples = [
+  { number: '01', title: 'AI-first growth solutions', description: 'Use AI where it creates useful leverage across the customer journey and the work behind it.' },
+  { number: '02', title: 'Strategy + implementation', description: 'Connect the thinking to the build so priorities become practical, usable systems.' },
+  { number: '03', title: 'Measurable business outcomes', description: 'Define the signal that matters before selecting the tools, pages or workflows.' },
+  { number: '04', title: 'Modular and scalable systems', description: 'Start with the highest-value move and leave room for the next stage.' },
+]
+
+const trustProcess = [
+  { number: '01', title: 'Diagnose', description: 'Understand the business context, constraints and opportunity before recommending a direction.' },
+  { number: '02', title: 'Design', description: 'Shape the offer, experience and system around the decisions the business needs to make.' },
+  { number: '03', title: 'Build', description: 'Turn the agreed direction into a clear digital experience and practical operating layer.' },
+  { number: '04', title: 'Optimize', description: 'Review the signal, remove friction and improve the system as the business develops.' },
+]
+
+const trustResponsibilities = [
+  'Client information is used only to deliver requested services.',
+  'NOVAHAUS does not claim certifications that are not verified.',
+  'AI-generated outputs should be reviewed before important business decisions.',
+  'External platforms and integrations follow their own privacy and security policies.',
+]
+
+const trustCapabilities = ['AI agents', 'Workflow automation', 'Lead capture systems', 'CRM-ready architecture', 'Analytics and optimization', 'API integrations']
+
+const trustFaqs = [
+  { question: 'What businesses do you work with?', answer: 'We work with ambitious founders, project teams and established businesses that need a clearer brand, digital experience or growth system.' },
+  { question: 'Do I need technical knowledge?', answer: 'No. We explain the business decision first, then translate the technical work into a practical route your team can understand and use.' },
+  { question: 'How long does implementation take?', answer: 'Timing depends on scope, available context and the systems involved. We confirm a realistic sequence after understanding the work.' },
+  { question: 'Can solutions integrate with existing tools?', answer: 'They can be designed with existing tools and future integrations in mind. The exact approach depends on the platforms and access available.' },
+  { question: 'How is business data handled?', answer: 'Information shared through the site is used to respond to the requested enquiry or service. External platforms retain their own policies and controls.' },
+  { question: 'What happens after launch?', answer: 'We can review what is working, identify friction and agree the next useful improvement. Ongoing support is shaped around the business need.' },
+]
+
+function TrustCenterPage() {
+  return <InternalPage eyebrow="NOVAHAUS / Trust Center" title={<>Clarity before<br /><em>the next decision.</em></>} description="A concise view of how NOVAHAUS works, the systems we build and the principles we follow when handling business context."><section className="trust-center-content" aria-label="NOVAHAUS Trust Center">
+    <section className="trust-section trust-why-section" aria-labelledby="trust-why-title"><Reveal><SectionLabel number="01">Why NOVAHAUS</SectionLabel><h2 id="trust-why-title">Build with a partner<br /><em>who sees the whole system.</em></h2></Reveal><div className="trust-principle-grid">{trustPrinciples.map((item, index) => <Reveal className="trust-principle-card" delay={index * 70} key={item.number}><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></section>
+    <section className="trust-section trust-process-section" aria-labelledby="trust-process-title"><Reveal><SectionLabel number="02">How We Work</SectionLabel><h2 id="trust-process-title">A clear path from<br /><em>diagnosis to improvement.</em></h2></Reveal><div className="trust-process-grid">{trustProcess.map((item, index) => <Reveal className="trust-process-step" delay={index * 70} key={item.number}><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></section>
+    <section className="trust-section trust-responsibility-section" aria-labelledby="trust-responsibility-title"><div className="trust-section-heading"><Reveal><SectionLabel number="03">Data &amp; AI Responsibility</SectionLabel><h2 id="trust-responsibility-title">Useful systems need<br /><em>clear boundaries.</em></h2></Reveal></div><Reveal className="trust-responsibility-card" delay={100}><p>We keep the guidance practical and the claims proportionate to what can be verified.</p><ul>{trustResponsibilities.map((item) => <li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul></Reveal></section>
+    <section className="trust-section trust-technology-section" aria-labelledby="trust-technology-title"><Reveal><SectionLabel number="04">Technology Approach</SectionLabel><h2 id="trust-technology-title">Capabilities that support<br /><em>the business behind the brand.</em></h2><p className="trust-section-intro">NOVAHAUS combines strategy and implementation across the digital touchpoints that shape how a business is understood, chosen and operated.</p></Reveal><div className="trust-capability-grid">{trustCapabilities.map((item, index) => <Reveal className="trust-capability" delay={index * 55} key={item}><span>0{index + 1}</span><h3>{item}</h3></Reveal>)}</div></section>
+    <section className="trust-section trust-faq-section" aria-labelledby="trust-faq-title"><Reveal><SectionLabel number="05">Frequently Asked Questions</SectionLabel><h2 id="trust-faq-title">Good questions<br /><em>before we begin.</em></h2></Reveal><div className="trust-faq-list">{trustFaqs.map((item, index) => <Reveal className="trust-faq-item" delay={index * 45} key={item.question}><details><summary>{item.question}<span className="faq-plus" aria-hidden="true" /></summary><p>{item.answer}</p></details></Reveal>)}</div></section>
+    <Reveal className="trust-final-cta"><SectionLabel number="06">Next step</SectionLabel><h2>Bring the context<br /><em>to the table.</em></h2><p>Start with a focused conversation or generate a structured proposal from the context you already have.</p><div className="trust-cta-actions"><a href="/booking/?source=trust-center" className="button-dark">Book Strategy Call <ArrowIcon direction="right" /></a><a href="/proposal/" className="text-link">Generate Your Proposal <ArrowIcon direction="right" /></a></div></Reveal>
+  </section></InternalPage>
+}
 
 const strategyBenefits = [
   { number: '01', title: 'Business Growth Assessment', description: 'A focused look at the business, market and next decision that matters.' },
@@ -533,6 +576,7 @@ Object.assign(routeMeta, {
   '/growth-assessment': { title: 'AI Growth Assessment | NOVAHAUS', description: 'Assess your business across strategy, digital presence, automation and growth operations, then receive a personalised NOVAHAUS product recommendation.', indexable: true },
   '/proposal-builder': { title: 'NOVAHAUS Internal Proposal Tool', description: 'Private internal proposal builder for NOVAHAUS.', indexable: false },
   '/proposal': { title: 'Proposal Studio | NOVAHAUS', description: 'Generate a structured NOVAHAUS growth proposal from your existing assessment, lead and booking context.', indexable: false },
+  '/trust': { title: 'Trust Center | NOVAHAUS', description: 'Learn how NOVAHAUS works, approaches AI and handles business context while building practical growth systems.', indexable: true },
   '/ai-sales-agent': { title: 'NOVAHAUS AI Sales Agent', description: 'Private NOVAHAUS AI Sales Agent preview for understanding business needs and preparing the next useful step.', indexable: false },
   '/leads': { title: 'Lead Review - NOVAHAUS', description: 'Internal local lead review workspace for NOVAHAUS.', indexable: false },
   '/strategy': { title: 'Strategy Call - NOVAHAUS AI Growth & Digital Systems', description: 'Book a NOVAHAUS Strategy Call to explore AI, automation and growth systems for your business.', indexable: true },
@@ -601,7 +645,7 @@ function App() {
   if (path === '/booking') return <><PageLoader reduceMotion={reduceMotion} /><BookingPage /></>
   if (path === '/bookings') return <><PageLoader reduceMotion={reduceMotion} /><BookingReviewPage /></>
   if (path === '/proposal') return <><PageLoader reduceMotion={reduceMotion} /><ProposalStudioPage /></>
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><InteractiveAIExperienceCenter /><CaseStudiesShowcase /><PackagesSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></> : path === '/ai-sales-agent' ? <AiSalesAgentPage /> : path === '/leads' ? <LeadsPage /> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><HowWeHelpSection /><TrustSection /><ApproachSection /><PositioningStrip /><WhoWeHelpSection /><AboutSection /><ServicesSection /><SolutionsSection /><InteractiveAIExperienceCenter /><CaseStudiesShowcase /><PackagesSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></> : path === '/ai-sales-agent' ? <AiSalesAgentPage /> : path === '/leads' ? <LeadsPage /> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/proposal' ? <ProposalStudioPage /> : path === '/products' ? <ProductsPage /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/trust' ? <TrustCenterPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
