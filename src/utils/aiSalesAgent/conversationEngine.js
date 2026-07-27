@@ -3,6 +3,7 @@ import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
+export const initialSalesAgentWelcome = "Welcome to NOVAHAUS.\nI'd love to understand your business and recommend the most suitable AI growth solution."
 
 export function detectIntent(input) {
   const text = normalise(input)
@@ -52,7 +53,7 @@ function faqReply(input) {
 
 export function createInitialConversation(createId) {
   const now = new Date().toISOString()
-  return { id: createId(), createdAt: now, updatedAt: now, status: 'active', messages: [{ id: createId(), role: 'agent', content: 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.', timestamp: now, type: 'text', metadata: { stage: 'business-type' } }], leadId: null, currentStage: 'business-type', quickReplies: ['Launching a new business', 'Improving an existing website', 'Automating operations', 'Expanding internationally', 'I am not sure yet'], qualification: { score: 0, temperature: 'Cold Lead', signals: [], breakdown: [] }, recommendations: [], context: { source: 'ai-sales-agent', assessmentId: null } }
+  return { id: createId(), createdAt: now, updatedAt: now, status: 'active', messages: [{ id: createId(), role: 'agent', content: initialSalesAgentWelcome, timestamp: now, type: 'text', metadata: { stage: 'business-type' } }], leadId: null, currentStage: 'business-type', quickReplies: ['Launching a new business', 'Improving an existing website', 'Automating operations', 'Expanding internationally', 'I am not sure yet'], qualification: { score: 0, temperature: 'Cold Lead', signals: [], breakdown: [] }, recommendations: [], context: { source: 'ai-sales-agent', assessmentId: null } }
 }
 
 export function advanceConversation(conversation, input, createId) {

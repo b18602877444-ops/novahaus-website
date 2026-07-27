@@ -1,3 +1,5 @@
+import { initialSalesAgentWelcome } from '../utils/aiSalesAgent/conversationEngine.js'
+
 export const AI_SALES_CONVERSATIONS_KEY = 'novahaus_ai_sales_conversations_v1'
 export const AI_SALES_LEADS_KEY = 'novahaus_ai_sales_leads_v1'
 export const AI_SALES_ACTIVE_CONVERSATION_KEY = 'novahaus_ai_sales_active_conversation_v1'
@@ -35,7 +37,11 @@ export function loadActiveConversation() {
   try {
     const activeId = window.localStorage.getItem(AI_SALES_ACTIVE_CONVERSATION_KEY)
     if (!activeId) return null
-    return readCollection(AI_SALES_CONVERSATIONS_KEY, 'conversations').conversations.find((conversation) => conversation.id === activeId) || null
+    const conversation = readCollection(AI_SALES_CONVERSATIONS_KEY, 'conversations').conversations.find((item) => item.id === activeId) || null
+    if (!conversation) return null
+    const firstMessage = conversation.messages?.[0]
+    if (firstMessage?.role === 'agent' && firstMessage.content === 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.') return { ...conversation, messages: [{ ...firstMessage, content: initialSalesAgentWelcome }, ...conversation.messages.slice(1)] }
+    return conversation
   } catch { return null }
 }
 
