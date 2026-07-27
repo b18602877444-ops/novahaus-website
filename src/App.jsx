@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import BrandLogo from './components/BrandLogo.jsx'
+import { blogPosts, caseStudies } from './data/caseStudies.js'
 
 const heroEase = [0.22, 1, 0.36, 1]
 const cardSpring = { type: 'spring', stiffness: 300, damping: 25, mass: 0.75 }
@@ -25,15 +26,6 @@ const solutionItems = [
   { eyebrow: 'For founders', title: 'Make the first impression count.', description: 'A sharper position, a clear offer and a digital presence that earns the next conversation.', tags: ['Positioning', 'Launch system'] },
   { eyebrow: 'For creators', title: 'Make your point of view impossible to miss.', description: 'An identity and content system that gives expertise a distinct, memorable shape.', tags: ['Identity', 'Content'] },
   { eyebrow: 'For modern teams', title: 'Give the business a cleaner operating layer.', description: 'Connect brand, digital experience and practical AI workflows without adding noise.', tags: ['Digital', 'Automation'] },
-]
-
-const workItems = [
-  { number: '01', kicker: 'Concept project', industry: 'Brand Identity', title: 'Signal / Brand Operating System', description: 'A precise identity direction for an AI-native product with a lot to clarify.', className: 'project-signal' },
-  { number: '02', kicker: 'Concept project', industry: 'Digital Experience', title: 'Northstar / Founder Platform', description: 'An editorial digital experience for a founder whose expertise deserves room.', className: 'project-northstar' },
-  { number: '03', kicker: 'Concept project', industry: 'AI Product', title: 'Vector / Intelligent Interface', description: 'A calm product language for tools that make complex work feel obvious.', className: 'project-forma' },
-  { number: '04', kicker: 'Concept project', industry: 'Luxury Branding', title: 'Aurelia / Quiet Distinction', description: 'A restrained luxury system built around material, rhythm and confidence.', className: 'project-vertex' },
-  { number: '05', kicker: 'Concept project', industry: 'Architecture', title: 'Monument / Spatial Identity', description: 'A considered identity for a practice where every line has a reason.', className: 'project-morrow' },
-  { number: '06', kicker: 'Concept project', industry: 'Future Mobility', title: 'Motion / Beyond the Road', description: 'A forward-looking system for movement, designed to feel human at speed.', className: 'project-coda' },
 ]
 
 const principles = [
@@ -183,9 +175,9 @@ function Hero() {
         <div className="hero-copy">
           <div>
             <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI Brand & Digital Studio</SectionLabel></motion.div>
-            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Make the next</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}>move</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.42, ease: heroEase }}><em>unmistakable.</em></motion.span></h1>
-            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>Strategy, identity and intelligent systems for founders who need the market to understand them—fast.</motion.p>
-            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Book a strategy call</MagneticLink><motion.a href="#work" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>See the work</span><ArrowIcon direction="right" /></motion.a></div>
+            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Make your business</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}>the obvious</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.42, ease: heroEase }}><em>choice.</em></motion.span></h1>
+            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>NOVAHAUS helps founders and small teams clarify their offer, launch a premium website and automate the work that slows growth.</motion.p>
+            <div className="hero-actions"><MagneticLink href="#contact" className="hero-primary-link" delay={0.74} reduceMotion={reduceMotion}>Start a business conversation</MagneticLink><motion.a href="#work" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.86, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>See how we help</span><ArrowIcon direction="right" /></motion.a></div>
             <motion.div className="hero-traits" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.98, ease: heroEase }}><span>Sharper positioning</span><span className="hero-trait-dot" aria-hidden="true" /><span>Less friction</span><span className="hero-trait-dot" aria-hidden="true" /><span>Digital momentum</span></motion.div>
           </div>
         </div>
@@ -275,11 +267,11 @@ function PortfolioCard({ item, index }) {
     node.style.setProperty('--portfolio-y', `${(((event.clientY - rect.top) / rect.height - 0.5) * 5).toFixed(2)}px`)
   }
   const handlePointerLeave = () => { if (cardRef.current) { cardRef.current.style.setProperty('--portfolio-x', '0px'); cardRef.current.style.setProperty('--portfolio-y', '0px') } }
-  return <motion.article ref={cardRef} className="portfolio-card" custom={index} variants={portfolioCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.18 }} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}><motion.div className="portfolio-cover" variants={portfolioCoverVariants}><ProjectArt type={item.className} title={item.title} /></motion.div><div className="portfolio-meta"><div className="portfolio-meta-top"><span className="portfolio-number">{item.number}</span><span className="portfolio-industry">{item.industry}</span></div><span className="portfolio-kicker">{item.kicker}</span><h3>{item.title}</h3><p>{item.description}</p><motion.a href="#contact" className="portfolio-link" variants={portfolioLinkVariants} aria-label={`Discuss ${item.title}`}><span>Discuss the direction</span><span aria-hidden="true">→</span></motion.a></div></motion.article>
+  return <motion.article ref={cardRef} className="portfolio-card" custom={index} variants={portfolioCardVariants} initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.18 }} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}><motion.div className="portfolio-cover" variants={portfolioCoverVariants}><ProjectArt type={item.className} title={item.title} /></motion.div><div className="portfolio-meta"><div className="portfolio-meta-top"><span className="portfolio-number">{item.number}</span><span className="portfolio-industry">{item.industry}</span></div><span className="portfolio-kicker">{item.status}</span><h3>{item.title}</h3><p>{item.description}</p><motion.a href={`/case-study/${item.slug}/`} className="portfolio-link" variants={portfolioLinkVariants} aria-label={`View ${item.title} case study`}><span>View the case study</span><span aria-hidden="true">→</span></motion.a></div></motion.article>
 }
 
 function PortfolioSection() {
-  return <section id="work" className="section light-section work-section"><div className="page-shell"><SectionHeader number="05" label="Selected work" title={<>Directions with<br /><span>something to say.</span></>} description="Concept projects across brand identity, digital experience, AI product, luxury branding, architecture and future mobility." /><div className="portfolio-grid">{workItems.map((item, index) => <PortfolioCard key={item.number} item={item} index={index} />)}</div></div></section>
+  return <section id="work" className="section light-section work-section"><div className="page-shell"><SectionHeader number="05" label="Selected work" title={<>Directions with<br /><span>something to say.</span></>} description="A replaceable case study library: concept work today, real client stories as they launch." /><div className="portfolio-grid">{caseStudies.map((item, index) => <PortfolioCard key={item.slug} item={item} index={index} />)}</div><Reveal className="portfolio-note" delay={220}><p>These are concept projects created to show how NOVAHAUS thinks. Client work will be added here with permission.</p><a href="/#contact" className="text-link">Have a project in mind <ArrowIcon direction="right" /></a></Reveal></div></section>
 }
 
 function WhyIcon({ type }) {
@@ -308,9 +300,8 @@ function FAQSection() {
 }
 
 function ContactForm() {
-  const [submitted, setSubmitted] = useState(false)
-  const handleSubmit = (event) => { event.preventDefault(); setSubmitted(true) }
-  return <form className="contact-form" onSubmit={handleSubmit}><div className="form-row"><label htmlFor="contact-name">Name<input id="contact-name" name="name" placeholder="Your name" autoComplete="name" required /></label><label htmlFor="contact-email">Email<input id="contact-email" name="email" type="email" placeholder="you@company.com" autoComplete="email" required /></label></div><div className="form-row"><label htmlFor="contact-company">Company<input id="contact-company" name="company" placeholder="Company or project" autoComplete="organization" /></label><label htmlFor="contact-type">Project type<select id="contact-type" name="projectType" defaultValue="" required><option value="" disabled>Select one</option><option>Brand strategy</option><option>Website / digital experience</option><option>AI automation</option><option>AI consulting</option><option>Something else</option></select></label></div><label htmlFor="contact-budget">Budget range<select id="contact-budget" name="budget" defaultValue=""><option value="">Prefer to discuss</option><option>Under $5,000</option><option>$5,000–$15,000</option><option>$15,000–$30,000</option><option>$30,000+</option></select></label><label htmlFor="contact-message">Business inquiry<textarea id="contact-message" name="message" rows="4" placeholder="What needs to move, and why now?" required /></label><div className="form-footer"><button className="form-submit" type="submit">{submitted ? 'Inquiry prepared' : 'Start the conversation'} <ArrowIcon direction="right" /></button><span aria-live="polite">{submitted ? 'Thank you. Email integration will be available soon.' : 'A considered reply within 24 hours.'}</span></div></form>
+  const handleSubmit = (event) => { event.preventDefault(); window.location.assign('/thank-you/') }
+  return <form className="contact-form" onSubmit={handleSubmit}><div className="form-row"><label htmlFor="contact-name">Name<input id="contact-name" name="name" placeholder="Your name" autoComplete="name" required /></label><label htmlFor="contact-email">Email<input id="contact-email" name="email" type="email" placeholder="you@company.com" autoComplete="email" required /></label></div><div className="form-row"><label htmlFor="contact-company">Company<input id="contact-company" name="company" placeholder="Company or project" autoComplete="organization" /></label><label htmlFor="contact-type">Project type<select id="contact-type" name="projectType" defaultValue="" required><option value="" disabled>Select one</option><option>Brand strategy</option><option>Website / digital experience</option><option>AI automation</option><option>AI consulting</option><option>Something else</option></select></label></div><label htmlFor="contact-budget">Budget range<select id="contact-budget" name="budget" defaultValue=""><option value="">Prefer to discuss</option><option>Under $5,000</option><option>$5,000–$15,000</option><option>$15,000–$30,000</option><option>$30,000+</option></select></label><label htmlFor="contact-message">Business inquiry<textarea id="contact-message" name="message" rows="4" placeholder="What needs to move, and why now?" required /></label><div className="form-footer"><button className="form-submit" type="submit">Start the conversation <ArrowIcon direction="right" /></button><span>A considered reply within 24 hours.</span></div></form>
 }
 
 function CTASection() {
@@ -318,11 +309,102 @@ function CTASection() {
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>AI Brand & Digital Studio</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}</nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+  const prefix = window.location.pathname === '/' ? '' : '/'
+  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>AI Brand & Digital Studio</p></div><nav aria-label="Footer navigation">{navItems.map((item) => <a key={item.label} href={`${prefix}${item.href}`}>{item.label}</a>)}<a href="/about/">About page</a><a href="/blog/">Journal</a><a href="/privacy/">Privacy</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+}
+
+function InternalHeader() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const closeMenu = () => setMenuOpen(false)
+  return <header className="internal-header page-shell"><a href="/" className="internal-brand" aria-label="NOVAHAUS home" onClick={closeMenu}><BrandLogo className="brand-logo-light" /></a><nav className="internal-nav" aria-label="Page navigation"><a href="/about/">About</a><a href="/blog/">Journal</a><a href="/#work">Work</a><a href="/#contact">Contact</a></nav><div className="internal-actions"><a href="/#contact" className="internal-cta">Start a conversation <ArrowIcon direction="right" /></a><button className="internal-menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /></button></div><nav className={`internal-mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile page navigation">{['About', 'Journal', 'Work', 'Contact'].map((label) => { const href = label === 'About' ? '/about/' : label === 'Journal' ? '/blog/' : label === 'Work' ? '/#work' : '/#contact'; return <a key={label} href={href} onClick={closeMenu}>{label}<ArrowIcon direction="right" /></a> })}<a href="/#contact" className="internal-mobile-cta" onClick={closeMenu}>Start a conversation <ArrowIcon direction="right" /></a></nav></header>
+}
+
+function InternalPage({ eyebrow, title, description, children, dark = false }) {
+  return <div className={`internal-page ${dark ? 'internal-page-dark' : ''}`}><InternalHeader /><main id="main-content" className="internal-main"><Reveal className="internal-hero"><SectionLabel>{eyebrow}</SectionLabel><h1>{title}</h1><p>{description}</p></Reveal>{children}</main><Footer /></div>
+}
+
+function AboutPage() {
+  return <InternalPage eyebrow="About NOVAHAUS" title={<>The clearest brands<br /><em>move with intent.</em></>} description="NOVAHAUS helps founders and small teams turn a good business into a clear, credible and easier-to-choose presence."><section className="internal-content-grid"><Reveal className="internal-feature-card dark-card"><span className="internal-card-label">The point of view</span><p>People do not need more noise. They need a reason to understand, trust and choose.</p></Reveal><Reveal className="internal-prose" delay={120}><p>We work at the point where business decisions become brand decisions: what the company means, who it is for and what should happen next.</p><p>That means a sharper position, an identity with restraint, a website that carries the story and practical systems that give the team time back.</p><a href="/#contact" className="text-link">Start with the context <ArrowIcon direction="right" /></a></Reveal></section><section className="internal-list-section"><SectionLabel number="01">How we work</SectionLabel><div className="internal-list-grid">{['Find the signal', 'Give it a shape', 'Put it to work'].map((title, index) => <Reveal className="internal-list-item" delay={index * 90} key={title}><span>{String(index + 1).padStart(2, '0')}</span><h2>{title}</h2><p>{['Start with the business, audience and decision that matter most.', 'Build the position, identity and digital language around that decision.', 'Launch a system the team can use, improve and grow into.'][index]}</p></Reveal>)}</div></section></InternalPage>
+}
+
+function BlogPage() {
+  return <InternalPage eyebrow="Journal" title={<>Useful thinking for<br /><em>the next decision.</em></>} description="Notes on positioning, digital presence and the practical side of making a business easier to choose."><section className="blog-list" aria-label="NOVAHAUS journal"><div className="blog-list-intro"><p>Editorial programme</p><span>New notes will appear here as the studio publishes.</span></div>{blogPosts.map((post, index) => <Reveal className="blog-card" delay={index * 90} key={post.slug}><div className="blog-card-meta"><span>{post.category}</span><span>{post.date}</span></div><div><h2>{post.title}</h2><p>{post.excerpt}</p></div><span className="blog-read">{post.readingTime} <ArrowIcon direction="right" /></span></Reveal>)}</section><Reveal className="internal-callout"><span className="internal-card-label">Have a question behind the question?</span><h2>Bring it to the table.</h2><a href="/#contact" className="text-link">Start a conversation <ArrowIcon direction="right" /></a></Reveal></InternalPage>
+}
+
+function BlogPostPage({ post }) {
+  if (!post) return <NotFoundPage />
+  return <InternalPage eyebrow={`${post.category} / ${post.date}`} title={<>{post.title}</>} description={post.excerpt}><article className="internal-article"><p className="article-status">This editorial is being prepared for publication.</p><p>Good decisions get easier when the underlying signal is clear. NOVAHAUS publishes practical notes on the work between business strategy, brand identity, digital experience and useful AI systems.</p><p>This page is ready for the full article content when the journal goes live.</p><a href="/#contact" className="button-dark internal-article-cta">Talk about the idea <ArrowIcon direction="right" /></a></article></InternalPage>
+}
+
+function CaseStudyPage({ study }) {
+  if (!study) return <NotFoundPage />
+  return <InternalPage eyebrow={`${study.number} / ${study.status}`} title={<>{study.title}</>} description={study.overview}><section className="case-study-cover"><ProjectArt type={study.className} title={study.title} /></section><section className="case-study-details"><div className="case-study-meta"><div><span>Status</span><strong>{study.status}</strong></div><div><span>Industry</span><strong>{study.industry}</strong></div><div><span>Year</span><strong>{study.year}</strong></div><div><span>Client</span><strong>{study.client}</strong></div></div><div className="case-study-body"><div><SectionLabel>Scope</SectionLabel><div className="case-study-services">{study.services.map((service) => <span key={service}>{service}</span>)}</div></div><div className="internal-prose"><p>{study.overview}</p><p>This is a concept project, created to demonstrate a direction and make the thinking visible. Replace the project fields in <code>src/data/caseStudies.js</code> when a real case is ready to publish.</p><a href="/#contact" className="text-link">Discuss a similar direction <ArrowIcon direction="right" /></a></div></div></section></InternalPage>
+}
+
+function LegalPage({ type }) {
+  const privacy = type === 'privacy'
+  return <InternalPage eyebrow={`NOVAHAUS / ${privacy ? 'Privacy' : 'Terms'}`} title={privacy ? <>Privacy,<br /><em>plainly stated.</em></> : <>Terms for<br /><em>working together.</em></>} description={privacy ? 'How NOVAHAUS handles information shared through this website.' : 'The basic terms that apply when you use this website or begin a conversation with NOVAHAUS.'}><article className="legal-article"><p className="article-status">Last updated: July 2026</p>{privacy ? <><h2>What we collect</h2><p>When you use the contact form, you may share your name, email address, company, project details and budget range. This information is used only to understand your enquiry and reply to you.</p><h2>What we do not do</h2><p>There is no automated email integration on this version of the site. Submitting the form prepares your enquiry locally and tells you that a connection will be available soon.</p><h2>Questions</h2><p>For privacy questions, email <a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a>.</p></> : <><h2>Website use</h2><p>The website and its concept projects are provided for information and demonstration. Portfolio concepts are not presented as completed client work.</p><h2>Intellectual property</h2><p>Unless stated otherwise, the NOVAHAUS name, identity, writing, visual system and original website materials remain the property of NOVAHAUS.</p><h2>Starting a project</h2><p>A project begins only after scope, fees, timing and responsibilities are confirmed in writing.</p><h2>Contact</h2><p>For questions about these terms, email <a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a>.</p></>}</article></InternalPage>
+}
+
+function ThankYouPage() {
+  return <InternalPage eyebrow="Inquiry received" title={<>The next step<br /><em>is in motion.</em></>} description="Thank you for sharing the context. Your message has been prepared; email integration will be available soon."><section className="thank-you-card"><BrandMark className="thank-you-mark" /><span className="internal-card-label">NOVAHAUS / next step</span><h2>We have the starting point.</h2><p>Keep an eye on your inbox. If the matter is urgent, write directly to <a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a>.</p><a href="/" className="button-dark">Return to the homepage <ArrowIcon direction="right" /></a></section></InternalPage>
+}
+
+function NotFoundPage() {
+  return <InternalPage eyebrow="404 / Not found" title={<>This page took<br /><em>a different route.</em></>} description="The page you are looking for is not here, but the next useful move may be."><section className="not-found-card"><span className="not-found-code">404</span><p>Return to the homepage or start a conversation with NOVAHAUS.</p><div><a href="/" className="button-dark">Back to home <ArrowIcon direction="right" /></a><a href="/#contact" className="text-link">Contact NOVAHAUS <ArrowIcon direction="right" /></a></div></section></InternalPage>
+}
+
+const routeMeta = {
+  '/': { title: 'NOVAHAUS — Brand, digital and AI systems with intent', description: 'NOVAHAUS helps founders and small teams clarify their offer, launch a premium website and automate the work that slows growth.', indexable: true },
+  '/about': { title: 'About NOVAHAUS — Brand and digital direction', description: 'Meet NOVAHAUS, a brand and digital studio for founders and small teams.', indexable: true },
+  '/blog': { title: 'Journal — NOVAHAUS', description: 'Practical notes on positioning, digital presence and useful AI systems.', indexable: true },
+  '/privacy': { title: 'Privacy Policy — NOVAHAUS', description: 'How NOVAHAUS handles information shared through this website.', indexable: true },
+  '/terms': { title: 'Terms of Service — NOVAHAUS', description: 'Terms that apply when you use the NOVAHAUS website or begin a conversation.', indexable: true },
+  '/thank-you': { title: 'Thank you — NOVAHAUS', description: 'Your NOVAHAUS enquiry has been prepared.', indexable: false },
+  '/404': { title: 'Page not found — NOVAHAUS', description: 'The requested NOVAHAUS page was not found.', indexable: false },
+}
+
+Object.assign(routeMeta, {
+  '/': { title: 'NOVAHAUS - Brand, digital and AI systems with intent', description: routeMeta['/'].description, indexable: true },
+  '/about': { title: 'About NOVAHAUS - Brand and digital direction', description: routeMeta['/about'].description, indexable: true },
+  '/blog': { title: 'Journal - NOVAHAUS', description: routeMeta['/blog'].description, indexable: true },
+  '/privacy': { title: 'Privacy Policy - NOVAHAUS', description: routeMeta['/privacy'].description, indexable: true },
+  '/terms': { title: 'Terms of Service - NOVAHAUS', description: routeMeta['/terms'].description, indexable: true },
+  '/thank-you': { title: 'Thank you - NOVAHAUS', description: routeMeta['/thank-you'].description, indexable: false },
+  '/404': { title: 'Page not found - NOVAHAUS', description: routeMeta['/404'].description, indexable: false },
+})
+
+function normalizePath(pathname) {
+  const clean = pathname.replace(/\/+$/, '')
+  return clean || '/'
+}
+
+function setPageMeta(pathname) {
+  const path = normalizePath(pathname)
+  const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
+  const postMatch = path.match(/^\/blog\/([^/]+)$/)
+  const study = studyMatch ? caseStudies.find((item) => item.slug === studyMatch[1]) : null
+  const post = postMatch ? blogPosts.find((item) => item.slug === postMatch[1]) : null
+  const meta = study ? { title: `${study.title} — NOVAHAUS`, description: study.overview, indexable: true } : post ? { title: `${post.title} — NOVAHAUS`, description: post.excerpt, indexable: true } : routeMeta[path] || routeMeta['/404']
+  const resolvedTitle = study ? `${study.title} - NOVAHAUS` : post ? `${post.title} - NOVAHAUS` : meta.title
+  document.title = resolvedTitle
+  document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description)
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', resolvedTitle)
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', meta.description)
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', resolvedTitle)
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', meta.description)
+  document.querySelector('meta[name="robots"]')?.setAttribute('content', meta.indexable ? 'index, follow' : 'noindex, nofollow')
+  const canonical = document.querySelector('link[rel="canonical"]')
+  if (canonical) canonical.href = `${window.location.origin}${path === '/' ? '/' : `${path}/`}`
 }
 
 function App() {
   const reduceMotion = useReducedMotion()
+  const path = normalizePath(window.location.pathname)
+
+  useEffect(() => {
+    setPageMeta(path)
+  }, [path])
 
   useEffect(() => {
     const targets = [...document.querySelectorAll('[data-parallax]')]
@@ -342,7 +424,10 @@ function App() {
     return () => { window.removeEventListener('scroll', handleScroll); if (frame) window.cancelAnimationFrame(frame) }
   }, [])
 
-  return <><a className="skip-link" href="#main-content">Skip to content</a><PageLoader reduceMotion={reduceMotion} /><main id="main-content"><Hero /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></>
+  const studyMatch = path.match(/^\/case-study\/([^/]+)$/)
+  const postMatch = path.match(/^\/blog\/([^/]+)$/)
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><AboutSection /><ServicesSection /><SolutionsSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main></> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 
 export default App
