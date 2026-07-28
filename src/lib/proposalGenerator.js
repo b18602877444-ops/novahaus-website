@@ -1,4 +1,5 @@
 import { defaultPhases, defaultScopeItems, proposalProducts, proposalTemplates } from '../data/proposalTemplates.js'
+import { globalPricingDisclaimer } from '../data/pricing.js'
 
 export function createProposalId() {
   return globalThis.crypto?.randomUUID?.() || `proposal-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
@@ -9,7 +10,7 @@ export function getProductDefinition(value) {
 }
 
 export function getProductTemplate(value) {
-  return proposalTemplates[value] || proposalTemplates['AI Growth Launch']
+  return proposalTemplates[value] || proposalTemplates[proposalProducts[0].value]
 }
 
 export function createEmptyProposal() {
@@ -26,7 +27,7 @@ export function createEmptyProposal() {
     content: { ...getProductTemplate(selectedProduct) },
     scopeItems: defaultScopeItems.map((item) => ({ ...item })),
     phases: defaultPhases.map((phase) => ({ ...phase })),
-    investment: { currency: 'USD', projectFee: '', monthlyRetainer: '', setupFee: '', optionalAddOns: '', paymentTerms: '50% on acceptance\n30% at agreed milestone\n20% before final launch', validity: '14 days', note: 'All fees exclude third-party software, advertising spend, taxes and external platform charges unless stated otherwise.' },
+    investment: { currency: 'USD', projectFee: '', monthlyRetainer: '', setupFee: '', optionalAddOns: '', paymentTerms: '50% on acceptance\n30% at agreed milestone\n20% before final launch', validity: '14 days', note: `${globalPricingDisclaimer} Third-party software, advertising spend, taxes and external platform charges are excluded unless stated otherwise.` },
   }
 }
 
@@ -68,15 +69,15 @@ export function createProposalFromAssessment(proposal, assessment) {
 export function createProposalFromSalesAgent(proposal, prefill) {
   const lead = prefill?.lead || {}
   const recommendedServices = Array.isArray(prefill?.recommendedServices) ? prefill.recommendedServices.map((item) => typeof item === 'string' ? item : item.title).filter(Boolean) : []
-  const productMap = {
-    'AI Growth Launch': 'AI Growth Launch',
-    'Website Development': 'AI Growth Launch',
-    'AI Growth Automation': 'AI Growth Automation',
-    'Business Automation': 'AI Growth Automation',
-    'Growth Partnership': 'Growth Partnership',
-    'Executive Strategy Advisory': 'Executive Strategy Advisory',
+  const productMap = Object.fromEntries(proposalProducts.map((product) => [product.value, product.value]))
+  const serviceMap = {
+    'ai-growth-website': 'AI Brand Operations Department',
+    'ai-sales-agent': 'AI Community Operations Department',
+    'ai-knowledge-hub': 'AI Community Operations Department',
+    'ai-workflow-automation': 'AI Content Operations Department',
+    'crm-dashboard': 'AI Growth Operations Department',
   }
-  const recommendedProduct = productMap[prefill?.recommendedProduct] || productMap[recommendedServices[0]] || proposal.selectedProduct
+  const recommendedProduct = productMap[prefill?.recommendedProduct] || serviceMap[recommendedServices[0]] || proposal.selectedProduct
   const contextSummary = prefill?.conversationSummary || ''
   return {
     ...applyProductTemplate(proposal, recommendedProduct),

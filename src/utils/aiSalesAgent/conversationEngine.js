@@ -1,11 +1,13 @@
 import { aiSalesAgentFaqs } from '../../data/aiSalesAgentScript.js'
 import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
+import { growthOperationsOffers, priorityCustomerGroups } from '../../data/growthOperationsOffers.js'
+import { getGrowthOperationsPlanForOffer } from '../../data/growthOperationsPlans.js'
 import { getPortfolioServiceForText } from '../../data/servicePortfolio.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
 const leadIntentTerms = ['proposal', 'website', 'quotation', 'quote', 'package', 'book', 'strategy', 'ai', 'automation', 'crm', 'lead', 'business']
-const highRiskTerms = ['medical data', 'medical diagnosis', 'patient', 'legal advice', 'law firm', 'investment advice', 'securities', 'banking core', 'sensitive personal data', 'regulated']
+const highRiskTerms = ['medical data', 'medical diagnosis', 'patient', 'legal advice', 'law firm', 'investment advice', 'securities', 'banking core', 'sensitive personal data', 'regulated', 'token price', 'return promise', 'guaranteed member', 'guaranteed sales', 'guaranteed followers', 'viral', 'customs', 'tax advice', 'platform policy', 'circumvent']
 export const initialSalesAgentWelcome = "Welcome to NOVAHAUS.\nI'd love to understand your business and recommend the most suitable AI growth solution."
 
 export function detectIntent(input) {
@@ -21,12 +23,22 @@ export function detectIntent(input) {
 }
 
 function inferIndustry(text) {
-  if (includesAny(text, ['web3', 'rwa'])) return 'Web3 & RWA'
-  if (includesAny(text, ['fintech', 'finance'])) return 'FinTech'
-  if (includesAny(text, ['ai startup', 'ai company'])) return 'AI Startup'
-  if (includesAny(text, ['education', 'course', 'personal brand', 'creator'])) return 'Education & Personal Brand'
-  if (includesAny(text, ['professional service', 'consulting', 'advisor', 'lawyer'])) return 'Professional Services'
+  if (includesAny(text, ['web3', 'rwa', 'membership', 'community', 'association', 'member'])) return priorityCustomerGroups[0]
+  if (includesAny(text, ['creator', 'founder', 'coach', 'influencer', 'personal brand', 'speaker'])) return priorityCustomerGroups[1]
+  if (includesAny(text, ['china', 'chinese', 'export', 'manufacturer', 'cross-border', 'international', 'overseas', 'global'])) return priorityCustomerGroups[2]
   return ''
+}
+
+function inferGrowthOffer(text) {
+  const signals = [
+    { offer: growthOperationsOffers[0], terms: ['content', 'video', 'social', 'linkedin', 'youtube', 'tiktok', 'xiaohongshu', 'poster', 'publishing', 'creator'] },
+    { offer: growthOperationsOffers[1], terms: ['community', 'membership', 'telegram', 'faq', 'knowledge hub', 'onboarding', 'member support', 'education'] },
+    { offer: growthOperationsOffers[2], terms: ['creator', 'founder', 'personal brand', 'speaker', 'identity', 'brand', 'positioning'] },
+    { offer: growthOperationsOffers[3], terms: ['china', 'chinese', 'export', 'manufacturer', 'cross-border', 'international', 'overseas', 'global', 'market expansion'] },
+  ]
+  const industry = inferIndustry(text)
+  const ranked = signals.map(({ offer, terms }) => ({ offer, matches: terms.filter((term) => text.includes(term)).length + (industry && offer.idealCustomerGroups.includes(industry) ? 3 : 0) })).sort((a, b) => b.matches - a.matches)
+  return ranked[0]?.matches ? ranked[0].offer : growthOperationsOffers[0]
 }
 
 function reasonForService(serviceId) {
@@ -46,9 +58,24 @@ function reasonForService(serviceId) {
 
 function getRecommendations(conversation) {
   const text = conversation.messages.filter((message) => message.role === 'user').map((message) => message.content).join(' ').toLowerCase()
+  const offer = inferGrowthOffer(text)
   const ranked = aiSalesServices.map((service) => ({ service, matches: service.keywords.filter((keyword) => text.includes(keyword)).length })).filter(({ matches }) => matches > 0).sort((a, b) => b.matches - a.matches)
-  const selected = ranked.length ? ranked.slice(0, 3) : [{ service: aiSalesServices.find((service) => service.serviceId === 'growth-assessment'), matches: 1 }]
-  return selected.map(({ service }, index) => ({ serviceId: service.serviceId, title: service.title, reason: reasonForService(service.serviceId), priority: index + 1, ctaType: service.ctaType, ctaLabel: service.ctaLabel, ctaTarget: service.ctaTarget }))
+  const serviceRecommendations = (ranked.length ? ranked.slice(0, 2) : [{ service: aiSalesServices.find((service) => service.serviceId === 'growth-assessment'), matches: 1 }]).map(({ service }, index) => ({ serviceId: service.serviceId, title: service.title, reason: reasonForService(service.serviceId), priority: index + 2, ctaType: service.ctaType, ctaLabel: service.ctaLabel, ctaTarget: service.ctaTarget }))
+  const plan = getGrowthOperationsPlanForOffer(offer.id)
+  const offerRecommendation = { serviceId: `department:${plan.id}`, title: plan.name, reason: `${plan.aiSalesSummary} Monthly investment: ${plan.monthlyPrice}.`, priority: 1, ctaType: 'strategy-call', ctaLabel: plan.cta.label, ctaTarget: plan.cta.href, metadata: { planId: plan.id, monthlyPrice: plan.monthlyPrice, onboardingFee: plan.onboardingFee } }
+  return [offerRecommendation, ...serviceRecommendations]
+}
+
+function monthlyPlanReply(input) {
+  const text = normalise(input)
+  if (!includesAny(text, ['monthly', 'managed service', 'managed support', 'content operations', 'brand operations', 'community operations', 'growth operations'])) return ''
+  const offer = inferGrowthOffer(text)
+  const plan = getGrowthOperationsPlanForOffer(offer.id)
+  const planLines = plan.monthlyStandardCapacity.map((item) => `- ${item}`).join('\n')
+  const addOnLines = plan.customQuoteTriggers.map((item) => `- ${item}`).join('\n')
+  const excludedLines = plan.exclusions.slice(0, 6).map((item) => `- ${item}`).join('\n')
+  const approvedAddOnLines = plan.addOns.slice(0, 5).map((item) => `- ${item.name}: ${item.price}`).join('\n')
+  return `${plan.name} is ${plan.monthlyPrice}, with onboarding ${plan.onboardingFee}.\n\nIt is designed for ${plan.bestFor.toLowerCase()}\n\nStandard monthly capacity:\n${planLines}\n\nExcluded from the standard department:\n${excludedLines}\n\nAdd-on or custom-quote triggers:\n${addOnLines}\n\nApproved add-on examples:\n${approvedAddOnLines}\n\n${plan.finalQuoteNotice}`
 }
 
 function faqReply(input) {
@@ -96,7 +123,7 @@ export function advanceConversation(conversation, input, createId) {
   const messages = [...conversation.messages, userMessage]
   const faq = faqReply(input)
   const knowledgeReply = deliveryScopeReply(input)
-  const responseKnowledge = knowledgeReply || faq || (highRiskRequest(input) ? 'This may involve sensitive or regulated information. A human strategy call is the right next step before any recommendation is made.' : '')
+  const responseKnowledge = monthlyPlanReply(input) || knowledgeReply || faq || (highRiskRequest(input) ? 'This may involve sensitive or regulated information. A human strategy call is the right next step before any recommendation is made.' : '')
   let stage = conversation.currentStage
   let content = responseKnowledge
   let quickReplies = []
@@ -152,7 +179,7 @@ export function advanceConversation(conversation, input, createId) {
     leadPatch.timeline = input.trim()
     stage = 'budget'
     content = prompt('What is your estimated budget range? A rough range is enough.')
-    quickReplies = ['Not decided yet', 'Under RM 10,000', 'RM 10,000-30,000', 'RM 30,000+', 'Prefer to discuss']
+    quickReplies = ['Not decided yet', 'Under USD 5,000', 'USD 5,000-15,000', 'USD 15,000+', 'Prefer to discuss']
   } else if (conversation.currentStage === 'budget') {
     leadPatch.budget = input.trim()
     if (hasCommercialIntent(conversation, input) || conversation.leadDraft?.sensitiveData) {

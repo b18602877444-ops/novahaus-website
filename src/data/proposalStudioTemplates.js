@@ -1,9 +1,8 @@
-import { corePackages } from './pricing.js'
+import { getGrowthOperationsPlan, growthOperationsPlans } from './growthOperationsPlans.js'
 import { getDeliveryScopeById } from './deliveryScope.js'
 import { getPortfolioServiceById } from './servicePortfolio.js'
 
-const packageAliases = { Starter: 'Launch', Growth: 'Growth', Enterprise: 'Enterprise' }
-const packageTemplates = Object.fromEntries(corePackages.map((item) => [item.name, { label: item.label, deliverables: item.deliverables.slice(0, 6) }]))
+const packageTemplates = Object.fromEntries(growthOperationsPlans.map((plan) => [plan.id, { label: plan.proposalSummary, deliverables: plan.monthlyStandardCapacity }]))
 
 export const proposalStudioTemplates = {
   diagnosis: {
@@ -32,8 +31,8 @@ export function generateProposalStudio(context) {
   const company = withContext(context.company, 'your business')
   const challenge = withContext(context.challenge, 'the next stage of growth needs a clearer system')
   const goal = withContext(context.goals, 'create a stronger foundation for qualified opportunities and efficient operations')
-  const packageName = packageAliases[context.recommendedPackage] || context.recommendedPackage || 'Launch'
-  const packageTemplate = packageTemplates[packageName] || packageTemplates.Launch
+  const department = getGrowthOperationsPlan(context.recommendedPlanId)
+  const packageTemplate = packageTemplates[department.id]
   const deliveryScope = context.recommendedServiceIds?.map((serviceId) => getDeliveryScopeById(serviceId) || getPortfolioServiceById(serviceId)).find(Boolean) || null
 
   return {
@@ -41,7 +40,7 @@ export function generateProposalStudio(context) {
     company,
     diagnosis: `${company} is currently focused on ${challenge}. The immediate opportunity is to connect that need with a clearer route toward ${goal}. ${context.hasData ? proposalStudioTemplates.diagnosis.withContext : proposalStudioTemplates.diagnosis.withoutContext}`,
     opportunities: proposalStudioTemplates.opportunities,
-    recommendedPackage: { name: packageName, ...packageTemplate },
+    recommendedPackage: { name: department.name, ...packageTemplate, monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, monthlyStandardCapacity: department.monthlyStandardCapacity, clientResponsibilities: department.clientResponsibilities, exclusions: department.exclusions, addOns: department.addOns, customQuoteTriggers: department.customQuoteTriggers, finalQuoteNotice: department.finalQuoteNotice, thirdPartyCosts: department.terms.thirdPartyCosts },
     deliveryScope,
     plan90Days: proposalStudioTemplates.plan90Days,
     nextStep: 'Book a Strategy Call to review this starting point, confirm the highest-value priorities and decide what should happen first.',

@@ -3,6 +3,7 @@ import { listLeads } from './leadStorage.js'
 import { ASSESSMENT_STORAGE_KEY } from './assessmentSubmission.js'
 import { getDeliveryScopeById, getDeliveryScopeForText } from '../data/deliveryScope.js'
 import { getPortfolioServiceById, getPortfolioServiceForText } from '../data/servicePortfolio.js'
+import { getGrowthOperationsPlan, growthOperationsPlans } from '../data/growthOperationsPlans.js'
 import { readProposalPrefill } from './aiSalesAgentProposal.js'
 
 function readLatestAssessment() {
@@ -23,11 +24,14 @@ function listValue(value) {
   return Array.isArray(value) ? value.filter(Boolean).join(', ') : ''
 }
 
-function inferPackage(...values) {
+function inferPlanId(...values) {
   const source = values.join(' ').toLowerCase()
-  if (/enterprise|advisory|custom|retainer/.test(source)) return 'Enterprise'
-  if (/growth|automation|partnership|crm|ai workflow/.test(source)) return 'Growth'
-  return 'Starter'
+  const direct = growthOperationsPlans.find((plan) => source.includes(plan.name.toLowerCase()) || source.includes(plan.id) || source.includes(plan.offerId))
+  if (direct) return direct.id
+  if (/community|membership|knowledge hub|web3/.test(source)) return 'ai-community-operations-department'
+  if (/creator|founder|personal brand|influencer/.test(source)) return 'ai-brand-operations-department'
+  if (/international|global|export|cross-border|manufacturer/.test(source)) return 'ai-growth-operations-department'
+  return 'ai-content-operations-department'
 }
 
 function assessmentContact(assessment) {
@@ -54,12 +58,12 @@ export function readProposalStudioContext() {
     email: firstValue(booking?.email, lead?.email, prefillLead.email, assessmentProfile.email),
     whatsapp: firstValue(booking?.whatsapp, lead?.whatsapp, prefillLead.whatsapp),
     country: firstValue(booking?.country, lead?.country, prefillLead.country, assessmentProfile.country),
-    businessType: firstValue(booking?.industry, lead?.businessType, prefillLead.businessType, assessmentAnswers.businessType, assessmentProfile.businessType),
-    challenge: firstValue(booking?.primaryChallenge, lead?.challenge, prefillLead.challenge, assessmentAnswers.primaryChallenge, assessmentAnswers.challenge, listValue(assessmentAnswers.challenges)),
-    goals: firstValue(booking?.additionalNotes, lead?.aiSummary, prefillLead.aiSummary, proposalPrefill?.conversationSummary, assessmentAnswers.goals, assessmentAnswers.goal, assessmentAnswers.primaryGoal),
+    businessType: firstValue(booking?.industry, lead?.businessType, prefillLead.businessType, assessmentAnswers.customerGroup, assessmentAnswers.businessType, assessmentProfile.businessType),
+    challenge: firstValue(booking?.primaryChallenge, lead?.challenge, prefillLead.challenge, assessmentAnswers.biggestChallenge, assessmentAnswers.primaryChallenge, assessmentAnswers.challenge, listValue(assessmentAnswers.challenges)),
+    goals: firstValue(booking?.additionalNotes, lead?.aiSummary, prefillLead.aiSummary, proposalPrefill?.conversationSummary, assessmentAnswers.businessGoal, assessmentAnswers.goals, assessmentAnswers.goal, assessmentAnswers.primaryGoal),
     timeline: firstValue(booking?.preferredDate, assessmentAnswers.timeline, prefillLead.timeline),
     budget: firstValue(booking?.monthlyRevenueRange, lead?.budget, prefillLead.budget, assessmentAnswers.budget, assessmentAnswers.projectRange),
-    recommendedPackage: inferPackage(booking?.interestedPackage, lead?.interestedPackage, assessmentProduct, proposalPrefill?.recommendedProduct),
+    recommendedPlanId: inferPlanId(booking?.interestedPackage, lead?.interestedPackage, assessmentProduct, proposalPrefill?.recommendedProduct),
     recommendedServiceIds,
     hasLead: Boolean(lead),
     hasBooking: Boolean(booking),
@@ -68,6 +72,7 @@ export function readProposalStudioContext() {
 
   return {
     ...context,
+    recommendedPackage: getGrowthOperationsPlan(context.recommendedPlanId).name,
     hasData: context.hasLead || context.hasBooking || context.hasAssessment || Boolean(proposalPrefill),
     sourceLabels: [
       context.hasAssessment && 'Growth Assessment',

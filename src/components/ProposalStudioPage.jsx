@@ -15,9 +15,9 @@ function DataBadge({ children }) {
   return <span className="proposal-studio-data-badge"><span aria-hidden="true" />{children}</span>
 }
 
-function DeliveryScopeBlock({ label, items }) {
+function DeliveryScopeBlock({ label, items, limit = 5 }) {
   if (!items?.length) return null
-  return <div className="proposal-studio-scope-block"><span>{label}</span><ul>{items.slice(0, 5).map((item) => <li key={item}>{item}</li>)}</ul></div>
+  return <div className="proposal-studio-scope-block"><span>{label}</span><ul>{items.slice(0, limit).map((item) => <li key={item}>{item}</li>)}</ul></div>
 }
 
 export default function ProposalStudioPage() {
@@ -75,9 +75,13 @@ export default function ProposalStudioPage() {
           </section>
 
           <section className="proposal-studio-section proposal-studio-recommendation">
-            <SectionLabel number="03">Recommended Package</SectionLabel>
-            <div className="proposal-studio-package-head"><div><span className="proposal-studio-package-index">NOVAHAUS / package</span><h3>{proposal.recommendedPackage.name}</h3></div><span className="proposal-studio-package-dot" aria-hidden="true" /></div>
+            <SectionLabel number="03">Recommended Department</SectionLabel>
+            <div className="proposal-studio-package-head"><div><span className="proposal-studio-package-index">NOVAHAUS / department</span><h3>{proposal.recommendedPackage.name}</h3></div><span className="proposal-studio-package-dot" aria-hidden="true" /></div>
             <p>{proposal.recommendedPackage.label}</p>
+            <div className="proposal-studio-package-investment"><div><span>Onboarding investment</span><strong>{proposal.recommendedPackage.onboardingFee}</strong></div><div><span>Monthly operations investment</span><strong>{proposal.recommendedPackage.monthlyPrice}</strong></div><div><span>Start date</span><strong>To be confirmed</strong></div><div><span>Minimum term</span><strong>To be confirmed in the signed agreement</strong></div></div>
+            <span className="proposal-studio-mini-label">Standard monthly capacity, responsibilities and boundaries</span>
+            <div className="proposal-studio-package-boundaries"><DeliveryScopeBlock label="Client responsibilities" items={proposal.recommendedPackage.clientResponsibilities} limit={proposal.recommendedPackage.clientResponsibilities.length} /><DeliveryScopeBlock label="Exclusions" items={proposal.recommendedPackage.exclusions} limit={proposal.recommendedPackage.exclusions.length} /><DeliveryScopeBlock label="Add-on or custom triggers" items={proposal.recommendedPackage.customQuoteTriggers} limit={proposal.recommendedPackage.customQuoteTriggers.length} /><DeliveryScopeBlock label="Approved add-ons" items={proposal.recommendedPackage.addOns} limit={proposal.recommendedPackage.addOns.length} /><DeliveryScopeBlock label="Third-party costs" items={[proposal.recommendedPackage.thirdPartyCosts]} /></div>
+            <p className="proposal-studio-scope-notice">{proposal.recommendedPackage.finalQuoteNotice}</p>
             <ul>{proposal.recommendedPackage.deliverables.map((item) => <li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul>
           </section>
 

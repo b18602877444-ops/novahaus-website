@@ -5,7 +5,7 @@ export const individualProducts = [
     slug: 'ai-growth-website',
     name: 'AI Growth Website',
     bestFor: 'Businesses that need a professional, conversion-focused company website.',
-    pricing: price('Starting from RM 8,800', 'Starting from RM 399/month'),
+    pricing: price('Starting at USD 6,500', 'From USD 499 / month'),
     deliverables: ['Business and conversion discovery', 'Website structure and customer journey', 'Premium responsive UI', 'Up to 8 standard pages', 'Mobile optimisation', 'Lead capture forms', 'Booking CTA integration', 'Basic on-page SEO structure', 'Privacy and Terms pages', 'Analytics-ready structure', 'Deployment support', 'Basic content migration', 'Two revision rounds'],
     timeline: '3–5 weeks',
     monthly: ['Hosting/deployment monitoring', 'Security and uptime checks', 'Routine maintenance', 'Minor content updates', 'Bug fixes', 'Form and CTA monitoring', 'Monthly backup check', 'Up to 60 minutes of minor updates per month'],
@@ -16,7 +16,7 @@ export const individualProducts = [
     slug: 'ai-sales-agent',
     name: 'AI Sales Agent',
     bestFor: 'Businesses that want an AI assistant to answer enquiries, qualify prospects and guide visitors toward booking.',
-    pricing: price('Starting from RM 4,800', 'Starting from RM 499/month'),
+    pricing: price('Starting at USD 4,500', 'From USD 799 / month'),
     deliverables: ['Sales conversation design', 'Brand-tone configuration', 'FAQ and service knowledge setup', 'Lead qualification questions', 'CTA and booking handoff', 'Basic multilingual configuration', 'Website integration', 'Initial prompt and response testing', 'Conversation fallback logic', 'Human contact escalation path'],
     timeline: '2–3 weeks',
     monthly: ['Prompt optimisation', 'Knowledge updates', 'Conversation-quality review', 'Basic usage monitoring', 'Response improvement', 'Monthly performance summary', 'Up to 50 knowledge or FAQ adjustments per month'],
@@ -27,7 +27,7 @@ export const individualProducts = [
     slug: 'smart-booking-system',
     name: 'Smart Booking System',
     bestFor: 'Businesses that need structured consultation, appointment or demo booking.',
-    pricing: price('Starting from RM 1,800', 'Starting from RM 99/month'),
+    pricing: price('Starting at USD 1,500', 'From USD 149 / month'),
     deliverables: ['Booking journey configuration', 'Service or meeting-type setup', 'Client information fields', 'Booking confirmation screen', 'Calendar-ready structure', 'Booking CTA integration', 'Mobile optimisation', 'Basic reminder copy'],
     timeline: '1–2 weeks',
     monthly: ['Booking-flow monitoring', 'Minor form changes', 'Basic support', 'Up to two booking configuration updates per month'],
@@ -38,7 +38,7 @@ export const individualProducts = [
     slug: 'proposal-studio',
     name: 'Proposal Studio',
     bestFor: 'Businesses that want to generate consistent, professional service proposals.',
-    pricing: price('Starting from RM 2,800', 'Starting from RM 199/month'),
+    pricing: price('Starting at USD 2,400', 'From USD 249 / month'),
     deliverables: ['Proposal structure design', 'Brand styling', 'Service templates', 'Scope and deliverables sections', 'Timeline section', 'CTA and next-step flow', 'Basic proposal generation logic', 'Up to three initial proposal templates'],
     timeline: '1–2 weeks',
     monthly: ['Template maintenance', 'Minor copy updates', 'Up to two new template variations per quarter', 'Basic technical support'],
@@ -49,7 +49,7 @@ export const individualProducts = [
     slug: 'ai-knowledge-hub',
     name: 'AI Knowledge Hub',
     bestFor: 'Training organisations, membership communities and companies with large amounts of internal content.',
-    pricing: price('Starting from RM 5,800', 'Starting from RM 499/month'),
+    pricing: price('Starting at USD 7,500', 'From USD 799 / month'),
     deliverables: ['Knowledge Hub interface', 'Category structure', 'Search', 'AI Q&A interface', 'PDF and document library', 'Video library', 'FAQ', 'Recommended content', 'Recently viewed content', 'Favourites', 'Basic admin upload interface', 'Initial content structure', 'Up to 100 initial knowledge items prepared or indexed'],
     timeline: '3–5 weeks',
     monthly: ['Knowledge-base maintenance', 'Content indexing support', 'Search-quality review', 'AI-response optimisation', 'Up to 50 new knowledge items processed per month', 'Basic usage reporting'],
@@ -60,7 +60,7 @@ export const individualProducts = [
     slug: 'crm-dashboard',
     name: 'CRM Dashboard',
     bestFor: 'Small businesses that need a clear lead and client pipeline.',
-    pricing: price('Starting from RM 4,800', 'Starting from RM 399/month'),
+    pricing: price('Starting at USD 5,500', 'From USD 599 / month'),
     deliverables: ['Lead List', 'Qualified Leads', 'Discovery Calls', 'Proposal Sent', 'Negotiation', 'Won Clients', 'Lost Clients', 'Client Health', 'Client record structure', 'Booking-flow connection', 'Pipeline status management', 'Basic reporting interface'],
     timeline: '2–4 weeks',
     monthly: ['Pipeline configuration support', 'Minor field changes', 'Basic technical maintenance', 'Monthly data-structure review', 'Basic reporting support'],
@@ -71,7 +71,7 @@ export const individualProducts = [
     slug: 'ai-workflow-automation',
     name: 'AI Workflow Automation',
     bestFor: 'Businesses that want to automate repetitive lead, sales, support or internal tasks.',
-    pricing: price('Starting from RM 2,500 per workflow', 'Starting from RM 299/month per managed workflow'),
+    pricing: price('Starting at USD 2,000 per workflow', 'From USD 399 / month per managed workflow'),
     deliverables: ['New-lead routing', 'Lead follow-up reminders', 'Booking follow-up', 'Proposal follow-up', 'CRM status updates', 'Form-to-email workflows', 'Internal notifications', 'Customer onboarding sequences', 'Reporting preparation', 'Knowledge-update workflows'],
     timeline: '1–2 weeks per workflow',
     monthly: ['Workflow monitoring', 'Error review', 'Minor rule adjustments', 'Basic maintenance', 'One optimisation review per month'],
@@ -82,7 +82,7 @@ export const individualProducts = [
     slug: 'managed-lead-generation-system',
     name: 'Managed Lead Generation System',
     bestFor: 'Businesses that need a managed system for content, landing pages, lead capture, follow-up structure and conversion improvement.',
-    pricing: price('Starting from RM 3,800', 'Starting from RM 2,800/month'),
+    pricing: price('Starting at USD 5,000', 'From USD 3,500 / month'),
     deliverables: ['Target-customer definition', 'Offer and funnel review', 'Landing-page optimisation', 'Lead-capture setup', 'CRM pipeline setup', 'Follow-up sequence design', 'Content-to-lead journey', 'Campaign tracking structure', 'Basic outreach templates', 'Monthly reporting framework'],
     timeline: 'Initial setup is scoped after discovery.',
     monthly: ['Monthly campaign planning', 'Funnel and CTA optimisation', 'Lead-pipeline review', 'Follow-up workflow adjustments', 'Up to four campaign or landing-page content updates', 'Up to eight short-form content briefs', 'Monthly Growth Review', 'Monthly performance summary'],
@@ -95,7 +95,7 @@ export const corePackages = [
   {
     slug: 'launch',
     name: 'Launch',
-    pricing: price('Starting from RM 12,800', 'Starting from RM 699/month'),
+    pricing: price('Starting at USD 9,500', 'From USD 699 / month'),
     label: 'Start with a strong foundation',
     bestFor: 'Startups and small businesses establishing a professional AI-ready presence.',
     deliverables: ['AI Growth Website', 'Up to 8 pages', 'Lead capture', 'Smart Booking', 'Basic AI Sales Agent', 'Basic analytics structure', 'Privacy and Terms pages', 'Deployment support', 'Basic monthly maintenance', 'Monthly AI-response review', 'One monthly minor-update allowance'],
@@ -106,7 +106,7 @@ export const corePackages = [
   {
     slug: 'growth',
     name: 'Growth',
-    pricing: price('Starting from RM 24,800', 'Starting from RM 1,499/month'),
+    pricing: price('Starting at USD 18,500', 'From USD 1,499 / month'),
     label: 'Most Popular',
     featured: true,
     bestFor: 'Growing businesses that need an integrated lead, sales and conversion system.',
@@ -118,7 +118,7 @@ export const corePackages = [
   {
     slug: 'enterprise',
     name: 'Enterprise',
-    pricing: price('Projects typically start from RM 48,000', 'Starting from RM 3,999/month'),
+    pricing: price('Custom Quote', 'From USD 3,500 / month'),
     label: 'Custom and consultative',
     bestFor: 'Larger organisations requiring custom AI infrastructure, multiple workflows and ongoing strategic support.',
     deliverables: ['Custom AI Growth Platform', 'Multiple AI Agents', 'Advanced CRM', 'AI Knowledge Hub', 'Multi-department workflows', 'API integrations', 'Role-based access', 'Cloud database architecture', 'Advanced analytics', 'Custom reporting', 'Multi-language systems', 'Staff training', 'Dedicated implementation plan', 'Priority technical support', 'Monthly strategy meeting', 'Quarterly roadmap review'],
@@ -130,31 +130,9 @@ export const corePackages = [
 ]
 
 export const managedPlans = [
-  { slug: 'care', name: 'Care', price: 'RM 399/month', bestFor: 'Websites and simple systems', features: ['System monitoring', 'Routine maintenance', 'Minor bug fixes', 'Up to 60 minutes of minor updates', 'Monthly backup check', 'Email support', 'Standard response target'] },
-  { slug: 'optimise', name: 'Optimise', price: 'RM 999/month', bestFor: 'AI-enabled sales systems', features: ['Everything in Care', 'AI prompt optimisation', 'Knowledge updates', 'CRM support', 'Booking and proposal-flow support', 'Up to three hours of minor improvements', 'Monthly performance summary', 'Monthly optimisation recommendations', 'Priority email support'] },
-  { slug: 'growth-partner', name: 'Growth Partner', price: 'Starting from RM 2,999/month', bestFor: 'Businesses outsourcing part of their AI growth operations to NOVAHAUS', features: ['Everything in Optimise', 'Monthly Growth Review meeting', 'Funnel and conversion review', 'CRM pipeline review', 'AI conversation review', 'Automation optimisation', 'Up to eight hours of implementation support', 'Monthly campaign guidance', 'Content and CTA recommendations', 'Priority support', 'Quarterly roadmap planning'] },
-]
-
-export const addOns = [
-  { name: 'Additional website page', price: 'Starting from RM 450/page' },
-  { name: 'Additional landing page', price: 'Starting from RM 1,200/page' },
-  { name: 'Additional language', price: 'Starting from RM 1,500 per language' },
-  { name: 'Additional proposal template', price: 'Starting from RM 600/template' },
-  { name: 'Additional automation workflow', price: 'Starting from RM 2,500/workflow' },
-  { name: 'Additional monthly knowledge processing', price: 'Starting from RM 300 per additional 50 items' },
-  { name: 'Advanced analytics dashboard', price: 'Starting from RM 3,800 setup' },
-  { name: 'Email automation setup', price: 'Starting from RM 2,500' },
-  { name: 'WhatsApp integration', price: 'Custom quote' },
-  { name: 'Payment-gateway integration', price: 'Starting from RM 2,500' },
-  { name: 'Ecommerce functionality', price: 'Starting from RM 8,000' },
-  { name: 'Member portal', price: 'Starting from RM 8,800' },
-  { name: 'Cloud database and authentication', price: 'Custom quote' },
-  { name: 'API integration', price: 'Custom quote' },
-  { name: 'Data migration', price: 'Custom quote' },
-  { name: 'Custom video or content production', price: 'Custom quote' },
-  { name: 'Paid advertising management', price: 'Custom quote; advertising spend excluded' },
-  { name: 'Staff training workshop', price: 'Starting from RM 2,500/session' },
-  { name: 'AI strategy workshop', price: 'Starting from RM 3,800/session' },
+  { slug: 'care', name: 'Care', price: 'From USD 399 / month', bestFor: 'Websites and simple systems', features: ['System monitoring', 'Routine maintenance', 'Minor bug fixes', 'Up to 60 minutes of minor updates', 'Monthly backup check', 'Email support', 'Standard response target'] },
+  { slug: 'optimise', name: 'Optimise', price: 'From USD 999 / month', bestFor: 'AI-enabled sales systems', features: ['Everything in Care', 'AI prompt optimisation', 'Knowledge updates', 'CRM support', 'Booking and proposal-flow support', 'Up to three hours of minor improvements', 'Monthly performance summary', 'Monthly optimisation recommendations', 'Priority email support'] },
+  { slug: 'growth-partner', name: 'Growth Partner', price: 'From USD 2,500 / month', bestFor: 'Businesses outsourcing part of their AI growth operations to NOVAHAUS', features: ['Everything in Optimise', 'Monthly Growth Review meeting', 'Funnel and conversion review', 'CRM pipeline review', 'AI conversation review', 'Automation optimisation', 'Up to eight hours of implementation support', 'Monthly campaign guidance', 'Content and CTA recommendations', 'Priority support', 'Quarterly roadmap planning'] },
 ]
 
 export const comparisonRows = [
@@ -176,8 +154,8 @@ export const comparisonRows = [
   ['Custom integrations', 'Custom quote', 'Custom quote', 'Included in scope assessment'],
   ['Training', 'Not included', 'Not included', 'Staff training included in scope'],
   ['Implementation timeline', '4–6 weeks', '6–10 weeks', 'Based on discovery'],
-  ['One-time fee', 'Starting from RM 12,800', 'Starting from RM 24,800', 'Projects typically start from RM 48,000'],
-  ['Monthly fee', 'Starting from RM 699/month', 'Starting from RM 1,499/month', 'Starting from RM 3,999/month'],
+  ['One-time fee', 'Starting at USD 9,500', 'Starting at USD 18,500', 'Custom Quote'],
+  ['Monthly fee', 'From USD 699 / month', 'From USD 1,499 / month', 'From USD 3,500 / month'],
 ]
 
 export const pricingFAQs = [
@@ -203,9 +181,13 @@ export const pricingFAQs = [
   ['What happens after launch?', 'The agreed managed service can monitor, maintain and improve the system. The next scope is reviewed against the business context and available signals.'],
 ]
 
+export const globalPricingDisclaimer = 'Prices shown are starting prices. Final quotations depend on project scope, integrations, delivery requirements and monthly operational needs.'
+
 export const pricingNotes = [
-  'All prices are in Malaysian Ringgit (RM).',
-  'Prices shown are starting prices unless marked as a custom quote.',
+  globalPricingDisclaimer,
+  'All commercial references are denominated in USD.',
+  'Prices are stated in USD. Where agreed in the signed invoice or agreement, USD may also serve as the reference value for USDT settlement. Payment methods, taxes, processing fees, network fees and third-party costs are confirmed during contracting.',
+  'Use "From USD" or "Starting at USD" for indicative pricing; use "Custom Quote" where scope is assessed separately.',
   'Final quotation depends on scope and technical requirements.',
   'Applicable taxes are excluded unless stated otherwise.',
   'Third-party platform, API, hosting, advertising and subscription fees may be charged separately.',
