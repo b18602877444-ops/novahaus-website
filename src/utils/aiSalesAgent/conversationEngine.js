@@ -95,16 +95,16 @@ function chooseOffer(conversation) {
 
 function recommendationFromChoice(choice) {
   if (choice.type === 'launch') {
-    return { serviceId: `package:${web3LaunchPackage.id}`, title: web3LaunchPackage.name, reason: 'Your project needs a structured narrative and launch-ready commercial assets before the next external conversation.', ...bookingCta, metadata: { startingInvestment: web3LaunchPackage.startingInvestment, timeline: web3LaunchPackage.timeline, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: `package:${web3LaunchPackage.id}`, title: web3LaunchPackage.name, reason: 'Your project needs a structured narrative and launch-ready commercial assets before the next external conversation.', priority: 1, ...bookingCta, metadata: { startingInvestment: web3LaunchPackage.startingInvestment, timeline: web3LaunchPackage.timeline, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
   if (choice.type === 'department') {
     const department = choice.department
-    return { serviceId: `department:${department.id}`, title: department.name, reason: department.aiSalesSummary, ...bookingCta, metadata: { monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: `department:${department.id}`, title: department.name, reason: department.aiSalesSummary, priority: 1, ...bookingCta, metadata: { monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
   if (choice.type === 'addon') {
-    return { serviceId: 'approved-add-on-review', title: 'Approved Add-on Review', reason: `${choice.addOn.name} is an approved one-time add-on at ${choice.addOn.price}. A human review is still needed to confirm the final scope.`, ...bookingCta, metadata: { addOn: choice.addOn.name, startingInvestment: choice.addOn.price, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: 'approved-add-on-review', title: 'Approved Add-on Review', reason: `${choice.addOn.name} is an approved one-time add-on at ${choice.addOn.price}. A human review is still needed to confirm the final scope.`, priority: 1, ...bookingCta, metadata: { addOn: choice.addOn.name, startingInvestment: choice.addOn.price, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
-  return { serviceId: 'custom-quote-human-review', title: 'Custom Quote / Human Strategy Review', reason: 'The requirement does not map cleanly to one standard offer yet, so a human needs to review the scope, capacity, timeline and technical or compliance requirements.', ...bookingCta, metadata: { commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+  return { serviceId: 'custom-quote-human-review', title: 'Custom Quote / Human Strategy Review', reason: 'The requirement does not map cleanly to one standard offer yet, so a human needs to review the scope, capacity, timeline and technical or compliance requirements.', priority: 1, ...bookingCta, metadata: { commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
 }
 
 function getRecommendations(conversation) {
