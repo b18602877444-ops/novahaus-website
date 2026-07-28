@@ -44,21 +44,28 @@ export function createLeadRecord(input = {}) {
   }
 }
 
-export function buildLeadSummary(lead, recommendations = []) {
+export function buildLeadSummary(lead, recommendations = [], context = {}) {
   const recommendation = lead.interestedPackage || recommendations[0]?.title || 'Growth Assessment'
   const challenge = lead.challenge || 'To be clarified in the next conversation.'
   return [
     'Lead Summary',
     '',
+    `Customer Type: ${context.customerType || lead.businessType || 'Not provided'}`,
+    `Stage: ${context.projectStage || 'Not provided'}`,
     `Name: ${lead.name || 'Not provided'}`,
     `Company: ${lead.company || 'Not provided'}`,
     `Country: ${lead.country || 'Not provided'}`,
     `Business: ${lead.businessType || 'Not provided'}`,
     `Interested Package: ${recommendation}`,
     `Current Challenge: ${challenge}`,
+    `Main Need: ${context.immediateNeed || context.requiredDeliverables || 'Not provided'}`,
+    `Budget Range: ${context.budget || 'Not provided'}`,
+    `Timeline: ${context.timeline || 'Not provided'}`,
+    `Compliance Flags: ${context.complianceFlag || 'None stated'}`,
     '',
     'Next Recommendation:',
     recommendation,
     '- Strategy Call',
+    'Requested Next Action: Strategy Call or initial non-binding Proposal',
   ].join('\n')
 }

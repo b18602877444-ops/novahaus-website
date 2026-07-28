@@ -1,4 +1,5 @@
 import { initialSalesAgentWelcome } from '../utils/aiSalesAgent/conversationEngine.js'
+import { aiSalesConsultantKnowledgeVersion } from '../data/aiSalesConsultantConfig.js'
 import { buildLeadSummary } from '../data/leadSchema.js'
 import { LEADS_STORAGE_KEY, saveLeadRecord, clearLeads } from './leadStorage.js'
 
@@ -41,6 +42,7 @@ export function loadActiveConversation() {
     if (!activeId) return null
     const conversation = readCollection(AI_SALES_CONVERSATIONS_KEY, 'conversations').conversations.find((item) => item.id === activeId) || null
     if (!conversation) return null
+    if (conversation.context?.commercialKnowledgeVersion !== aiSalesConsultantKnowledgeVersion) return null
     const firstMessage = conversation.messages?.[0]
     if (firstMessage?.role === 'agent' && firstMessage.content === 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.') return { ...conversation, messages: [{ ...firstMessage, content: initialSalesAgentWelcome }, ...conversation.messages.slice(1)] }
     return conversation

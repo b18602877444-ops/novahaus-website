@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { aiSalesAgentBudgets, aiSalesAgentIndustries, aiSalesAgentTimelines } from '../data/aiSalesAgentScript.js'
-import { advanceConversation, completeConversation, createInitialConversation } from '../utils/aiSalesAgent/conversationEngine.js'
+import { advanceConversation, completeConversation, createInitialConversation, goBackConversation } from '../utils/aiSalesAgent/conversationEngine.js'
 import { calculateLeadQualification } from '../utils/aiSalesAgent/qualification.js'
 import { buildLeadSummary } from '../data/leadSchema.js'
 import { createSalesAgentId, loadActiveConversation, resetSalesAgentStorage, saveConversation, saveLead } from '../services/aiSalesAgentStorage.js'
+import { buildBookingHandoffHref, buildProposalDiscoveryContext } from '../services/aiSalesAgentHandoff.js'
 
 const emptyLead = { id: '', name: '', company: '', email: '', whatsapp: '', industry: '', country: '', businessType: '', interestedPackage: '', challenge: '', budget: '', timeline: '', goals: [], painPoints: [], aiSummary: '', status: 'new', leadScore: 0, leadTemperature: 'Cold Lead', recommendedServices: [], source: 'ai-sales-agent', createdAt: '', updatedAt: '' }
 
@@ -50,7 +51,7 @@ export function useSalesConversation() {
     const leadWithId = { ...draft, id: draft.id || createSalesAgentId('lead') }
     const qualification = calculateLeadQualification({ conversationText: getConversationText(base), lead: leadWithId, existingSignals: base.qualification?.signals || [] })
     const completed = completeConversation({ ...base, leadDraft: leadWithId, qualification }, leadWithId, () => createSalesAgentId('message'))
-    const nextLead = { ...leadWithId, businessType: leadWithId.businessType || leadWithId.industry, challenge: leadWithId.challenge || leadWithId.painPoints?.[0] || leadWithId.goals?.[0], leadScore: qualification.score, leadTemperature: qualification.temperature, recommendedServices: completed.recommendations.map((item) => item.serviceId), conversationId: completed.id, aiSummary: buildLeadSummary(leadWithId, completed.recommendations), status: 'new' }
+    const nextLead = { ...leadWithId, businessType: leadWithId.businessType || leadWithId.industry, challenge: leadWithId.challenge || leadWithId.painPoints?.[0] || leadWithId.goals?.[0], leadScore: qualification.score, leadTemperature: qualification.temperature, recommendedServices: completed.recommendations.map((item) => item.serviceId), conversationId: completed.id, aiSummary: buildLeadSummary(leadWithId, completed.recommendations, completed.context), status: 'new' }
     const summaryTime = new Date().toISOString()
     const next = { ...completed, qualification, leadDraft: nextLead, messages: [...completed.messages, { id: createSalesAgentId('message'), role: 'agent', content: nextLead.aiSummary, timestamp: summaryTime, type: 'lead-summary', metadata: { stage: 'completed' } }, { id: createSalesAgentId('message'), role: 'agent', content: "Thank you.\nWe've prepared a summary of your business needs.\n\nOur team can continue from here with a more detailed recommendation.\n\nIn the meantime, feel free to explore the Proposal Generator or book a strategy session.", timestamp: summaryTime, type: 'text', metadata: { stage: 'completed' } }] }
     saveLead(nextLead)
@@ -68,7 +69,15 @@ export function useSalesConversation() {
     recommendedProduct: conversationRef.current.recommendations?.[0]?.title || '',
     recommendedServices: conversationRef.current.recommendations || [],
     conversationSummary: getConversationText(conversationRef.current),
+    discoveryContext: buildProposalDiscoveryContext(conversationRef.current),
   }), [lead])
+
+  const goBack = useCallback(() => {
+    const next = goBackConversation(conversationRef.current)
+    conversationRef.current = next
+    setConversation(next)
+    setError('')
+  }, [])
 
   const reset = useCallback(() => {
     resetSalesAgentStorage()
@@ -80,5 +89,11 @@ export function useSalesConversation() {
     setIsLoading(false)
   }, [])
 
-  return { conversation, lead, isLoading, error, sendMessage, submitLead, createProposalPayload, reset, budgetOptions: aiSalesAgentBudgets, industryOptions: aiSalesAgentIndustries, timelineOptions: aiSalesAgentTimelines }
+  const bookingHref = buildBookingHandoffHref({
+    customerType: conversation.context?.customerType,
+    recommendedOffer: conversation.recommendations?.[0]?.title,
+    projectStage: conversation.context?.projectStage,
+  })
+
+  return { conversation, lead, isLoading, error, sendMessage, submitLead, createProposalPayload, goBack, reset, bookingHref, budgetOptions: aiSalesAgentBudgets, industryOptions: aiSalesAgentIndustries, timelineOptions: aiSalesAgentTimelines }
 }
