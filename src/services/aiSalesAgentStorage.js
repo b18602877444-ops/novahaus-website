@@ -43,9 +43,10 @@ export function loadActiveConversation() {
     const conversation = readCollection(AI_SALES_CONVERSATIONS_KEY, 'conversations').conversations.find((item) => item.id === activeId) || null
     if (!conversation) return null
     if (conversation.context?.commercialKnowledgeVersion !== aiSalesConsultantKnowledgeVersion) return null
-    const firstMessage = conversation.messages?.[0]
-    if (firstMessage?.role === 'agent' && firstMessage.content === 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.') return { ...conversation, messages: [{ ...firstMessage, content: initialSalesAgentWelcome }, ...conversation.messages.slice(1)] }
-    return conversation
+    const migrated = { ...conversation, recommendations: (conversation.recommendations || []).map((recommendation, index) => ({ ...recommendation, priority: recommendation.priority || index + 1 })) }
+    const firstMessage = migrated.messages?.[0]
+    if (firstMessage?.role === 'agent' && firstMessage.content === 'Welcome to NOVAHAUS. Tell me what you are working on, and I will help clarify the most useful next step.') return { ...migrated, messages: [{ ...firstMessage, content: initialSalesAgentWelcome }, ...migrated.messages.slice(1)] }
+    return migrated
   } catch { return null }
 }
 
