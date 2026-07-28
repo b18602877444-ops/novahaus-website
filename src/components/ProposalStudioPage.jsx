@@ -15,9 +15,15 @@ function DataBadge({ children }) {
   return <span className="proposal-studio-data-badge"><span aria-hidden="true" />{children}</span>
 }
 
+function formatScopeItem(item) {
+  if (typeof item === 'string') return item
+  if (item && typeof item === 'object') return [item.name, item.price].filter(Boolean).join(' — ')
+  return String(item)
+}
+
 function DeliveryScopeBlock({ label, items, limit = 5 }) {
   if (!items?.length) return null
-  return <div className="proposal-studio-scope-block"><span>{label}</span><ul>{items.slice(0, limit).map((item) => <li key={item}>{item}</li>)}</ul></div>
+  return <div className="proposal-studio-scope-block"><span>{label}</span><ul>{items.slice(0, limit).map((item, index) => <li key={`${label}-${index}`}>{formatScopeItem(item)}</li>)}</ul></div>
 }
 
 export default function ProposalStudioPage() {

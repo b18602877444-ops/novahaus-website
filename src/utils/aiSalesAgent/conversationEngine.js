@@ -3,6 +3,7 @@ import { aiSalesServices } from '../../data/aiSalesAgentServices.js'
 import { growthOperationsOffers, priorityCustomerGroups } from '../../data/growthOperationsOffers.js'
 import { getGrowthOperationsPlanForOffer } from '../../data/growthOperationsPlans.js'
 import { getPortfolioServiceForText } from '../../data/servicePortfolio.js'
+import { isWeb3Context, web3LaunchPackage } from '../../data/web3LaunchPackage.js'
 
 const normalise = (value = '') => value.trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
@@ -59,11 +60,21 @@ function reasonForService(serviceId) {
 function getRecommendations(conversation) {
   const text = conversation.messages.filter((message) => message.role === 'user').map((message) => message.content).join(' ').toLowerCase()
   const offer = inferGrowthOffer(text)
-  const ranked = aiSalesServices.map((service) => ({ service, matches: service.keywords.filter((keyword) => text.includes(keyword)).length })).filter(({ matches }) => matches > 0).sort((a, b) => b.matches - a.matches)
+  const utilityServiceIds = new Set(['growth-assessment', 'proposal-generator'])
+  const ranked = aiSalesServices.map((service) => ({ service, matches: service.keywords.filter((keyword) => text.includes(keyword)).length })).filter(({ service, matches }) => utilityServiceIds.has(service.serviceId) && matches > 0).sort((a, b) => b.matches - a.matches)
   const serviceRecommendations = (ranked.length ? ranked.slice(0, 2) : [{ service: aiSalesServices.find((service) => service.serviceId === 'growth-assessment'), matches: 1 }]).map(({ service }, index) => ({ serviceId: service.serviceId, title: service.title, reason: reasonForService(service.serviceId), priority: index + 2, ctaType: service.ctaType, ctaLabel: service.ctaLabel, ctaTarget: service.ctaTarget }))
   const plan = getGrowthOperationsPlanForOffer(offer.id)
   const offerRecommendation = { serviceId: `department:${plan.id}`, title: plan.name, reason: `${plan.aiSalesSummary} Monthly investment: ${plan.monthlyPrice}.`, priority: 1, ctaType: 'strategy-call', ctaLabel: plan.cta.label, ctaTarget: plan.cta.href, metadata: { planId: plan.id, monthlyPrice: plan.monthlyPrice, onboardingFee: plan.onboardingFee } }
+  if (isWeb3Context(text)) {
+    const launchRecommendation = { serviceId: `package:${web3LaunchPackage.id}`, title: web3LaunchPackage.name, reason: `${web3LaunchPackage.positioning} Starting investment: ${web3LaunchPackage.startingInvestment}.`, priority: 1, ctaType: 'strategy-call', ctaLabel: web3LaunchPackage.cta.label, ctaTarget: web3LaunchPackage.cta.href, metadata: { startingInvestment: web3LaunchPackage.startingInvestment, timeline: web3LaunchPackage.timeline } }
+    return [launchRecommendation, offerRecommendation, ...serviceRecommendations]
+  }
   return [offerRecommendation, ...serviceRecommendations]
+}
+
+function web3DiscoveryReply(input) {
+  if (!isWeb3Context(input)) return ''
+  return 'For a legitimate Web3 or crypto project, NOVAHAUS starts with narrative clarity and responsible source materials. I can help you think through the launch package, a monthly department or a human strategy review — not investment advice or token promotion.'
 }
 
 function monthlyPlanReply(input) {
@@ -123,7 +134,7 @@ export function advanceConversation(conversation, input, createId) {
   const messages = [...conversation.messages, userMessage]
   const faq = faqReply(input)
   const knowledgeReply = deliveryScopeReply(input)
-  const responseKnowledge = monthlyPlanReply(input) || knowledgeReply || faq || (highRiskRequest(input) ? 'This may involve sensitive or regulated information. A human strategy call is the right next step before any recommendation is made.' : '')
+  const responseKnowledge = monthlyPlanReply(input) || web3DiscoveryReply(input) || knowledgeReply || faq || (highRiskRequest(input) ? 'This may involve sensitive or regulated information. A human strategy call is the right next step before any recommendation is made.' : '')
   let stage = conversation.currentStage
   let content = responseKnowledge
   let quickReplies = []
@@ -132,9 +143,21 @@ export function advanceConversation(conversation, input, createId) {
 
   if (conversation.currentStage === 'business-type') {
     leadPatch.industry = inferIndustry(text)
+    if (isWeb3Context(text)) {
+      stage = 'web3-project-context'
+      leadPatch.industry = 'Web3 & Crypto Project Teams'
+      content = prompt('What stage is the project at, and are you preparing a launch, partnership conversation or major campaign?')
+      quickReplies = ['Pre-launch', 'Preparing partnerships', 'Community is active', 'Major campaign planned']
+    } else {
+      stage = 'existing-system'
+      content = prompt('Do you already have a website or system in place?')
+      quickReplies = ['Yes, we have a website', 'We have several tools', 'Not yet', 'We need to replace the current system']
+    }
+  } else if (conversation.currentStage === 'web3-project-context') {
+    leadPatch.projectStage = input.trim()
     stage = 'existing-system'
-    content = prompt('Do you already have a website or system in place?')
-    quickReplies = ['Yes, we have a website', 'We have several tools', 'Not yet', 'We need to replace the current system']
+    content = prompt('Do you already have an approved whitepaper, pitch deck or key-message document? Which communities or platforms matter most, what languages are needed and when is the next launch milestone?')
+    quickReplies = ['Whitepaper exists', 'Pitch deck exists', 'Both need work', 'Starting from source materials']
   } else if (conversation.currentStage === 'existing-system') {
     leadPatch.existingSystem = input.trim()
     stage = 'pain-points'
