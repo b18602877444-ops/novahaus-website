@@ -15,15 +15,16 @@ import ValuePropositionPage from './components/ValuePropositionPage.jsx'
 import RoiCalculatorPage from './components/RoiCalculatorPage.jsx'
 import { ComparePlansPage, FinalInvestmentPage, ManagedAiGrowthPage, PricingPage } from './components/CommercialCenterPage.jsx'
 import DeliveryScopePage from './components/DeliveryScopePage.jsx'
+import DeliverySystemPage from './components/DeliverySystemPage.jsx'
 import { BookingPage, BookingReviewPage } from './components/BookingPage.jsx'
 import { blogPosts, caseStudies } from './data/caseStudies.js'
 import { products } from './data/products.js'
 import { serviceCategories } from './data/servicePortfolio.js'
 import { industrySolutions } from './data/industrySolutions.js'
 import { growthPackages, packagePrinciples } from './data/packages.js'
-import { priorityCustomerGroups } from './data/growthOperationsOffers.js'
 import { growthOperationsPlans } from './data/growthOperationsPlans.js'
 import { web3LaunchPackage } from './data/web3LaunchPackage.js'
+import { commercialKnowledge } from './data/commercialKnowledge.js'
 import { trackAssessmentEvent } from './lib/analytics.js'
 
 const heroEase = [0.22, 1, 0.36, 1]
@@ -33,7 +34,7 @@ const revealMotion = { duration: 0.65, ease: heroEase }
 const journeyNavItems = [
   { label: 'Who We Help', href: '/who-we-help/' },
   { label: 'Departments', href: '/products/' },
-  { label: 'How We Deliver', href: '/delivery-scope/' },
+  { label: 'How We Deliver', href: '/delivery-process/' },
   { label: 'Demonstration Projects', href: '/success-stories/' },
   { label: 'Investment', href: '/pricing/' },
 ]
@@ -41,9 +42,10 @@ const journeyNavItems = [
 const journeyCta = { label: 'Book Strategy Call', href: '/booking/?source=journey-nav' }
 
 const footerUtilityItems = [
-  { label: 'AI Sales Agent', href: '/ai-sales-agent/' },
-  { label: 'Growth Assessment', href: '/growth-assessment/' },
+  { label: 'Growth Consultant', href: '/ai-sales-agent/' },
+  { label: 'Business Growth Assessment', href: '/growth-assessment/' },
   { label: 'Proposal Studio', href: '/proposal/' },
+  { label: 'China-to-Global', href: '/china-to-global/' },
   { label: 'Knowledge Hub', href: '/knowledge-hub/' },
   { label: 'About', href: '/about/' },
   { label: 'Journal', href: '/blog/' },
@@ -53,10 +55,10 @@ const footerUtilityItems = [
 ]
 
 const serviceItems = [
-  { number: '01', title: 'AI Automation', description: 'Turn the repeatable parts of the business into a system your team can trust.', icon: 'automation' },
-  { number: '02', title: 'AI Website', description: 'A high-conviction digital front door, shaped around how people decide.', icon: 'website' },
-  { number: '03', title: 'Brand Strategy', description: 'Positioning with enough edge to be remembered and enough clarity to travel.', icon: 'strategy' },
-  { number: '04', title: 'AI Consulting', description: 'Find the few AI moves that improve the business now—not in a slide deck.', icon: 'consulting' },
+  { number: '01', title: 'Strategy & Planning', description: 'Clarify the business direction, audience and next useful move before production begins.', icon: 'strategy' },
+  { number: '02', title: 'Brand & Commercial Assets', description: 'Give the team credible materials for explaining, presenting and selling the work.', icon: 'website' },
+  { number: '03', title: 'Media & Content', description: 'Plan and produce a consistent editorial presence with clear review and approval.', icon: 'consulting' },
+  { number: '04', title: 'Supporting Systems', description: 'Connect the digital experiences and workflows that help the operating team deliver well.', icon: 'automation' },
 ]
 
 const solutionItems = [
@@ -66,10 +68,10 @@ const solutionItems = [
 ]
 
 const principles = [
-  { number: '01', title: 'AI First', description: 'Start with leverage: remove friction before adding more people, tools or process.', icon: 'ai' },
+  { number: '01', title: 'Professional Review', description: 'Every important output is shaped by context, quality control and accountable human judgement.', icon: 'ai' },
   { number: '02', title: 'Premium Design', description: 'Make every touchpoint feel considered, legible and worth returning to.', icon: 'design' },
   { number: '03', title: 'Fast Delivery', description: 'Keep decisions close, feedback useful and momentum visible from day one.', icon: 'speed' },
-  { number: '04', title: 'Long-term Partner', description: 'Leave behind a system that stays useful after the launch moment passes.', icon: 'partner' },
+  { number: '04', title: 'Long-term Partner', description: 'Keep the work useful after launch through a clear operating rhythm and ongoing support.', icon: 'partner' },
 ]
 
 const processItems = [
@@ -78,26 +80,20 @@ const processItems = [
   { number: '03', title: 'Launch', description: 'Put the system to work in the real world.' },
 ]
 
-const clientProfiles = ['Founder-led services', 'AI-native products', 'Personal brands', 'Modern teams']
-
 const positioningItems = [
-  { number: '01', title: 'Strategy before volume', description: 'Clarify the position, narrative and offer before producing more output.' },
-  { number: '02', title: 'AI-executed, human-accountable', description: 'Use AI for speed while people review accuracy, reputation and compliance.' },
-  { number: '03', title: 'Built for continuity', description: 'Work through defined monthly capacity, clear scope and a consistent review rhythm.' },
+  { number: '01', title: 'Strategy before production', description: 'Every deliverable begins with clear positioning, audience needs and commercial purpose.' },
+  { number: '02', title: 'AI speed, human accountability', description: commercialKnowledge.humanReviewPrinciple },
+  { number: '03', title: 'Ongoing operations, not scattered tasks', description: 'Defined monthly capacity, one coordinated workflow and clear responsibility.' },
 ]
 
-const whoWeHelpItems = [
-  { title: 'Web3 & Crypto Project Teams', label: 'Our Deepest Current Focus', description: 'For legitimate infrastructure, membership and community projects that need a credible narrative, launch assets and consistent communications without unsupported financial claims.' },
-  { title: 'China-to-Global Teams', label: 'Expanding Market Focus', description: 'For teams entering international markets that need clear English-language positioning, commercial materials and a dependable content operating rhythm.' },
-  { title: 'Creators & Personal Brands', label: 'Founder-Led Growth', description: 'For experts and founders turning a point of view into a coherent brand, media presence and repeatable content system.' },
-]
+const whoWeHelpItems = commercialKnowledge.customerGroups
 
 const faqs = [
   { question: 'Why NOVAHAUS?', answer: 'NOVAHAUS brings strategy, digital experience and practical AI systems into one commercial conversation, so the work supports the business rather than sitting beside it.' },
   { question: 'How is NOVAHAUS different?', answer: 'We start with the business problem and the decision your market needs to make. The brand, website and systems follow that clarity.' },
   { question: 'Do you only build websites?', answer: 'No. Websites are one part of the system. We also work across positioning, automation, CRM, content operations and ongoing optimisation.' },
   { question: 'How do Strategy Calls work?', answer: 'A Strategy Call is a focused first conversation about your goals, constraints and next commercial priority. If there is a fit, we outline a useful route forward.' },
-  { question: 'Do you provide long-term support?', answer: 'Yes. Growth Partner is a monthly retainer for businesses that want continued strategic support, optimisation and system refinement after launch.' },
+  { question: 'Do you provide long-term support?', answer: 'Yes. The four Monthly Operations Departments provide defined ongoing capacity for content, brand, community or growth operations after launch.' },
 ]
 
 const strategyCallFaqs = [
@@ -190,30 +186,7 @@ function PageLoader({ reduceMotion }) {
 
 function Hero() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const stageRef = useRef(null)
   const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    const stage = stageRef.current
-    if (!stage) return undefined
-    const handleMove = (event) => {
-      const rect = stage.getBoundingClientRect()
-      const x = (event.clientX - rect.left) / rect.width - 0.5
-      const y = (event.clientY - rect.top) / rect.height - 0.5
-      stage.style.setProperty('--mouse-px', `${(x * 18).toFixed(2)}px`)
-      stage.style.setProperty('--mouse-py', `${(y * 18).toFixed(2)}px`)
-    }
-    const handleLeave = () => {
-      stage.style.setProperty('--mouse-px', '0px')
-      stage.style.setProperty('--mouse-py', '0px')
-    }
-    stage.addEventListener('pointermove', handleMove)
-    stage.addEventListener('pointerleave', handleLeave)
-    return () => {
-      stage.removeEventListener('pointermove', handleMove)
-      stage.removeEventListener('pointerleave', handleLeave)
-    }
-  }, [])
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -229,58 +202,46 @@ function Hero() {
       <div className="hero-grid page-shell">
         <div className="hero-copy">
           <div>
-            <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>AI GROWTH OPERATIONS</SectionLabel></motion.div>
-            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Your AI Growth</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}><em>Operations Team.</em></motion.span></h1>
-            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>We plan, produce and operate the content, narrative, commercial assets and digital systems your business needs to grow — without you building and managing a full in-house team.</motion.p>
-            <motion.p className="hero-market-focus" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.72, ease: heroEase }}>Currently deepest in Web3 and crypto projects. Expanding to China-to-global teams and personal brands.</motion.p>
-            <div className="hero-actions"><MagneticLink href="/booking/?source=homepage-hero" className="hero-primary-link" delay={0.82} reduceMotion={reduceMotion}>Book Strategy Call</MagneticLink><motion.a href="#how-we-help" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.94, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>See How We Work</span><ArrowIcon direction="right" /></motion.a></div>
-            <motion.p className="hero-trust-note" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 1.06, ease: heroEase }}>Strategy-led. AI-enabled. Built for measurable business outcomes.</motion.p>
+            <motion.div initial={reduceMotion ? false : { opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1, ease: heroEase }}><SectionLabel>{commercialKnowledge.positioning.heroEyebrow}</SectionLabel></motion.div>
+            <h1 id="hero-title"><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.18, ease: heroEase }}>Your Growth</motion.span><motion.span className="hero-title-line" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.3, ease: heroEase }}><em>Operations Team.</em></motion.span></h1>
+            <motion.p className="hero-description" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.62, ease: heroEase }}>{commercialKnowledge.positioning.heroParagraph}</motion.p>
+            <motion.p className="hero-market-focus" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.72, ease: heroEase }}>{commercialKnowledge.positioning.marketFocus}</motion.p>
+            <div className="hero-actions"><MagneticLink href={commercialKnowledge.ctas.bookStrategyCall.href} className="hero-primary-link" delay={0.82} reduceMotion={reduceMotion}>{commercialKnowledge.ctas.bookStrategyCall.label}</MagneticLink><motion.a href="#how-we-deliver" className="text-link hero-secondary-link" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.82, ease: heroEase }} whileHover={reduceMotion ? undefined : { scale: 1.03, boxShadow: '0 14px 30px rgba(17, 17, 17, .1)' }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}><span>See What We Deliver</span><ArrowIcon direction="right" /></motion.a></div>
+            <motion.p className="hero-trust-note" initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 1.06, ease: heroEase }}>{commercialKnowledge.positioning.trustLine}</motion.p>
           </div>
         </div>
 
-        <motion.div className="hero-stage-reveal" initial={reduceMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.18, ease: heroEase }}><motion.div ref={stageRef} className="hero-stage" aria-label="NOVAHAUS growth operations capability visualization" animate={reduceMotion ? undefined : { y: [0, -7, 0] }} transition={reduceMotion ? { duration: 0 } : { duration: 8, ease: 'easeInOut', repeat: Infinity }}><div className="hero-stage-glow" /><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /><div className="hero-dashboard" data-parallax="0.08"><div className="dashboard-topline"><span>Growth operations</span><span>01 / 04</span></div><div className="dashboard-core"><BrandMark className="dashboard-mark" loading="eager" /><span>Narrative / Content / Systems</span></div><div className="dashboard-footer"><span>Human reviewed</span><span className="dashboard-status"><i /> In progress</span></div></div><div className="hero-float-card float-card-top" data-parallax="0.14"><span>Launch materials</span><strong>Whitepaper</strong><small>Pitch / FAQ / Landing</small></div><div className="hero-float-card float-card-bottom" data-parallax="0.2"><span>Monthly operations</span><strong>Defined capacity</strong><small>AI-assisted / human reviewed</small></div><div className="hero-coordinate">WEB3 / GLOBAL<br />OPERATIONS</div></motion.div></motion.div>
+        <motion.div className="hero-commercial-panel" initial={reduceMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.18, ease: heroEase }} aria-label="NOVAHAUS concrete delivery capabilities"><div className="hero-commercial-panel-head"><span>NOVAHAUS / DELIVERY</span><span>WEB3 FIRST</span></div><div className="hero-commercial-panel-core"><SectionLabel>What we operate</SectionLabel><h2>Narrative.<br />Content.<br />Commercial assets.<br /><em>Supporting systems.</em></h2></div><div className="hero-commercial-list">{commercialKnowledge.capabilities.map((item) => <span key={item.number}><b>{item.number}</b>{item.title}</span>)}</div><div className="hero-commercial-panel-foot"><span>Structured production</span><span>Human review / client approval</span></div></motion.div>
       </div>
-       <motion.div className="hero-operations-visual" initial={reduceMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.24, ease: heroEase }} aria-label="NOVAHAUS growth operations capabilities"><div className="hero-operations-panel"><div className="hero-operations-panel-head"><span>NOVAHAUS / OPERATIONS</span><span>04 CAPABILITIES</span></div><div className="hero-operations-mark"><BrandMark className="dashboard-mark" loading="eager" /><span>Web3 / Global / Personal Brand</span></div><div className="hero-operations-lines"><span>01 Narrative &amp; Whitepaper</span><span>02 Pitch &amp; Commercial Assets</span><span>03 Community &amp; Social Content</span><span>04 Ongoing AI Growth Operations</span></div><div className="hero-operations-panel-foot"><span>Human review / client approval</span><span className="dashboard-status"><i /> In progress</span></div></div><div className="hero-operations-float hero-operations-float-top"><span>Launch package</span><strong>Whitepaper + Pitch</strong><small>Defined implementation scope</small></div><div className="hero-operations-float hero-operations-float-bottom"><span>Monthly departments</span><strong>Capacity, not chaos</strong><small>AI-assisted / human-accountable</small></div></motion.div>
-       <div className="hero-bottomline page-shell"><span>Strategy</span><span>Identity</span><span>Digital</span><span>AI systems</span><span className="scroll-prompt">Scroll to explore <span className="scroll-line" /></span></div>
+       <div className="hero-bottomline page-shell"><span>Web3 first</span><span>Global next</span><span>Human reviewed</span><span>Defined capacity</span><span className="scroll-prompt">Scroll to explore <span className="scroll-line" /></span></div>
     </section>
   )
 }
 
 function PositioningStrip() {
-  return <section id="capabilities" className="positioning-strip-section section light-section"><div className="page-shell"><Reveal className="positioning-strip-header"><SectionLabel>Operating point of view</SectionLabel><div><h2>We don’t sell tools.<br /><span>We deliver growth operations.</span></h2><p className="section-description">AI companies give you software. NOVAHAUS becomes the team running the narratives, whitepapers, pitch materials, community content, short-video scripts, brand assets and supporting digital systems — while your internal team stays focused on human judgment.</p></div></Reveal><div className="positioning-grid">{positioningItems.map((item, index) => <Reveal key={item.number} className="positioning-item" delay={index * 80}><span className="positioning-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
+  return <section id="value-proposition" className="positioning-strip-section section light-section"><div className="page-shell"><Reveal className="positioning-strip-header"><SectionLabel>The operating model</SectionLabel><div><h2>We don’t sell tools.<br /><span>We deliver the work.</span></h2><p className="section-description">NOVAHAUS becomes the coordinated operations partner that plans, produces, reviews and maintains the work — from narrative and pitch materials to community content, short-video scripts, visual assets and supporting sales systems.</p></div></Reveal><div className="positioning-grid">{positioningItems.map((item, index) => <Reveal key={item.number} className="positioning-item" delay={index * 80}><span className="positioning-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
 }
 
 function WhoWeHelpSection() {
-  return <section id="who-we-work-with" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we help</SectionLabel><h2>Built for businesses<br /><span>ready to grow differently.</span></h2><p>We work with ambitious founders, project teams and established businesses that need more than isolated marketing services.</p></Reveal><div className="industry-tags">{whoWeHelpItems.map((item, index) => <Reveal className="industry-focus-card" key={item.title} delay={index * 80}><span className="industry-focus-label">{item.label}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
+  return <section id="who-we-work-with" className="who-we-help-section section paper-section"><div className="page-shell"><Reveal className="who-we-help-header"><SectionLabel>Who we help</SectionLabel><h2>Built for businesses<br /><span>ready to grow differently.</span></h2><p>We work with ambitious founders, project teams and established businesses that need more than isolated marketing services.</p></Reveal><div className="industry-tags">{whoWeHelpItems.map((item, index) => <Reveal className="industry-focus-card" key={item.title} delay={index * 80}><span className="industry-focus-label">{item.label}</span><h3>{item.title}</h3><p>{item.description}</p><ul className="industry-focus-needs">{item.needs.map((need) => <li key={need}>{need}</li>)}</ul>{item.id === 'china-to-global-teams' && <a className="text-link industry-demo-link" href="/china-to-global/">Explore China-to-Global support <ArrowIcon direction="right" /></a>}{item.complianceNote && <p className="industry-focus-boundary">{item.complianceNote}</p>}</Reveal>)}</div></div></section>
 }
 
 function GrowthOperationsSection() {
-  return <section id="growth-operations" className="section light-section growth-operations-section"><div className="page-shell"><SectionHeader label="Monthly Operations Departments" title={<>Defined capacity for<br /><span>the work behind growth.</span></>} description="All departments are delivered as ongoing operations, not one-off task outsourcing. Scope is clear. Output is consistent. Human review remains where accuracy, reputation and compliance matter." /><div className="growth-operations-groups">{priorityCustomerGroups.map((group, index) => <Reveal key={group} className="growth-operations-group" delay={index * 70}><span>{String(index + 1).padStart(2, '0')}</span><h3>{group}</h3></Reveal>)}</div><div className="growth-operations-plans">{growthOperationsPlans.map((plan, index) => <Reveal key={plan.id} className="growth-operations-plan" delay={index * 70}><div className="growth-operations-plan-top"><span>{String(index + 1).padStart(2, '0')} / Monthly department</span>{plan.label && <strong>{plan.label}</strong>}</div><h3>{plan.name}</h3><p>{plan.bestFor}</p><strong className="growth-operations-plan-price">{plan.monthlyPrice}</strong><span className="growth-operations-plan-label">Standard monthly capacity</span><ul>{plan.monthlyStandardCapacity.slice(0, 4).map((item) => <li key={item}>{item}</li>)}</ul><p className="growth-operations-plan-boundary">Human review: approved claims, source materials and final client sign-off.</p><a href={plan.cta.href} className="text-link">{plan.cta.label} <ArrowIcon direction="right" /></a></Reveal>)}</div><Reveal className="web3-launch-callout" delay={180}><SectionLabel>One-time implementation</SectionLabel><h3>{web3LaunchPackage.name}</h3><p>{web3LaunchPackage.positioning}</p><strong>{web3LaunchPackage.startingInvestment}</strong><a href={web3LaunchPackage.cta.href} className="text-link">{web3LaunchPackage.cta.label} <ArrowIcon direction="right" /></a><a href="/demo-projects/novum-infrastructure-collective/" className="text-link">View the Web3 demonstration <ArrowIcon direction="right" /></a></Reveal></div></section>
+  return <section id="growth-operations" className="section light-section growth-operations-section"><div className="page-shell"><SectionHeader label="Monthly Operations Departments" title={<>Choose Your Monthly<br /><span>Operations Department.</span></>} description="All Departments are delivered as ongoing operations, not fragmented one-off outsourcing. Scope is defined. Output is consistent. Human review remains where accuracy, reputation and compliance matter." /><div className="growth-operations-plans">{commercialKnowledge.monthlyDepartments.map((plan, index) => <Reveal key={plan.id} className="growth-operations-plan" delay={index * 70}><div className="growth-operations-plan-top"><span>{String(index + 1).padStart(2, '0')} / Monthly department</span>{plan.label && <strong>{plan.label}</strong>}</div><h3>{plan.name}</h3><p>{plan.bestFor}</p><strong className="growth-operations-plan-price">{plan.monthlyPrice}</strong><span className="growth-operations-plan-label">Starting onboarding investment: {plan.onboardingFee}</span><ul>{plan.monthlyStandardCapacity.slice(0, 4).map((item) => <li key={item}>{item}</li>)}</ul><p className="growth-operations-plan-boundary">{commercialKnowledge.humanReviewPrinciple}</p><div className="growth-operations-plan-actions"><a href={`/pricing/?source=homepage-department&plan=${plan.id}`} className="text-link">View Investment <ArrowIcon direction="right" /></a><a href={commercialKnowledge.ctas.bookStrategyCall.href} className="text-link">Book Strategy Call <ArrowIcon direction="right" /></a></div></Reveal>)}</div><Reveal className="web3-launch-callout" delay={180}><SectionLabel>One-time implementation</SectionLabel><h3>{commercialKnowledge.launchPackage.name}</h3><p>{commercialKnowledge.launchPackage.positioning}</p><strong>{commercialKnowledge.launchPackage.startingInvestment}</strong><a href={commercialKnowledge.launchPackage.cta.href} className="text-link">{commercialKnowledge.launchPackage.cta.label} <ArrowIcon direction="right" /></a><a href="/demo-projects/novum-infrastructure-collective/" className="text-link">View the Web3 demonstration <ArrowIcon direction="right" /></a></Reveal></div></section>
 }
 
 function DepartmentsPage() {
   return <InternalPage eyebrow="NOVAHAUS / Monthly Operations" title={<>Four departments for<br /><em>the work behind growth.</em></>} description="Choose the recurring operating capacity that matches the work your business needs to keep moving. Each department has clear scope, monthly quantities, client responsibilities and human review points."><section className="growth-operations-section internal-departments-page"><div className="growth-operations-plans">{growthOperationsPlans.map((plan, index) => <Reveal key={plan.id} className="growth-operations-plan" delay={index * 70}><div className="growth-operations-plan-top"><span>{String(index + 1).padStart(2, '0')} / Monthly department</span>{plan.label && <strong>{plan.label}</strong>}</div><h3>{plan.name}</h3><p>{plan.bestFor}</p><strong className="growth-operations-plan-price">{plan.monthlyPrice}</strong><span className="growth-operations-plan-label">Standard monthly capacity</span><ul>{plan.monthlyStandardCapacity.map((item) => <li key={item}>{item}</li>)}</ul><p className="growth-operations-plan-boundary">Human review, client approval and clear scope remain part of every engagement.</p><a href={plan.cta.href} className="text-link">Book Strategy Call <ArrowIcon direction="right" /></a></Reveal>)}</div><Reveal className="web3-launch-callout" delay={160}><SectionLabel>One-time entry offer</SectionLabel><div><h3>{web3LaunchPackage.name}</h3><p>{web3LaunchPackage.positioning}</p></div><strong>{web3LaunchPackage.startingInvestment}</strong><a href={web3LaunchPackage.cta.href} className="text-link">Plan Your Project Launch <ArrowIcon direction="right" /></a></Reveal></section></InternalPage>
 }
 
-const howWeHelpItems = [
-  { number: 'A', title: 'Narrative & Whitepaper', description: 'Positioning, narrative architecture, standard whitepapers, updates, FAQ/message consistency and human review. No token-price promotion or investment advice.' },
-  { number: 'B', title: 'Pitch & Commercial Assets', description: 'Pitch decks, project presentations, partner proposals, company profiles, landing-page copy and campaign materials for clearer conversations.' },
-  { number: 'C', title: 'Community & Social Content', description: 'Announcements, educational and AMA packages, posters, scripts, platform-specific copy and Knowledge Hub updates.' },
-  { number: 'D', title: 'Ongoing AI Growth Operations', description: 'The four approved departments provide defined monthly content, brand, community or growth operations capacity with human accountability.' },
-]
+const howWeHelpItems = commercialKnowledge.capabilities
 
-const trustReasons = ['Strategy Before Execution', 'AI-Powered Systems', 'Long-Term Partnership', 'Global Perspective']
+const trustReasons = ['Strategy Before Execution', 'Coordinated Delivery', 'Long-Term Partnership', 'Global Perspective']
 
-const approachSteps = [
-  { number: '01', title: 'Discovery', description: 'Understand business goals and challenges.' },
-  { number: '02', title: 'Strategy', description: 'Design the growth roadmap.' },
-  { number: '03', title: 'Build', description: 'Develop websites, AI systems and automation.' },
-  { number: '04', title: 'Launch', description: 'Deploy and optimise.' },
-  { number: '05', title: 'Scale', description: 'Continuous growth through long-term partnership.' },
-]
+const approachSteps = commercialKnowledge.deliveryProcess
 
 function HowWeHelpSection() {
-  return <section id="how-we-help" className="section light-section conversion-help-section"><div className="page-shell"><SectionHeader label="What we deliver" title={<>Concrete work for<br /><span>the next conversation.</span></>} description="The work stays close to the narrative, assets, content and systems your team needs to move with confidence." /><div className="services-grid conversion-help-grid">{howWeHelpItems.map((item, index) => <Reveal key={item.number} className="service-card conversion-help-card" delay={index * 80}><span className="service-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></div></section>
+  return <section id="how-we-deliver" className="section light-section conversion-help-section"><div className="page-shell"><SectionHeader label="What we actually deliver" title={<>What We Actually<br /><span>Deliver.</span></>} description="The work stays close to the narrative, assets, content and supporting systems your team needs to move with confidence." /><div className="services-grid conversion-help-grid">{howWeHelpItems.map((item, index) => <Reveal key={item.number} className="service-card conversion-help-card" delay={index * 80}><span className="service-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p><ul className="capability-list">{item.items.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul>{item.note && <p className="capability-note">{item.note}</p>}</Reveal>)}</div></div></section>
 }
 
 function TrustSection() {
@@ -288,7 +249,16 @@ function TrustSection() {
 }
 
 function ApproachSection() {
-  return <section id="approach" className="section dark-section approach-section"><div className="page-shell"><SectionHeader label="Our Approach" title={<>A clear path from<br /><span>ambition to traction.</span></>} description="Five focused steps keep the work useful, visible and moving." dark /><div className="approach-grid">{approachSteps.map((step, index) => <Reveal key={step.number} className="approach-card" delay={index * 70}><span>{step.number}</span><h3>{step.title}</h3><p>{step.description}</p></Reveal>)}</div></div></section>
+  return <section id="approach" className="section dark-section approach-section"><div className="page-shell"><SectionHeader label="How We Deliver" title={<>A clear path from<br /><span>brief to operation.</span></>} description="Four focused steps keep the work useful, visible and moving. Final scope and timing depend on client materials, approvals, compliance and integrations." dark /><div className="approach-grid">{approachSteps.map((step, index) => <Reveal key={step.number} className="approach-card" delay={index * 70}><span>{step.number}</span><h3>{step.title}</h3><p>{step.description}</p></Reveal>)}</div></div></section>
+}
+
+function OperatingComparisonSection() {
+  const comparison = commercialKnowledge.operatingComparison
+  return <section id="operating-model" className="section paper-section operating-comparison-section"><div className="page-shell"><SectionHeader label="The operating model" title={<>Build the capability<br /><span>without building the department.</span></>} description="Traditional teams coordinate writers, designers, video, community and agencies. NOVAHAUS provides one coordinated growth operations team with defined capacity and accountable human review." /><div className="operating-comparison-grid"><Reveal className="operating-comparison-card"><SectionLabel>Traditional setup</SectionLabel><ul>{comparison.traditional.map((item) => <li key={item}>{item}</li>)}</ul></Reveal><Reveal className="operating-comparison-card is-highlighted" delay={80}><SectionLabel>NOVAHAUS</SectionLabel><ul>{comparison.novaHaus.map((item) => <li key={item}>{item}</li>)}</ul></Reveal></div><p className="operating-comparison-note">{comparison.note}</p></div></section>
+}
+
+function DemonstrationSection() {
+  return <section id="demonstration" className="section light-section demonstration-section"><div className="page-shell"><SectionHeader label="Proof through demonstration" title={<>See What We Can<br /><span>Produce.</span></>} description="A fictional internal demonstration shows the quality and range of work NOVAHAUS can assemble for a project team." /><Reveal className="demonstration-feature" delay={100}><div><SectionLabel>Official NOVAHAUS Demonstration Project</SectionLabel><h3>Novum Infrastructure Collective</h3><p>This is an internally produced demonstration project, not a client case study. It contains no claimed client results, testimonials, funding, partnerships or performance metrics.</p></div><a href="/demo-projects/novum-infrastructure-collective/" className="button-dark">View Demonstration Project <ArrowIcon direction="right" /></a></Reveal></div></section>
 }
 
 function AnimatedNumber({ value, suffix = '', label }) {
@@ -318,7 +288,7 @@ function AboutSection() {
   return (
     <section id="about" className="section dark-section about-section">
       <div className="page-shell">
-        <SectionHeader number="01" label="About NOVAHAUS" title={<>Make your signal<br /><span>impossible to miss.</span></>} description="NOVAHAUS is an AI growth company for founders, operators and teams with something worth moving into the world." dark />
+        <SectionHeader number="01" label="About NOVAHAUS" title={<>Make your signal<br /><span>impossible to miss.</span></>} description="NOVAHAUS is a professional growth operations company for founders, operators and teams with something worth moving into the world." dark />
         <div className="about-lower"><Reveal className="about-statement" delay={100}><p>The strongest brands do not shout. They make the right thing clear, then make the next decision easier.</p><a href="#why" className="text-link text-link-light">See how we work <ArrowIcon direction="right" /></a></Reveal><Reveal className="about-metrics" delay={180}><AnimatedNumber value={1} label={<>Integrated<br />system</>} /><AnimatedNumber value={3} label={<>Growth<br />levers</>} /><AnimatedNumber value={1} label={<>Shared<br />direction</>} /></Reveal></div>
 
         <Reveal className="proof-strip" delay={240}><div className="proof-intro"><SectionLabel>Built for</SectionLabel><p>Teams building the next chapter of a serious business.</p></div><div className="client-profile-list" aria-label="Business profiles NOVAHAUS supports">{clientProfiles.map((profile) => <span key={profile}>{profile}</span>)}</div></Reveal>
@@ -356,7 +326,7 @@ function CaseStudyShowcaseCard({ study, index }) {
 }
 
 function CaseStudiesShowcase() {
-  return <section id="case-studies-home" className="section light-section case-studies-showcase-section"><div className="page-shell"><SectionHeader label="Case Studies" title={<>AI Growth Systems for<br /><span>real business challenges.</span></>} description="Explore how NOVAHAUS combines strategy, websites and AI systems to improve customer journeys, sales processes and business operations." /><div className="case-showcase-grid">{caseStudies.map((study, index) => <CaseStudyShowcaseCard key={study.slug} study={study} index={index} />)}</div><Reveal className="case-showcase-footer"><p>Internal product work and concept demos are clearly labelled. No unsupported client results are presented.</p><a href="/case-studies/" className="text-link">View all case studies <ArrowIcon direction="right" /></a></Reveal></div></section>
+  return <section id="case-studies-home" className="section light-section case-studies-showcase-section"><div className="page-shell"><SectionHeader label="Case Studies" title={<>Growth operations for<br /><span>real business challenges.</span></>} description="Explore how NOVAHAUS combines strategy, coordinated production and supporting systems to improve customer journeys, sales processes and business operations." /><div className="case-showcase-grid">{caseStudies.map((study, index) => <CaseStudyShowcaseCard key={study.slug} study={study} index={index} />)}</div><Reveal className="case-showcase-footer"><p>Internal product work and concept demos are clearly labelled. No unsupported client results are presented.</p><a href="/case-studies/" className="text-link">View all case studies <ArrowIcon direction="right" /></a></Reveal></div></section>
 }
 
 function PackageCard({ packageItem, index }) {
@@ -364,7 +334,7 @@ function PackageCard({ packageItem, index }) {
 }
 
 function PackagesSection() {
-  return <section id="packages" className="section light-section packages-section"><div className="page-shell"><SectionHeader label="Packages" title={<>Choose the right<br /><span>AI growth package.</span></>} description="Flexible AI solutions designed for businesses at different stages of growth." /><div className="growth-packages-grid">{growthPackages.map((packageItem, index) => <PackageCard key={packageItem.name} packageItem={packageItem} index={index} />)}</div><div className="package-principles"><SectionLabel>Why choose NOVAHAUS</SectionLabel><div className="package-principles-grid">{packagePrinciples.map((principle, index) => <Reveal key={principle.title} className="package-principle" delay={index * 70}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{principle.title}</h3><p>{principle.description}</p></div></Reveal>)}</div></div></div></section>
+  return <section id="packages" className="section light-section packages-section"><div className="page-shell"><SectionHeader label="Engagement paths" title={<>Choose the right<br /><span>operating path.</span></>} description="Begin with a focused implementation or choose the level of coordinated operating support that fits the business today." /><div className="growth-packages-grid">{growthPackages.map((packageItem, index) => <PackageCard key={packageItem.name} packageItem={packageItem} index={index} />)}</div><div className="package-principles"><SectionLabel>Why choose NOVAHAUS</SectionLabel><div className="package-principles-grid">{packagePrinciples.map((principle, index) => <Reveal key={principle.title} className="package-principle" delay={index * 70}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{principle.title}</h3><p>{principle.description}</p></div></Reveal>)}</div></div></div></section>
 }
 
 function ProjectArt({ type, title }) {
@@ -423,11 +393,11 @@ function ContactForm() {
 }
 
 function CTASection() {
-  return <section id="contact" className="section dark-section cta-section"><div className="page-shell"><Reveal className="cta-grid"><div><SectionLabel number="09">Contact</SectionLabel><h2 className="cta-title">Ready to Build<br /><em>Your Growth System?</em></h2><p>Book a Strategy Call and discover how NOVAHAUS can help your business grow with AI, automation and strategy.</p><div className="conversion-cta-actions"><a href="/booking/?source=homepage-cta" className="magnetic-link conversion-primary-cta">Book a Strategy Call <ArrowIcon direction="right" /></a><a href="/products/" className="text-link text-link-light conversion-secondary-cta">View Products <ArrowIcon direction="right" /></a></div><div className="cta-contact-detail"><a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a><span>Kuala Lumpur / Global</span></div><div className="contact-channels"><div><span>Calendly</span><strong>Booking request available</strong></div><div><span>WhatsApp</span><strong>Optional on the request form</strong></div></div></div><ContactForm /></Reveal></div></section>
+  return <section id="contact" className="section dark-section cta-section"><div className="page-shell"><Reveal className="cta-grid"><div><SectionLabel number="09">Contact</SectionLabel><h2 className="cta-title">Let’s define the<br /><em>smallest useful operation.</em></h2><p>Tell us what your team is trying to launch, produce or improve. We will identify the appropriate Department, Launch Package, add-on or custom engagement.</p><div className="conversion-cta-actions"><a href={commercialKnowledge.ctas.bookStrategyCall.href} className="magnetic-link conversion-primary-cta">Book Strategy Call <ArrowIcon direction="right" /></a><a href={commercialKnowledge.ctas.assessment.href} className="text-link text-link-light conversion-secondary-cta">Take the AI Growth Operations Assessment <ArrowIcon direction="right" /></a></div><div className="cta-contact-detail"><a href="mailto:hello@novahaus.studio">hello@novahaus.studio</a><span>Kuala Lumpur / Global</span></div><div className="contact-channels"><div><span>Calendly</span><strong>Booking request available</strong></div><div><span>WhatsApp</span><strong>Optional on the request form</strong></div></div></div><ContactForm /></Reveal></div></section>
 }
 
 function LegacyFooter() {
-  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>Build Better Businesses.<br />Powered by AI.<br />Driven by Strategy.</p></div><nav aria-label="Footer navigation">{journeyNavItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}<a href={journeyCta.href}>{journeyCta.label}</a>{footerUtilityItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}<a href="/compare-plans/">Compare Plans</a><a href="/managed-ai-growth/">Managed AI Growth</a><a href="/delivery-scope/">Delivery Scope</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
+  return <footer className="site-footer"><div className="page-shell footer-top"><div className="footer-brand"><BrandLogo reversed className="footer-logo" /><p>Build Better Businesses.<br />Powered by AI.<br />Driven by Strategy.</p></div><nav aria-label="Footer navigation">{journeyNavItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}<a href={journeyCta.href}>{journeyCta.label}</a>{footerUtilityItems.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}<a href="/delivery-scope/">Delivery Scope</a></nav></div><div className="page-shell footer-bottom"><span>© 2026 NOVAHAUS. All Rights Reserved.</span><span>Built with clarity.</span></div></footer>
 }
 
 function Footer() {
@@ -462,7 +432,7 @@ const productsFaqs = [
 ]
 
 const trustPrinciples = [
-  { number: '01', title: 'AI-first growth solutions', description: 'Use AI where it creates useful leverage across the customer journey and the work behind it.' },
+  { number: '01', title: 'Professionally managed growth', description: 'Coordinate the customer journey and the work behind it through clear ownership and review.' },
   { number: '02', title: 'Strategy + implementation', description: 'Connect the thinking to the build so priorities become practical, usable systems.' },
   { number: '03', title: 'Measurable business outcomes', description: 'Define the signal that matters before selecting the tools, pages or workflows.' },
   { number: '04', title: 'Modular and scalable systems', description: 'Start with the highest-value move and leave room for the next stage.' },
@@ -554,6 +524,17 @@ function WhoWeHelpPage() {
   return <InternalPage eyebrow="Who We Help" title={<>Built for businesses<br /><em>ready to grow differently.</em></>} description="Industry-specific starting points built from the NOVAHAUS Industry Matrix. Each route begins with business context, not a fixed solution."><section className="internal-list-section industry-solutions-index" aria-label="NOVAHAUS industry solutions"><SectionLabel number="01">Industry Matrix</SectionLabel><div className="internal-list-grid">{industrySolutions.map((solution, index) => <Reveal className="internal-list-item" delay={index * 70} key={solution.id}><span>{String(index + 1).padStart(2, '0')}</span><h2>{solution.shortName}</h2><p>{solution.positioning}</p><a href={`/booking/?source=industry-matrix&industry=${solution.slug}`} className="text-link">Discuss this context <ArrowIcon direction="right" /></a>{solution.slug === 'education-training' && <a href="/showcase/nova-education-academy/" className="text-link industry-demo-link">View the education demonstration <ArrowIcon direction="right" /></a>}</Reveal>)}</div><Reveal className="internal-callout" delay={120}><span className="internal-card-label">Start with the business context</span><h2>Not sure where you fit?</h2><p>Book a Strategy Call and we will identify the most useful starting point without assuming every business needs the same system.</p><a href={journeyCta.href} className="button-dark">{journeyCta.label} <ArrowIcon direction="right" /></a></Reveal></section></InternalPage>
 }
 
+function ChinaToGlobalPage() {
+  const content = commercialKnowledge.chinaToGlobal
+  return <InternalPage eyebrow="China-to-Global Growth Operations" title={<>One team for the work<br /><em>between China and the world.</em></>} description={content.heroDescription}><section className="china-global-page" aria-label="China-to-Global growth operations">
+    <Reveal className="china-global-intro"><SectionLabel number="01">The operating question</SectionLabel><h2>You should not need five suppliers<br /><em>to enter one market.</em></h2><p>International expansion creates enough complexity without adding a separate team for every part of the work. NOVAHAUS gives Chinese businesses one coordinated Growth Operations Team for the work that makes the next market easier to understand, enter and operate.</p><div className="china-global-actions"><a className="button-dark" href="/booking/?source=china-to-global">Discuss Your Overseas Growth <ArrowIcon direction="right" /></a><a className="text-link" href="#operating-model">See the operating model <ArrowIcon direction="right" /></a></div></Reveal>
+    <section id="operating-model" className="china-global-comparison" aria-labelledby="china-global-comparison-title"><Reveal><SectionLabel number="02">Two ways to move</SectionLabel><h2 id="china-global-comparison-title">Fragmented expansion<br /><em>or one operating rhythm.</em></h2></Reveal><div className="china-global-comparison-grid"><Reveal className="china-global-comparison-card"><span>Traditional approach</span><h3>Build the overseas function first.</h3><ul>{content.traditionalApproach.map((item) => <li key={item}>{item}</li>)}</ul></Reveal><Reveal className="china-global-comparison-card is-featured" delay={100}><span>NOVAHAUS approach</span><h3>One coordinated Growth Operations Team.</h3><ul>{content.novaHausApproach.map((item) => <li key={item}>{item}</li>)}</ul></Reveal></div></section>
+    <section className="china-global-capabilities" aria-labelledby="china-global-capabilities-title"><Reveal><SectionLabel number="03">What stays connected</SectionLabel><h2 id="china-global-capabilities-title">The work your next market<br /><em>needs to see.</em></h2><p className="section-description">One team can keep the story, assets and operating rhythm connected as the business moves from local strength to international presence.</p></Reveal><div className="china-global-capability-grid">{content.capabilities.map((item, index) => <Reveal className="china-global-capability" delay={index * 45} key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.description}</p></Reveal>)}</div></section>
+    <section className="china-global-demonstration" aria-labelledby="china-global-demonstration-title"><Reveal className="china-global-demonstration-copy"><SectionLabel number="04">{content.demonstration.label}</SectionLabel><h2 id="china-global-demonstration-title">{content.demonstration.title}</h2><p>{content.demonstration.description}</p><p className="china-global-boundary">{content.demonstration.outcome}</p></Reveal><Reveal className="china-global-demonstration-card" delay={100}><span>Scenario / China-to-Global</span><h3>One connected delivery path.</h3><ol>{content.demonstration.steps.map((step) => <li key={step}>{step}</li>)}</ol><span className="china-global-scenario-note">Demonstration scenario based on the NOVAHAUS service model. Not a real client, testimonial or measured result.</span></Reveal></section>
+    <Reveal className="china-global-final-cta"><SectionLabel number="05">Next step</SectionLabel><h2>Start with the context<br /><em>your market needs.</em></h2><p>Bring the business, the target market and the complexity you want to reduce. We will shape the right operating path around what is useful now.</p><a className="button-dark" href="/booking/?source=china-to-global-final">Book Strategy Call <ArrowIcon direction="right" /></a></Reveal>
+  </section></InternalPage>
+}
+
 const educationShowcaseBase = '/demo-projects/nova-education-academy'
 const educationShowcaseGallery = [
   { label: 'Homepage', image: 'homepage.png', href: 'homepage.html' },
@@ -639,7 +620,7 @@ function NotFoundPage() {
 
 const routeMeta = {
   '/': { title: 'NOVAHAUS — Brand, digital and AI systems with intent', description: 'NOVAHAUS helps founders and small teams clarify their offer, launch a premium website and automate the work that slows growth.', indexable: true },
-  '/about': { title: 'About NOVAHAUS — AI growth and digital systems', description: 'Meet NOVAHAUS, an AI growth company for founders, operators and modern teams.', indexable: true },
+  '/about': { title: 'About NOVAHAUS — Growth Operations', description: 'Meet NOVAHAUS, a professional growth operations company for founders, operators and modern teams.', indexable: true },
   '/blog': { title: 'Journal — NOVAHAUS', description: 'Practical notes on positioning, digital presence and useful AI systems.', indexable: true },
   '/privacy': { title: 'Privacy Policy — NOVAHAUS', description: 'How NOVAHAUS handles information shared through this website.', indexable: true },
   '/terms': { title: 'Terms of Service — NOVAHAUS', description: 'Terms that apply when you use the NOVAHAUS website or begin a conversation.', indexable: true },
@@ -648,21 +629,23 @@ const routeMeta = {
 }
 
 Object.assign(routeMeta, {
-  '/': { title: 'NOVAHAUS — AI Growth & Digital Systems', description: 'NOVAHAUS builds AI-powered brand, website, automation and growth systems for ambitious businesses expanding in digital and global markets.', indexable: true },
-  '/products': { title: 'AI Growth Operations Departments | NOVAHAUS', description: 'Explore NOVAHAUS AI Content, Brand, Community and Growth Operations Departments, plus focused implementation for Web3 project launches.', indexable: true },
+  '/': { title: 'NOVAHAUS — Your Growth Operations Team', description: 'NOVAHAUS provides strategy, coordinated production, commercial assets and ongoing operations for ambitious businesses.', indexable: true },
+  '/products': { title: 'Growth Operations Teams | NOVAHAUS', description: 'Explore NOVAHAUS Content, Brand, Community and Growth Operations Teams, plus focused implementation for Web3 project launches.', indexable: true },
   '/who-we-help': { title: 'Who We Help | NOVAHAUS', description: 'Explore the industry-specific growth contexts NOVAHAUS can support through strategy, commercial assets, AI systems and managed growth.', indexable: true },
+  '/china-to-global': { title: 'China-to-Global Growth Operations | NOVAHAUS', description: 'NOVAHAUS helps Chinese businesses enter international markets through one coordinated Growth Operations Team for brand, narrative, commercial assets, content and ongoing delivery.', indexable: true },
   '/success-stories': { title: 'Demonstration Projects | NOVAHAUS', description: 'Explore clearly labelled NOVAHAUS demonstration projects showing narrative, commercial assets, content operations and responsible AI-assisted delivery.', indexable: true },
   '/showcase/nova-education-academy': { title: 'NOVA Education Academy Demonstration | NOVAHAUS', description: 'Explore the official NOVAHAUS demonstration project showing how brand, digital experience, AI Sales, booking and proposal systems can connect for an education business.', indexable: true },
-  '/pricing': { title: 'Investment & Monthly Operations | NOVAHAUS', description: 'Explore NOVAHAUS monthly AI Content, Brand, Community and Growth Operations Departments, plus implementation projects and approved add-ons.', indexable: true },
+  '/pricing': { title: 'Investment & Monthly Operations | NOVAHAUS', description: 'Explore NOVAHAUS monthly Content, Brand, Community and Growth Operations Teams, plus implementation projects and approved add-ons.', indexable: true },
   '/compare-plans': { title: 'Compare AI Growth Plans | NOVAHAUS', description: 'Compare NOVAHAUS Launch, Growth and Enterprise plans for websites, AI automation, CRM, proposal systems and managed growth support.', indexable: true },
-  '/managed-ai-growth': { title: 'Managed AI Growth Operations | NOVAHAUS', description: 'Explore defined monthly AI growth operations capacity for content, brand, community, systems and ongoing business support.', indexable: true },
+  '/managed-ai-growth': { title: 'Managed Growth Operations | NOVAHAUS', description: 'Explore defined monthly growth operations capacity for content, brand, community, supporting systems and ongoing business support.', indexable: true },
   '/delivery-scope': { title: 'Monthly Operations & Implementation Scope | NOVAHAUS', description: 'Review NOVAHAUS monthly operations capacity, implementation scope, client responsibilities and custom quotation boundaries.', indexable: true },
+  '/delivery-process': { title: 'How Your Overseas Growth Team Works | NOVAHAUS', description: 'See how NOVAHAUS delivers from discovery and strategy to team assignment, production, founder review and continuous optimisation.', indexable: true },
   '/knowledge-hub': { title: 'Knowledge Hub | NOVAHAUS', description: 'Explore NOVAHAUS guidance, demos and working references for AI growth, brand strategy, automation and digital systems.', indexable: true },
   '/knowledge-hub/admin': { title: 'Knowledge Hub Admin | NOVAHAUS', description: 'Local Knowledge Hub resource upload workspace for NOVAHAUS.', indexable: false },
   '/value-proposition': { title: 'Value Proposition | NOVAHAUS', description: 'Understand what NOVAHAUS does, why AI growth matters and how the work creates practical value for ambitious businesses.', indexable: true },
   '/roi-calculator': { title: 'AI ROI Calculator | NOVAHAUS', description: 'Model estimated time savings, lead response improvement and conversion opportunity from a more connected AI growth system.', indexable: true },
   '/case-studies': { title: 'Case Studies | NOVAHAUS', description: 'Explore how NOVAHAUS helps ambitious businesses build strategy, AI systems and digital growth.', indexable: true },
-  '/growth-assessment': { title: 'AI Growth Operations Assessment | NOVAHAUS', description: 'Answer focused questions about your business, narrative, content and operating needs to receive a directional NOVAHAUS recommendation.', indexable: true },
+  '/growth-assessment': { title: 'Business Growth Assessment | NOVAHAUS', description: 'Answer focused questions about your business, narrative, content and operating needs to receive a directional NOVAHAUS recommendation.', indexable: true },
   '/proposal-builder': { title: 'NOVAHAUS Internal Proposal Tool', description: 'Private internal proposal builder for NOVAHAUS.', indexable: false },
   '/proposal': { title: 'Proposal Studio | NOVAHAUS', description: 'Generate a structured NOVAHAUS growth proposal from your existing assessment, lead and booking context.', indexable: false },
   '/trust': { title: 'Trust Center | NOVAHAUS', description: 'Learn how NOVAHAUS works, approaches AI and handles business context while building practical growth systems.', indexable: true },
@@ -680,7 +663,7 @@ Object.assign(routeMeta, {
   '/404': { title: 'Page not found - NOVAHAUS', description: routeMeta['/404'].description, indexable: false },
 })
 
-routeMeta['/'] = { title: 'NOVAHAUS — Your AI Growth Operations Team', description: 'NOVAHAUS plans, produces and operates the content, narrative, commercial assets and digital systems ambitious businesses need to grow, with a current focus on Web3 and crypto projects.', indexable: true }
+routeMeta['/'] = { title: 'NOVAHAUS — Your Growth Operations Team', description: 'NOVAHAUS plans, produces and operates the narrative, content, commercial assets and supporting digital systems ambitious businesses need, with a current focus on Web3 and crypto project operations.', indexable: true }
 routeMeta['/compare-plans'] = { title: 'Investment & Monthly Operations | NOVAHAUS', description: 'The current NOVAHAUS investment model: four Monthly Operations Departments and focused implementation work.', indexable: false }
 routeMeta['/managed-ai-growth'] = { title: 'Investment & Monthly Operations | NOVAHAUS', description: 'The current NOVAHAUS investment model: four Monthly Operations Departments and focused implementation work.', indexable: false }
 
@@ -741,8 +724,8 @@ function App() {
   if (path === '/proposal') return <><PageLoader reduceMotion={reduceMotion} /><ProposalStudioPage /></>
   if (path === '/products') return <><PageLoader reduceMotion={reduceMotion} /><DepartmentsPage /></>
   if (path === '/pricing' || path === '/compare-plans' || path === '/managed-ai-growth') return <><PageLoader reduceMotion={reduceMotion} /><FinalInvestmentPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /></>
-  if (path === '/') return <><PageLoader reduceMotion={reduceMotion} /><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><GrowthOperationsSection /><HowWeHelpSection /><TrustSection /><ApproachSection /><AboutSection /><CaseStudiesShowcase /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></>
-  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><HowWeHelpSection /><TrustSection /><ApproachSection /><WhoWeHelpSection /><GrowthOperationsSection /><AboutSection /><ServicesSection /><SolutionsSection /><InteractiveAIExperienceCenter /><CaseStudiesShowcase /><PackagesSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></> : path === '/ai-sales-agent' ? <AiSalesAgentPage /> : path === '/leads' ? <LeadsPage /> : path === '/crm' ? <CRMPage /> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/proposal' ? <ProposalStudioPage /> : path === '/who-we-help' ? <WhoWeHelpPage /> : path === '/success-stories' ? <SuccessStoriesPage /> : path === '/showcase/nova-education-academy' ? <EducationShowcasePage /> : path === '/products' ? <ServicePortfolioPage /> : path === '/pricing' ? <PricingPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/compare-plans' ? <ComparePlansPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/managed-ai-growth' ? <ManagedAiGrowthPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/delivery-scope' ? <DeliveryScopePage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/knowledge-hub' ? <KnowledgeHubPage Header={InternalHeader} Footer={Footer} /> : path === '/knowledge-hub/admin' ? <KnowledgeHubPage Header={InternalHeader} Footer={Footer} admin /> : path === '/value-proposition' ? <ValuePropositionPage InternalPage={InternalPage} /> : path === '/roi-calculator' ? <RoiCalculatorPage InternalPage={InternalPage} /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/trust' ? <TrustCenterPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
+  if (path === '/') return <><PageLoader reduceMotion={reduceMotion} /><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><WhoWeHelpSection /><HowWeHelpSection /><GrowthOperationsSection /><OperatingComparisonSection /><DemonstrationSection /><ApproachSection /><TrustSection /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></>
+  const page = path === '/' ? <><a className="skip-link" href="#main-content">Skip to content</a><main id="main-content"><Hero /><PositioningStrip /><HowWeHelpSection /><TrustSection /><ApproachSection /><WhoWeHelpSection /><GrowthOperationsSection /><AboutSection /><ServicesSection /><SolutionsSection /><InteractiveAIExperienceCenter /><CaseStudiesShowcase /><PackagesSection /><PortfolioSection /><WhySection /><TestimonialsSection /><FAQSection /><CTASection /><Footer /></main><AiSalesAgentWidget /></> : path === '/ai-sales-agent' ? <AiSalesAgentPage /> : path === '/leads' ? <LeadsPage /> : path === '/crm' ? <CRMPage /> : path === '/proposal-builder' ? <ProposalBuilderPage /> : path === '/proposal' ? <ProposalStudioPage /> : path === '/who-we-help' ? <WhoWeHelpPage /> : path === '/china-to-global' ? <ChinaToGlobalPage /> : path === '/success-stories' ? <SuccessStoriesPage /> : path === '/showcase/nova-education-academy' ? <EducationShowcasePage /> : path === '/products' ? <ServicePortfolioPage /> : path === '/pricing' ? <PricingPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/compare-plans' ? <ComparePlansPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/managed-ai-growth' ? <ManagedAiGrowthPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/delivery-scope' ? <DeliveryScopePage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/delivery-process' ? <DeliverySystemPage InternalPage={InternalPage} SectionLabel={SectionLabel} Reveal={Reveal} ArrowIcon={ArrowIcon} /> : path === '/knowledge-hub' ? <KnowledgeHubPage Header={InternalHeader} Footer={Footer} /> : path === '/knowledge-hub/admin' ? <KnowledgeHubPage Header={InternalHeader} Footer={Footer} admin /> : path === '/value-proposition' ? <ValuePropositionPage InternalPage={InternalPage} /> : path === '/roi-calculator' ? <RoiCalculatorPage InternalPage={InternalPage} /> : path === '/strategy' ? <StrategyCallPage /> : path === '/case-studies' ? <CaseStudiesPage /> : path === '/growth-assessment' ? <GrowthAssessmentPage /> : path === '/trust' ? <TrustCenterPage /> : path === '/about' ? <AboutPage /> : path === '/blog' ? <BlogPage /> : path === '/privacy' ? <LegalPage type="privacy" /> : path === '/terms' ? <LegalPage type="terms" /> : path === '/thank-you' ? <ThankYouPage /> : path === '/404' ? <NotFoundPage /> : studyMatch ? <CaseStudyPage study={caseStudies.find((item) => item.slug === studyMatch[1])} /> : postMatch ? <BlogPostPage post={blogPosts.find((item) => item.slug === postMatch[1])} /> : <NotFoundPage />
   return <><PageLoader reduceMotion={reduceMotion} />{page}</>
 }
 

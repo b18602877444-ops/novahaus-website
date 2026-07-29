@@ -2,6 +2,9 @@ import { aiSalesAgentFaqs, aiSalesAgentWelcome } from '../../data/aiSalesAgentSc
 import { commercialKnowledge } from '../../data/commercialKnowledge.js'
 import { discoveryOptions, aiSalesConsultantKnowledgeVersion, salesConsultantProgressTotal } from '../../data/aiSalesConsultantConfig.js'
 import { isWeb3Context, web3LaunchPackage } from '../../data/web3LaunchPackage.js'
+import { web3ProjectLaunchReadinessChecklist } from '../../data/leadMagnetCatalog.js'
+import { shouldRecommendWeb3LeadMagnet } from '../leadDelivery.js'
+import { buildLeadIntelligence } from '../leadIntelligence.js'
 
 const normalise = (value = '') => String(value).trim().toLowerCase()
 const includesAny = (text, terms) => terms.some((term) => text.includes(term))
@@ -95,14 +98,14 @@ function chooseOffer(conversation) {
 
 function recommendationFromChoice(choice) {
   if (choice.type === 'launch') {
-    return { serviceId: `package:${web3LaunchPackage.id}`, title: web3LaunchPackage.name, reason: 'Your project needs a structured narrative and launch-ready commercial assets before the next external conversation.', priority: 1, ...bookingCta, metadata: { startingInvestment: web3LaunchPackage.startingInvestment, timeline: web3LaunchPackage.timeline, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: `package:${web3LaunchPackage.id}`, title: web3LaunchPackage.name, reason: 'Your project needs a structured narrative and launch-ready commercial assets before the next external conversation.', priority: 1, ...bookingCta, metadata: { startingInvestment: web3LaunchPackage.startingInvestment, timeline: web3LaunchPackage.timeline, requiredDeliverables: web3LaunchPackage.deliverables.slice(0, 6), commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
   if (choice.type === 'department') {
     const department = choice.department
-    return { serviceId: `department:${department.id}`, title: department.name, reason: department.aiSalesSummary, priority: 1, ...bookingCta, metadata: { monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: `department:${department.id}`, title: department.name, reason: department.aiSalesSummary, priority: 1, ...bookingCta, metadata: { monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, requiredDeliverables: department.monthlyStandardCapacity.slice(0, 6), commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
   if (choice.type === 'addon') {
-    return { serviceId: 'approved-add-on-review', title: 'Approved Add-on Review', reason: `${choice.addOn.name} is an approved one-time add-on at ${choice.addOn.price}. A human review is still needed to confirm the final scope.`, priority: 1, ...bookingCta, metadata: { addOn: choice.addOn.name, startingInvestment: choice.addOn.price, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
+    return { serviceId: 'approved-add-on-review', title: 'Approved Add-on Review', reason: `${choice.addOn.name} is an approved one-time add-on at ${choice.addOn.price}. A human review is still needed to confirm the final scope.`, priority: 1, ...bookingCta, metadata: { addOn: choice.addOn.name, startingInvestment: choice.addOn.price, requiredDeliverables: [choice.addOn.name], commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
   }
   return { serviceId: 'custom-quote-human-review', title: 'Custom Quote / Human Strategy Review', reason: 'The requirement does not map cleanly to one standard offer yet, so a human needs to review the scope, capacity, timeline and technical or compliance requirements.', priority: 1, ...bookingCta, metadata: { commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }
 }
@@ -114,12 +117,16 @@ function getRecommendations(conversation) {
 function formatRecommendation(conversation) {
   const recommendation = getRecommendations(conversation)[0]
   const choice = chooseOffer(conversation)
+  const recommendationIntelligence = buildLeadIntelligence({ conversation, lead: conversation.leadDraft, recommendation })
+  const leadMagnetMessage = shouldRecommendWeb3LeadMagnet({ conversation, lead: conversation.leadDraft, intelligence: recommendationIntelligence, qualification: conversation.qualification })
+    ? `${web3ProjectLaunchReadinessChecklist.recommendationMessage}\n\nI can provide it after confirming your name, company or project and email. It is a private educational resource, not a public download.`
+    : ''
   let details = ''
   if (choice.type === 'launch') details = `\n\nWhat it can include:\n${web3LaunchPackage.deliverables.slice(0, 4).map((item) => `- ${item}`).join('\n')}\n\nStarting investment:\n${web3LaunchPackage.startingInvestment}`
   if (choice.type === 'department') details = `\n\nWhat it can include:\n${choice.department.monthlyStandardCapacity.slice(0, 4).map((item) => `- ${item}`).join('\n')}\n\nStarting investment:\n${choice.department.monthlyPrice}`
   if (choice.type === 'addon') details = `\n\nStarting investment:\n${choice.addOn.price}`
   if (choice.type === 'custom') details = '\n\nStarting investment:\nCustom Quote after human review'
-  return `Based on what you shared, the best starting point is:\n\n${recommendation.title}\n\nWhy it fits:\n- ${recommendation.reason}\n- The scope can be shaped around the materials, platforms and timing you described.\n- Capacity and boundaries can be confirmed before work begins.${details}\n\nImportant:\n${commercialKnowledge.finalQuoteNotice}\n\nWould you like to:\n- Generate an Initial Proposal\n- Book a Strategy Call\n- Compare with Another Department\n- Ask About Deliverables?`
+  return `${leadMagnetMessage ? `${leadMagnetMessage}\n\n` : ''}Based on what you shared, the best starting point is:\n\n${recommendation.title}\n\nWhy it fits:\n- ${recommendation.reason}\n- The scope can be shaped around the materials, platforms and timing you described.\n- Capacity and boundaries can be confirmed before work begins.${details}\n\nImportant:\n${commercialKnowledge.finalQuoteNotice}\n\nWould you like to:\n- Generate an Initial Proposal\n- Book a Strategy Call\n- Compare with Another Department\n- Ask About Deliverables?`
 }
 
 function faqReply(input) {
@@ -201,12 +208,14 @@ function progressForStage(stage) {
 }
 
 function snapshot(conversation) {
-  return { messages: conversation.messages, currentStage: conversation.currentStage, quickReplies: conversation.quickReplies, leadDraft: conversation.leadDraft, context: conversation.context, recommendations: conversation.recommendations, qualification: conversation.qualification, progress: conversation.progress }
+  return { messages: conversation.messages, currentStage: conversation.currentStage, quickReplies: conversation.quickReplies, leadDraft: conversation.leadDraft, context: conversation.context, recommendations: conversation.recommendations, qualification: conversation.qualification, leadIntelligence: conversation.leadIntelligence, leadDelivery: conversation.leadDelivery, progress: conversation.progress }
 }
 
 export function createInitialConversation(createId) {
   const now = new Date().toISOString()
-  return { id: createId(), createdAt: now, updatedAt: now, status: 'active', messages: [{ id: createId(), role: 'agent', content: initialSalesAgentWelcome, timestamp: now, type: 'text', metadata: { stage: 'customer-type' } }], leadId: null, currentStage: 'customer-type', quickReplies: aiSalesAgentWelcome.quickReplies, progress: { current: 1, total: salesConsultantProgressTotal }, qualification: { score: 0, temperature: 'Cold Lead', signals: [], breakdown: [] }, recommendations: [], context: { source: 'ai-sales-consultant', commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion }, history: [] }
+  const conversation = { id: createId(), createdAt: now, updatedAt: now, status: 'active', messages: [{ id: createId(), role: 'agent', content: initialSalesAgentWelcome, timestamp: now, type: 'text', metadata: { stage: 'customer-type' } }], leadId: null, currentStage: 'customer-type', quickReplies: aiSalesAgentWelcome.quickReplies, progress: { current: 1, total: salesConsultantProgressTotal }, qualification: { score: 0, temperature: 'Cold Lead', signals: [], breakdown: [] }, recommendations: [], context: { source: 'ai-sales-agent', commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion }, history: [] }
+  const leadIntelligence = buildLeadIntelligence({ conversation })
+  return { ...conversation, leadIntelligence, leadDelivery: leadIntelligence.leadDelivery }
 }
 
 function branchAfterCustomerType(input, context) {
@@ -285,7 +294,7 @@ export function advanceConversation(conversation, input, createId) {
     } else if (includesAny(normalise(text), ['compare', 'another department'])) {
       stage = 'recommendation'
       content = 'I can compare the recommended engagement with another current Department. Which area would you like to compare?'
-      quickReplies = ['AI Content Operations Department', 'AI Brand Operations Department', 'AI Community Operations Department', 'AI Growth Operations Department']
+      quickReplies = ['Content Operations Team', 'Brand Operations Team', 'Community Operations Team', 'Growth Operations Team']
     } else {
       content = formatRecommendation(conversation)
       quickReplies = ['Generate an Initial Proposal', 'Book a Strategy Call', 'Ask About Deliverables']
@@ -306,7 +315,7 @@ export function advanceConversation(conversation, input, createId) {
     stage = next.stage
     contextPatch = next.contextPatch
     if (stage === 'recommendation') {
-      const provisional = { ...conversation, messages, context: { ...conversation.context, ...contextPatch }, leadDraft: { ...(conversation.leadDraft || {}), ...contextPatch } }
+      const provisional = { ...conversation, currentStage: 'recommendation', messages, context: { ...conversation.context, ...contextPatch }, leadDraft: { ...(conversation.leadDraft || {}), ...contextPatch } }
       recommendations = getRecommendations(provisional)
       content = formatRecommendation(provisional)
     } else {
@@ -316,6 +325,8 @@ export function advanceConversation(conversation, input, createId) {
   }
 
   const next = { ...conversation, messages: [...messages, { id: createId(), role: 'agent', content, timestamp: now, type: stage === 'recommendation' ? 'service-recommendation' : 'text', metadata: { intent, stage, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }], updatedAt: now, currentStage: stage, quickReplies, recommendations, context: { ...(conversation.context || {}), ...contextPatch }, leadDraft: { ...(conversation.leadDraft || {}), ...contextPatch }, progress: { current: progressForStage(stage), total: salesConsultantProgressTotal }, history }
+  next.leadIntelligence = buildLeadIntelligence({ conversation: next, recommendation: recommendations[0] })
+  next.leadDelivery = next.leadIntelligence.leadDelivery
   return { conversation: next, intent, leadPatch: { ...contextPatch, industry: next.context.customerType, budget: next.context.budget, timeline: next.context.timeline, goals: next.context.immediateNeed ? [next.context.immediateNeed] : [], painPoints: next.context.requiredDeliverables ? [next.context.requiredDeliverables] : [] }, recommendations, quickReplies }
 }
 
@@ -329,6 +340,8 @@ export function goBackConversation(conversation) {
 export function completeConversation(conversation, lead, createId) {
   const now = new Date().toISOString()
   const recommendations = conversation.recommendations?.length ? conversation.recommendations : getRecommendations(conversation)
-  const content = `Based on what you shared, ${recommendations[0]?.title || 'a human strategy review'} is the most useful starting point. You can book a Strategy Call or prepare an initial, non-binding Proposal from this context.`
-  return { ...conversation, status: 'completed', currentStage: 'cta', quickReplies: [], leadId: lead.id, updatedAt: now, recommendations, progress: { current: 7, total: salesConsultantProgressTotal }, messages: [...conversation.messages, { id: createId(), role: 'agent', content, timestamp: now, type: 'service-recommendation', metadata: { recommendations, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }] }
+  const completed = { ...conversation, status: 'completed', currentStage: 'cta', quickReplies: [], leadId: lead.id, updatedAt: now, recommendations, progress: { current: 7, total: salesConsultantProgressTotal }, messages: [...conversation.messages, { id: createId(), role: 'agent', content: `Based on what you shared, ${recommendations[0]?.title || 'a human strategy review'} is the most useful starting point. You can book a Strategy Call or prepare an initial, non-binding Proposal from this context.`, timestamp: now, type: 'service-recommendation', metadata: { recommendations, commercialKnowledgeVersion: aiSalesConsultantKnowledgeVersion } }] }
+  completed.leadIntelligence = buildLeadIntelligence({ conversation: completed, lead, recommendation: recommendations[0] })
+  completed.leadDelivery = completed.leadIntelligence.leadDelivery
+  return completed
 }

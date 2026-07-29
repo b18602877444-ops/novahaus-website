@@ -13,7 +13,7 @@ const experienceItems = [
   {
     number: '02',
     label: 'Diagnostic layer',
-    title: 'AI Growth Assessment',
+    title: 'Growth Assessment',
     description: 'Answer a focused set of questions and see where the strongest opportunities may be hiding.',
     points: ['Review current constraints', 'Spot digital gaps', 'Prioritise AI opportunities', 'Prepare for a strategy conversation'],
     action: 'Start Growth Assessment',

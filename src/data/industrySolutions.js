@@ -2,7 +2,7 @@ const portfolioSource = 'src/data/servicePortfolio.js'
 const pricingSource = 'src/data/pricing.js'
 const deliveryScopeSource = 'src/data/deliveryScope.js'
 
-const sharedPositioning = 'Your AI Growth Operations Team'
+const sharedPositioning = 'Your Growth Operations Team'
 const sharedCta = { label: 'Book Strategy Call', target: '/booking/' }
 
 const pricingReference = (serviceIds) => ({
@@ -65,7 +65,7 @@ export const industrySolutions = [
     aiSalesSummary: 'For education and training businesses that need clearer offers, enquiry handling, knowledge access and repeatable content. Pricing and scope depend on the selected services, content and integrations.',
     proposalSummary: 'A staged education growth system combining positioning, commercial assets, digital experience, AI-assisted enquiry handling, knowledge structure and optional managed support.',
     primaryCTA: sharedCta,
-    secondaryCTA: { label: 'Explore AI Sales Agent', target: '/ai-sales-agent/' },
+    secondaryCTA: { label: 'Explore Growth Consultant', target: '/ai-sales-agent/' },
   },
   {
     id: 'project-community-growth-solution',

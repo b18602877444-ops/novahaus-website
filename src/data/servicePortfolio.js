@@ -147,7 +147,7 @@ export function getPortfolioServiceForText(text = '') {
 }
 
 export const servicePortfolioPolicy = {
-  positioning: 'Your AI Business Growth Partner',
+  positioning: 'Your Growth Operations Team',
   finalQuoteNotice: 'Final pricing and delivery timeline are confirmed after NOVAHAUS reviews the project scope, content, integrations, data requirements and implementation complexity.',
   excludedClaims: ['Guaranteed growth, leads, sales or revenue', 'Investment, financial, legal or medical advice', 'High-risk enterprise systems without specialist review'],
 }

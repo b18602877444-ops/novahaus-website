@@ -5,8 +5,9 @@ import { calculateLeadQualification } from '../utils/aiSalesAgent/qualification.
 import { buildLeadSummary } from '../data/leadSchema.js'
 import { createSalesAgentId, loadActiveConversation, resetSalesAgentStorage, saveConversation, saveLead } from '../services/aiSalesAgentStorage.js'
 import { buildBookingHandoffHref, buildProposalDiscoveryContext } from '../services/aiSalesAgentHandoff.js'
+import { buildLeadIntelligence, formatDealBrief } from '../utils/leadIntelligence.js'
 
-const emptyLead = { id: '', name: '', company: '', email: '', whatsapp: '', industry: '', country: '', businessType: '', interestedPackage: '', challenge: '', budget: '', timeline: '', goals: [], painPoints: [], aiSummary: '', status: 'new', leadScore: 0, leadTemperature: 'Cold Lead', recommendedServices: [], source: 'ai-sales-agent', createdAt: '', updatedAt: '' }
+const emptyLead = { id: '', name: '', company: '', email: '', whatsapp: '', industry: '', country: '', businessType: '', interestedPackage: '', challenge: '', budget: '', timeline: '', goals: [], painPoints: [], aiSummary: '', status: 'new', leadScore: 0, leadTemperature: 'Cold Lead', recommendedServices: [], resourceRequested: false, resourceDelivered: false, resourcePending: false, leadDelivery: null, source: 'ai-sales-agent', createdAt: '', updatedAt: '' }
 
 function getConversationText(conversation) {
   return conversation.messages.filter((message) => message.role === 'user').map((message) => message.content).join(' ')
@@ -17,7 +18,10 @@ function normaliseLeadInput(input, draft = {}) {
 }
 
 export function useSalesConversation() {
-  const [conversation, setConversation] = useState(() => loadActiveConversation() || createInitialConversation(() => createSalesAgentId('message')))
+  const [conversation, setConversation] = useState(() => {
+    const saved = loadActiveConversation()
+    return saved ? { ...saved, leadIntelligence: saved.leadIntelligence || buildLeadIntelligence({ conversation: saved, lead: saved.leadDraft || {}, recommendation: saved.recommendations?.[0] }) } : createInitialConversation(() => createSalesAgentId('message'))
+  })
   const [lead, setLead] = useState(() => ({ ...emptyLead }))
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -37,6 +41,8 @@ export function useSalesConversation() {
         const nextLead = normaliseLeadInput(result.leadPatch, base.leadDraft)
         const qualification = calculateLeadQualification({ conversationText: getConversationText(result.conversation), lead: nextLead, existingSignals: base.qualification?.signals || [] })
         const next = { ...result.conversation, qualification, leadDraft: nextLead }
+        next.leadIntelligence = buildLeadIntelligence({ conversation: next, lead: nextLead, recommendation: next.recommendations?.[0] })
+        next.leadDelivery = next.leadIntelligence.leadDelivery
         conversationRef.current = next
         setConversation(next)
       } catch {
@@ -51,9 +57,11 @@ export function useSalesConversation() {
     const leadWithId = { ...draft, id: draft.id || createSalesAgentId('lead') }
     const qualification = calculateLeadQualification({ conversationText: getConversationText(base), lead: leadWithId, existingSignals: base.qualification?.signals || [] })
     const completed = completeConversation({ ...base, leadDraft: leadWithId, qualification }, leadWithId, () => createSalesAgentId('message'))
-    const nextLead = { ...leadWithId, businessType: leadWithId.businessType || leadWithId.industry, challenge: leadWithId.challenge || leadWithId.painPoints?.[0] || leadWithId.goals?.[0], leadScore: qualification.score, leadTemperature: qualification.temperature, recommendedServices: completed.recommendations.map((item) => item.serviceId), conversationId: completed.id, aiSummary: buildLeadSummary(leadWithId, completed.recommendations, completed.context), status: 'new' }
+    const intelligence = buildLeadIntelligence({ conversation: completed, lead: leadWithId, recommendation: completed.recommendations?.[0] })
+    const nextLead = { ...leadWithId, businessType: leadWithId.businessType || leadWithId.industry, challenge: leadWithId.challenge || leadWithId.painPoints?.[0] || leadWithId.goals?.[0], leadScore: intelligence.score, leadPriority: intelligence.priority, leadStars: intelligence.stars, leadTemperature: qualification.temperature, leadIntelligenceVersion: intelligence.version, dealBrief: intelligence.dealBrief, founderDashboardData: intelligence.founderDashboardData, resourceRequested: intelligence.leadDelivery.resourceRequested, resourceDelivered: intelligence.leadDelivery.resourceDelivered, resourcePending: intelligence.leadDelivery.resourcePending, leadDelivery: intelligence.leadDelivery, recommendedServices: completed.recommendations.map((item) => item.serviceId), conversationId: completed.id, aiSummary: buildLeadSummary(leadWithId, completed.recommendations, completed.context), status: 'new' }
+    const completedWithIntelligence = { ...completed, leadIntelligence: intelligence }
     const summaryTime = new Date().toISOString()
-    const next = { ...completed, qualification, leadDraft: nextLead, messages: [...completed.messages, { id: createSalesAgentId('message'), role: 'agent', content: nextLead.aiSummary, timestamp: summaryTime, type: 'lead-summary', metadata: { stage: 'completed' } }, { id: createSalesAgentId('message'), role: 'agent', content: "Thank you.\nWe've prepared a summary of your business needs.\n\nOur team can continue from here with a more detailed recommendation.\n\nIn the meantime, feel free to explore the Proposal Generator or book a strategy session.", timestamp: summaryTime, type: 'text', metadata: { stage: 'completed' } }] }
+    const next = { ...completedWithIntelligence, qualification, leadDraft: nextLead, messages: [...completedWithIntelligence.messages, { id: createSalesAgentId('message'), role: 'agent', content: nextLead.aiSummary, timestamp: summaryTime, type: 'lead-summary', metadata: { stage: 'completed' } }, { id: createSalesAgentId('message'), role: 'agent', content: formatDealBrief(intelligence), timestamp: summaryTime, type: 'lead-intelligence', metadata: { stage: 'completed', intelligenceVersion: intelligence.version, leadScore: intelligence.score, priority: intelligence.priority } }, { id: createSalesAgentId('message'), role: 'agent', content: "Thank you.\nWe've prepared a summary of your business needs.\n\nOur team can continue from here with a more detailed recommendation.\n\nIn the meantime, feel free to explore the Proposal Generator or book a strategy session.", timestamp: summaryTime, type: 'text', metadata: { stage: 'completed' } }] }
     saveLead(nextLead)
     saveConversation(next)
     conversationRef.current = next
@@ -70,6 +78,8 @@ export function useSalesConversation() {
     recommendedServices: conversationRef.current.recommendations || [],
     conversationSummary: getConversationText(conversationRef.current),
     discoveryContext: buildProposalDiscoveryContext(conversationRef.current),
+    leadIntelligence: conversationRef.current.leadIntelligence || null,
+    dealBrief: conversationRef.current.leadIntelligence?.dealBrief || null,
   }), [lead])
 
   const goBack = useCallback(() => {

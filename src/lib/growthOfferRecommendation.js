@@ -1,6 +1,8 @@
-import { growthOperationsOffers, priorityCustomerGroups } from '../data/growthOperationsOffers.js'
+import { growthOperationsOffers } from '../data/growthOperationsOffers.js'
+import { isWeb3Context, web3LaunchPackage } from '../data/web3LaunchPackage.js'
+import { commercialKnowledge } from '../data/commercialKnowledge.js'
 
-export { priorityCustomerGroups }
+export const priorityCustomerGroups = commercialKnowledge.customerGroups.map((group) => group.assessmentLabel)
 
 export const ASSESSMENT_QUESTIONS = [
   { id: 'customerGroup', label: 'Customer group', prompt: 'Which operating context is closest to your business?', options: [...priorityCustomerGroups, 'Not sure yet'] },
@@ -14,6 +16,8 @@ export const ASSESSMENT_QUESTIONS = [
   { id: 'teamSize', label: 'Team size', prompt: 'How many people would be involved in the work or approvals?', options: ['1–5', '6–20', '21–50', '51+'] },
   { id: 'currentAIUsage', label: 'Current AI usage', prompt: 'How is the business using AI today?', options: ['Not yet', 'Exploring options', 'Individual tools', 'Connected workflows', 'Governed AI system'] },
   { id: 'businessGoal', label: 'Business goal', prompt: 'What would make the next stage more useful?', options: ['Launch or reposition', 'Improve conversion', 'Build AI systems', 'Organise operations', 'Enter international markets', 'Create a long-term growth system'] },
+  { id: 'web3ProjectStage', label: 'Web3 project stage', prompt: 'If this is a Web3 or crypto project, what stage and next milestone are you preparing for?', options: ['Not a Web3 project', 'Pre-launch', 'Preparing a partnership conversation', 'Active community', 'Major campaign planned', 'Not sure yet'] },
+  { id: 'web3NarrativeStatus', label: 'Narrative and claim review', prompt: 'What is the current status of the whitepaper, pitch deck and financial or regulatory claims?', options: ['Not applicable', 'Source materials exist', 'Whitepaper needs work', 'Pitch deck needs work', 'Claims need specialist review', 'Starting from scratch'] },
   { id: 'budgetRange', label: 'Budget range', prompt: 'Which investment context is closest for planning purposes?', options: ['Early-stage scope', 'Focused implementation', 'Connected growth system', 'Bespoke transformation', 'Not sure yet'] },
 ]
 
@@ -30,7 +34,7 @@ function normaliseValues(answers) {
 
 export function recommendGrowthOffer(answers) {
   const values = normaliseValues(answers)
-  const scores = Object.fromEntries(growthOperationsOffers.map((offer) => [offer.id, 0]))
+  const scores = Object.fromEntries(commercialKnowledge.monthlyDepartments.map((plan) => [plan.offerId, 0]))
 
   Object.entries(scoringRules).forEach(([offerId, signals]) => {
     signals.forEach((signal) => { if (values.some((value) => value.includes(signal.toLowerCase()))) scores[offerId] += signal.length > 15 ? 4 : 2 })
@@ -44,13 +48,30 @@ export function recommendGrowthOffer(answers) {
   if (answers.budgetRange === 'Bespoke transformation') scores['ai-global-growth-operations'] += 3
 
   const ranked = growthOperationsOffers.map((offer, index) => ({ offer, score: scores[offer.id], index })).sort((a, b) => b.score - a.score || a.index - b.index)
-  const selected = ranked[0].offer
+  const web3Offer = {
+    id: web3LaunchPackage.id,
+    name: web3LaunchPackage.name,
+    shortDescription: web3LaunchPackage.positioning,
+    bestFor: 'Legitimate Web3 infrastructure, membership and community projects preparing a launch or partnership conversation.',
+    estimatedTimeline: web3LaunchPackage.timeline,
+    monthlyPrice: 'One-time implementation',
+    onboardingFee: web3LaunchPackage.startingInvestment,
+    monthlyStandardCapacity: web3LaunchPackage.deliverables,
+    clientResponsibilities: web3LaunchPackage.clientResponsibilities,
+    exclusions: web3LaunchPackage.exclusions,
+    customQuoteTriggers: ['Additional pages, quantities or integrations beyond the approved package scope'],
+    cta: web3LaunchPackage.cta,
+    finalQuoteNotice: web3LaunchPackage.finalQuoteNotice,
+    aiSalesSummary: web3LaunchPackage.positioning,
+  }
+  const isWeb3 = isWeb3Context(values.join(' '))
+  const selected = isWeb3 ? web3Offer : ranked[0].offer
   const matchedSignals = (scoringRules[selected.id] || []).filter((signal) => values.some((value) => value.includes(signal.toLowerCase()))).slice(0, 3)
   const reason = matchedSignals.length > 0
     ? `Your answers point most strongly to ${matchedSignals.join(', ')}.`
     : 'Your answers suggest starting with a structured review of the operating context before selecting a larger scope.'
 
-  return { offer: selected, scores, reason, matchedSignals, riskFlags: selected.riskFlags }
+  return { offer: selected, offerType: isWeb3 ? 'launch-package' : 'monthly-department', scores, reason: isWeb3 ? 'Your answers point to a Web3 project context, so the focused launch package is the clearest first review.' : reason, matchedSignals, riskFlags: selected.riskFlags || web3LaunchPackage.exclusions }
 }
 
 export function buildAssessmentSummary(answers, recommendation) {
@@ -58,6 +79,8 @@ export function buildAssessmentSummary(answers, recommendation) {
     `Customer group: ${answers.customerGroup || 'Not provided'}`,
     `Company size: ${answers.companySize || 'Not provided'}`,
     `Current website: ${answers.currentWebsite || 'Not provided'}`,
+    `Web3 project stage: ${answers.web3ProjectStage || 'Not provided'}`,
+    `Narrative and claim review: ${answers.web3NarrativeStatus || 'Not provided'}`,
     `Monthly enquiries: ${answers.monthlyEnquiries || 'Not provided'}`,
     `Biggest challenge: ${answers.biggestChallenge || 'Not provided'}`,
     `Sales process: ${answers.salesProcess || 'Not provided'}`,

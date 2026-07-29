@@ -1,14 +1,14 @@
 export const valueProposition = {
-  positioning: 'NOVAHAUS is an AI growth company that helps ambitious businesses clarify their position, improve the digital path to enquiry and connect practical systems behind the work.',
+  positioning: 'NOVAHAUS is a growth operations company that helps ambitious businesses clarify their position, improve the path to enquiry and coordinate the work behind the growth plan.',
   elevatorPitches: [
-    { label: '15 seconds', title: 'The short version', copy: 'NOVAHAUS helps ambitious businesses turn brand clarity, better digital experiences and practical AI systems into a stronger route from attention to action.' },
-    { label: '30 seconds', title: 'The useful version', copy: 'We work with founders and teams who have something valuable to offer but need a clearer way to be understood, chosen and operated. NOVAHAUS combines positioning, websites, automation and growth systems around the business problem in front of them.' },
-    { label: '60 seconds', title: 'The complete version', copy: 'NOVAHAUS helps businesses build the system behind growth. That can begin with a sharper position and conversion-focused digital presence, then extend into lead capture, AI sales conversations, workflow automation, analytics and ongoing optimisation. We start with the decision the business needs to make, shape the right route and build only what supports it. The result is not a promise of guaranteed growth; it is a clearer, more useful operating foundation for the next stage.' },
+    { label: '15 seconds', title: 'The short version', copy: 'NOVAHAUS helps ambitious businesses turn brand clarity, better digital experiences and coordinated execution into a stronger route from attention to action.' },
+    { label: '30 seconds', title: 'The useful version', copy: 'We work with founders and teams who have something valuable to offer but need a clearer way to be understood, chosen and operated. NOVAHAUS brings positioning, commercial assets, digital experiences and ongoing operations together around the business problem in front of them.' },
+    { label: '60 seconds', title: 'The complete version', copy: 'NOVAHAUS helps businesses build the operating foundation behind growth. That can begin with a sharper position and conversion-focused digital presence, then extend into lead capture, client conversations, workflow support, analytics and ongoing optimisation. We start with the decision the business needs to make, shape the right route and build only what supports it. The result is not a promise of guaranteed growth; it is a clearer, more useful operating foundation for the next stage.' },
   ],
   why: [
-    { title: 'Why AI Growth?', copy: 'AI is most valuable when it removes friction from real business work: understanding demand, responding consistently, improving a customer journey or helping a team make a better next decision.' },
+    { title: 'Why a growth operations team?', copy: 'Businesses move more cleanly when strategy, production, review and follow-through are coordinated instead of split across disconnected suppliers.' },
     { title: 'Why now?', copy: 'Digital attention is easier to win and easier to lose. Businesses need a connected experience and operating layer, not another isolated campaign, page or tool.' },
-    { title: 'Why NOVAHAUS?', copy: 'We bring strategy and implementation into one conversation, so the message, experience and systems are shaped around the business rather than assembled as separate deliverables.' },
+    { title: 'Why NOVAHAUS?', copy: 'We bring strategy, production and implementation into one accountable conversation, supported by modern technology but led by professional review and business context.' },
   ],
   transformation: [
     { before: 'The offer is hard to explain quickly.', after: 'The position, message and next step are clear.' },

@@ -2,7 +2,7 @@ export const qualificationRules = [
   { id: 'clear-need', label: 'Clear project need', points: 15, keywords: ['need', 'build', 'launch', 'improve', 'fix', 'develop', 'create'] },
   { id: 'clear-pain', label: 'Clear pain point', points: 15, keywords: ['problem', 'challenge', 'manual', 'unclear', 'low conversion', 'not working', 'slow'] },
   { id: 'clear-goal', label: 'Clear goal', points: 10, keywords: ['goal', 'grow', 'scale', 'convert', 'generate', 'expand', 'increase'] },
-  { id: 'explicit-budget', label: 'Explicit budget', points: 15, keywords: ['budget', 'usd', 'myr', 'sgd', 'eur', 'gbp', '$', '5,000', '10,000', '15,000', '30,000'] },
+  { id: 'explicit-budget', label: 'Explicit budget', points: 15, keywords: ['budget', 'usd', '$', '5,000', '10,000', '15,000', '30,000'] },
   { id: 'start-time', label: 'Start timeline', points: 15, keywords: ['immediately', 'asap', 'this month', '30 days', 'next month', 'within 3 months', 'soon'] },
   { id: 'contact-details', label: 'Contact details provided', points: 20, keywords: [] },
   { id: 'price-interest', label: 'Pricing interest', points: 10, keywords: ['price', 'pricing', 'cost', 'fee', 'how much'] },

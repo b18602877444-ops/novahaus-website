@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { trackAssessmentEvent } from '../lib/analytics.js'
 import { ASSESSMENT_QUESTIONS, buildAssessmentSummary, recommendGrowthOffer } from '../lib/growthOfferRecommendation.js'
 import { getGrowthOperationsPlanForOffer } from '../data/growthOperationsPlans.js'
+import { commercialKnowledge } from '../data/commercialKnowledge.js'
 import { saveAssessmentLocally } from '../services/assessmentSubmission.js'
+import { buildLeadIntelligence } from '../utils/leadIntelligence.js'
 
 const emptyAnswers = Object.fromEntries(ASSESSMENT_QUESTIONS.map((question) => [question.id, question.multi ? [] : '']))
 const emptyContact = { name: '', company: '', email: '', whatsapp: '', website: '', country: '' }
@@ -59,7 +61,7 @@ function GrowthAssessment() {
 
     const recommendation = recommendGrowthOffer(answers)
     const summary = buildAssessmentSummary(answers, recommendation)
-    const plan = getGrowthOperationsPlanForOffer(recommendation.offer.id)
+    const plan = recommendation.offerType === 'launch-package' ? recommendation.offer : getGrowthOperationsPlanForOffer(recommendation.offer.id)
     const compatibilityAnswers = {
       ...answers,
       profile: { ...contact, industry: answers.customerGroup },
@@ -71,6 +73,23 @@ function GrowthAssessment() {
       timeline: 'To be confirmed during the Strategy Call',
       projectRange: answers.budgetRange,
     }
+    const assessmentConversation = {
+      id: `assessment-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      context: {
+        source: 'growth-assessment',
+        customerType: answers.customerGroup,
+        projectStage: answers.businessStage || answers.currentStage || 'Assessment completed',
+        budget: answers.budgetRange,
+        timeline: compatibilityAnswers.timeline,
+        immediateNeed: answers.businessGoal,
+        requiredDeliverables: answers.biggestChallenge,
+        complianceFlag: 'No',
+      },
+      messages: [{ role: 'user', content: Object.values(answers).flat().join(' ') }],
+      recommendations: [{ title: recommendation.offer.name, metadata: { requiredDeliverables: plan.monthlyStandardCapacity.slice(0, 6) } }],
+    }
+    const assessmentIntelligence = buildLeadIntelligence({ conversation: assessmentConversation, lead: { id: assessmentConversation.id, createdAt: assessmentConversation.createdAt, name: contact.name, company: contact.company, email: contact.email, country: contact.country, businessType: answers.customerGroup, challenge: answers.biggestChallenge, budget: answers.budgetRange, timeline: compatibilityAnswers.timeline, status: 'new', source: 'growth-assessment' } })
     const saved = saveAssessmentLocally({
       contact: { ...contact, industry: answers.customerGroup },
       answers: compatibilityAnswers,
@@ -79,6 +98,8 @@ function GrowthAssessment() {
       recommendedOffer: recommendation.offer,
       recommendedPlan: plan,
       recommendedProduct: { name: recommendation.offer.name, engagement: recommendation.offer.shortDescription, timeline: recommendation.offer.estimatedTimeline },
+      leadIntelligence: assessmentIntelligence,
+      leadScore: assessmentIntelligence.score,
     })
     trackAssessmentEvent('assessment_submitted', { assessmentId: saved.id, recommendedOffer: recommendation.offer.name })
     setReport({ ...recommendation, plan, summary })
@@ -97,7 +118,8 @@ function AssessmentResults({ report, onRetake }) {
   const { offer, plan } = report
   const handleStrategyClick = () => trackAssessmentEvent('strategy_call_clicked', { source: 'growth_assessment', offer: offer.name })
   const handleProposalClick = () => trackAssessmentEvent('proposal_clicked', { source: 'growth_assessment', offer: offer.name })
-  return <section className="growth-assessment-shell assessment-results" aria-label="NOVAHAUS Growth Assessment Recommendation"><div className="assessment-result-header"><span>Assessment complete</span><h2>Your next<br /><em>useful move.</em></h2><p>Based on the context you shared, this is the single NOVAHAUS department that best fits the current operating context. It is a directional recommendation, not a guaranteed business outcome.</p></div><div className="assessment-offer-card"><div className="assessment-offer-heading"><span>Recommended department</span><h3>{plan.name}</h3><p>{plan.bestFor}</p><p className="assessment-recommendation-reason"><strong>Why this fits:</strong> {report.reason}</p></div><div className="assessment-offer-columns"><div><span>Standard monthly capacity</span><ul>{plan.monthlyStandardCapacity.map((item) => <li key={item}>{item}</li>)}</ul></div><div><span>Investment</span><h3>{plan.monthlyPrice}</h3><p>Onboarding: {plan.onboardingFee}</p><span>Client responsibilities</span><ul>{plan.clientResponsibilities.slice(0, 5).map((item) => <li key={item}>{item}</li>)}</ul></div></div><div className="assessment-offer-details"><div><span>Exclusions</span><ul>{plan.exclusions.slice(0, 6).map((item) => <li key={item}>{item}</li>)}</ul></div><div><span>Add-on triggers</span><ul>{plan.customQuoteTriggers.map((item) => <li key={item}>{item}</li>)}</ul></div></div></div><p className="assessment-disclaimer">{plan.finalQuoteNotice}</p><div className="assessment-result-actions"><a href={plan.cta.href} className="button-dark" onClick={handleStrategyClick}>Book Strategy Call <span aria-hidden="true">↗</span></a><a href="/proposal/" className="text-link" onClick={handleProposalClick}>Prepare a Proposal <span aria-hidden="true">↗</span></a><button type="button" className="assessment-retake" onClick={onRetake}>Retake Assessment</button></div></section>
+  const isLaunch = report.offerType === 'launch-package'
+  return <section className="growth-assessment-shell assessment-results" aria-label="NOVAHAUS Growth Assessment Recommendation"><div className="assessment-result-header"><span>Assessment complete</span><h2>Your next<br /><em>useful move.</em></h2><p>Based on the context you shared, this is the most relevant current NOVAHAUS engagement to review. It is a directional recommendation, not a guaranteed business outcome.</p></div><div className="assessment-offer-card"><div className="assessment-offer-heading"><span>{isLaunch ? 'Recommended engagement' : 'Recommended department'}</span><h3>{plan.name}</h3><p>{plan.bestFor || plan.positioning}</p><p className="assessment-recommendation-reason"><strong>Why this fits:</strong> {report.reason}</p></div><div className="assessment-offer-columns"><div><span>{isLaunch ? 'Approved deliverables' : 'Standard monthly capacity'}</span><ul>{plan.monthlyStandardCapacity.map((item) => <li key={item}>{item}</li>)}</ul></div><div><span>Investment</span><h3>{plan.monthlyPrice || 'One-time implementation'}</h3><p>Starting investment: {plan.onboardingFee || plan.startingInvestment}</p><span>Client responsibilities</span><ul>{plan.clientResponsibilities.slice(0, 5).map((item) => <li key={item}>{item}</li>)}</ul></div></div><div className="assessment-offer-details"><div><span>Exclusions</span><ul>{plan.exclusions.slice(0, 6).map((item) => <li key={item}>{item}</li>)}</ul></div><div><span>{isLaunch ? 'Review checkpoints' : 'Custom-quote triggers'}</span><ul>{(plan.customQuoteTriggers || [commercialKnowledge.finalQuoteNotice]).map((item) => <li key={item}>{item}</li>)}</ul></div></div></div><p className="assessment-disclaimer">{plan.finalQuoteNotice}</p><div className="assessment-result-actions"><a href={commercialKnowledge.ctas.bookStrategyCall.href} className="button-dark" onClick={handleStrategyClick}>Book Strategy Call <span aria-hidden="true">↗</span></a><a href="/proposal/" className="text-link" onClick={handleProposalClick}>Prepare a Proposal <span aria-hidden="true">↗</span></a><button type="button" className="assessment-retake" onClick={onRetake}>Retake Assessment</button></div></section>
 }
 
 export default GrowthAssessment

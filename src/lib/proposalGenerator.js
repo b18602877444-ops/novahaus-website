@@ -71,11 +71,11 @@ export function createProposalFromSalesAgent(proposal, prefill) {
   const recommendedServices = Array.isArray(prefill?.recommendedServices) ? prefill.recommendedServices.map((item) => typeof item === 'string' ? item : item.title).filter(Boolean) : []
   const productMap = Object.fromEntries(proposalProducts.map((product) => [product.value, product.value]))
   const serviceMap = {
-    'ai-growth-website': 'AI Brand Operations Department',
-    'ai-sales-agent': 'AI Community Operations Department',
-    'ai-knowledge-hub': 'AI Community Operations Department',
-    'ai-workflow-automation': 'AI Content Operations Department',
-    'crm-dashboard': 'AI Growth Operations Department',
+    'ai-growth-website': 'Brand Operations Team',
+    'ai-sales-agent': 'Community Operations Team',
+    'ai-knowledge-hub': 'Community Operations Team',
+    'ai-workflow-automation': 'Content Operations Team',
+    'crm-dashboard': 'Growth Operations Team',
   }
   const recommendedProduct = productMap[prefill?.recommendedProduct] || serviceMap[recommendedServices[0]] || proposal.selectedProduct
   const contextSummary = prefill?.conversationSummary || ''

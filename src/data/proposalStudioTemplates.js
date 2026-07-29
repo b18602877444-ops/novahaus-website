@@ -1,8 +1,11 @@
 import { getGrowthOperationsPlan, growthOperationsPlans } from './growthOperationsPlans.js'
 import { getDeliveryScopeById } from './deliveryScope.js'
 import { getPortfolioServiceById } from './servicePortfolio.js'
+import { web3LaunchPackage } from './web3LaunchPackage.js'
+import { commercialKnowledge, commercialKnowledgeVersion } from './commercialKnowledge.js'
 
-const packageTemplates = Object.fromEntries(growthOperationsPlans.map((plan) => [plan.id, { label: plan.proposalSummary, deliverables: plan.monthlyStandardCapacity }]))
+const packageTemplates = Object.fromEntries(commercialKnowledge.monthlyDepartments.map((plan) => [plan.id, { label: plan.proposalSummary, deliverables: plan.monthlyStandardCapacity }]))
+const launchPackageTemplate = { label: commercialKnowledge.launchPackage.positioning, deliverables: commercialKnowledge.launchPackage.deliverables }
 
 export const proposalStudioTemplates = {
   diagnosis: {
@@ -31,8 +34,8 @@ export function generateProposalStudio(context) {
   const company = withContext(context.company, 'your business')
   const challenge = withContext(context.challenge, 'the next stage of growth needs a clearer system')
   const goal = withContext(context.goals, 'create a stronger foundation for qualified opportunities and efficient operations')
-  const department = getGrowthOperationsPlan(context.recommendedPlanId)
-  const packageTemplate = packageTemplates[department.id]
+  const department = context.recommendedPlanId === web3LaunchPackage.id ? web3LaunchPackage : getGrowthOperationsPlan(context.recommendedPlanId)
+  const packageTemplate = department.id === web3LaunchPackage.id ? launchPackageTemplate : packageTemplates[department.id]
   const deliveryScope = context.recommendedServiceIds?.map((serviceId) => getDeliveryScopeById(serviceId) || getPortfolioServiceById(serviceId)).find(Boolean) || null
 
   return {
@@ -40,7 +43,7 @@ export function generateProposalStudio(context) {
     company,
     diagnosis: `${company} is currently focused on ${challenge}. The immediate opportunity is to connect that need with a clearer route toward ${goal}. ${context.hasData ? proposalStudioTemplates.diagnosis.withContext : proposalStudioTemplates.diagnosis.withoutContext}`,
     opportunities: proposalStudioTemplates.opportunities,
-    recommendedPackage: { name: department.name, ...packageTemplate, monthlyPrice: department.monthlyPrice, onboardingFee: department.onboardingFee, monthlyStandardCapacity: department.monthlyStandardCapacity, clientResponsibilities: department.clientResponsibilities, exclusions: department.exclusions, addOns: department.addOns, customQuoteTriggers: department.customQuoteTriggers, finalQuoteNotice: department.finalQuoteNotice, thirdPartyCosts: department.terms.thirdPartyCosts },
+    recommendedPackage: { name: department.name, ...packageTemplate, monthlyPrice: department.monthlyPrice || 'One-time implementation', onboardingFee: department.onboardingFee || department.startingInvestment, monthlyStandardCapacity: department.monthlyStandardCapacity || department.deliverables, clientResponsibilities: department.clientResponsibilities || commercialKnowledge.clientResponsibilities, exclusions: department.exclusions || commercialKnowledge.standardExclusions, addOns: department.addOns || commercialKnowledge.approvedAddOns, customQuoteTriggers: department.customQuoteTriggers || [], finalQuoteNotice: department.finalQuoteNotice || commercialKnowledge.finalQuoteNotice, thirdPartyCosts: department.terms?.thirdPartyCosts || 'Third-party costs are scoped separately.' },
     deliveryScope,
     plan90Days: proposalStudioTemplates.plan90Days,
     nextStep: 'Book a Strategy Call to review this starting point, confirm the highest-value priorities and decide what should happen first.',
@@ -52,5 +55,6 @@ export function generateProposalStudio(context) {
       timeline: context.timeline,
     },
     sourceLabels: context.sourceLabels,
+    commercialKnowledgeVersion,
   }
 }

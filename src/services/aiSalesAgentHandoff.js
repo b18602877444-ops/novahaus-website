@@ -15,6 +15,8 @@ export function buildBookingHandoffHref(context = {}) {
 export function buildProposalDiscoveryContext(conversation = {}) {
   const context = conversation.context || {}
   const recommendation = conversation.recommendations?.[0]
+  const intelligence = conversation.leadIntelligence || {}
+  const dealBrief = intelligence.dealBrief || {}
   return {
     source: 'ai-sales-consultant',
     customerType: safeValue(context.customerType),
@@ -28,6 +30,10 @@ export function buildProposalDiscoveryContext(conversation = {}) {
     budgetRange: safeValue(context.budget),
     complianceFlags: safeValue(context.complianceFlag),
     recommendedOffer: safeValue(recommendation?.title),
+    leadScore: Number.isFinite(Number(intelligence.score)) ? Number(intelligence.score) : null,
+    leadPriority: safeValue(intelligence.priority),
+    dealBrief: dealBrief && typeof dealBrief === 'object' ? dealBrief : null,
+    founderTalkingPoints: Array.isArray(dealBrief.founderTalkingPoints) ? dealBrief.founderTalkingPoints : [],
     approvedAddOnsDiscussed: [],
     unresolvedQuestions: [],
   }

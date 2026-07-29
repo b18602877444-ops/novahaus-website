@@ -56,7 +56,7 @@ export const growthPackages = [
 ]
 
 export const packagePrinciples = [
-  { title: 'AI-first', description: 'Use AI where it removes friction and creates leverage.' },
+  { title: 'Professionally managed', description: 'Keep planning, production and review coordinated around the business.' },
   { title: 'Business-focused', description: 'Every capability starts with a useful business decision.' },
   { title: 'Scalable', description: 'Begin with the right foundation and expand with intent.' },
   { title: 'Future-ready', description: 'Keep the system open for the next stage of growth.' },
